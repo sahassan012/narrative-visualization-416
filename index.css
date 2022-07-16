@@ -38,6 +38,7 @@
 	width: 80%;
 	margin-left: auto;
 	margin-right: auto;
+	-webkit-transition: 1.2s;
 }
 
 #timelineArrowSvg {
