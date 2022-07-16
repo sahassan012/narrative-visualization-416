@@ -30,7 +30,7 @@
 	height: 6px;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 30%;
+	margin-top: 25%;
 	background-color: #007bff52;
 }
 
@@ -55,7 +55,7 @@
 
 .timeline-year {
 	float: left;
-	padding-right: 15px;
+	padding-right: 14px;
 }
 
 .timeline-year p {

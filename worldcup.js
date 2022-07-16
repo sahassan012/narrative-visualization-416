@@ -7,8 +7,8 @@ let year, away, home;
 let yearsList = new Set();
 let chosenYear;
 let marginMapping = [
-	150, 220, 292, 363, 434, 504, 576, 647, 716, 788, 860, 930, 1000, 1072, 1143,
-	1215, 1285, 1355, 1428, 1500,
+	147, 217, 286, 355, 425, 495, 565, 635, 705, 775, 845, 915, 985, 1055, 1125,
+	1195, 1265, 1335, 1405, 1475,
 ];
 
 //
@@ -92,7 +92,7 @@ initTimelineYears = function () {
 //
 initTimelineArrow = function () {
 	let elmnt = document.getElementById("timelineArrow");
-	elmnt.style.marginLeft = "150px";
+	elmnt.style.marginLeft = "147px";
 	var pos1 = 0,
 		pos2 = 0,
 		pos3 = 0,
@@ -128,8 +128,8 @@ initTimelineArrow = function () {
 		var position = elmnt.offsetLeft - pos1;
 
 		// check for min and max position
-		let min = 150;
-		let max = 1500;
+		let min = 147;
+		let max = 1477;
 		position = position < min ? min : position > max ? max : position;
 		elmnt.style.marginLeft = position + "px";
 	}
