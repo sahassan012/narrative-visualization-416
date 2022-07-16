@@ -1,0 +1,57 @@
+#header {
+	padding-left: 25px;
+	padding-top: 45px;
+	font-size: 38px;
+	font-weight: 600;
+	font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+#subheader {
+	padding-left: 39px;
+	padding-top: 0px;
+	font-size: 30px;
+	font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+#navbar {
+	padding-top: 10px;
+	padding-left: 40px;
+}
+#timeline {
+	width: 80%;
+	height: 6px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 45%;
+	background-color: black;
+}
+
+#timelineArrow {
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#timelineArrowSvg {
+	margin-top: -100px;
+	cursor: pointer;
+}
+
+#timelineYears {
+	margin-left: 150px;
+}
+
+.timeline-year {
+	float: left;
+	padding-right: 15px;
+}
+
+.timeline-year p {
+	margin-top: -30px;
+}
+
+.timeline-year svg {
+	margin-left: 10px;
+	height: 35px;
+	margin-top: -61px;
+	width: 46px;
+}

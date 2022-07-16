@@ -1,1 +1,61 @@
-<h1>Narrative Visualization</h1>
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Worldcup Matches between 1930 - 2014</title>
+
+		<!-- d3 -->
+		<script src="https://d3js.org/d3.v6.min.js"></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js"
+			integrity="sha512-iBAeBWWWFb8HqSBcrqcz98iIpuVH1la39dEYHtyQ/pGpeCQTQVvLJOWAuhv2Q7JSHp9k7hWA7sGxU3hHJe+tFg=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		></script>
+		<script src="worldcup.js"></script>
+
+		<!-- styling -->
+		<link rel="stylesheet" href="index.css" />
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+			integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+			crossorigin="anonymous"
+		/>
+	</head>
+	<body onload="fetchPassengerData()">
+		<div id="title">
+			<h1 id="header">Worldcup Matches between 1930 - 201</h1>
+			<h2 id="subheader">Sub title</h2>
+		</div>
+		<div id="navbar">
+			<button class="btn btn-primary">1</button>
+			<button class="btn btn-primary">2</button>
+			<button class="btn btn-primary">3</button>
+			<button class="btn btn-primary">4</button>
+			<button class="btn btn-primary">5</button>
+		</div>
+		<div>
+			<div id="infoContainer"></div>
+			<div id="chart"></div>
+			<div id="chartTimeline">
+				<div id="timeline"></div>
+				<div id="timelineArrow">
+					<!-- source: https://icons.getbootstrap.com/icons/caret-down-fill/ -->
+					<svg
+						id="timelineArrowSvg"
+						xmlns="http://www.w3.org/2000/svg"
+						width="35"
+						height="35"
+						class="bi bi-caret-down-fill"
+						viewBox="0 0 16 16"
+					>
+						<path
+							d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"
+						/>
+					</svg>
+				</div>
+				<div id="timelineYears"></div>
+			</div>
+		</div>
+	</body>
+</html>
