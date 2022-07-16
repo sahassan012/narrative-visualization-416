@@ -16,7 +16,7 @@ let marginMapping = [
 //
 //
 fetchPassengerData = function () {
-	d3.csv("/world_cup_results_data.csv").then(function (response) {
+	d3.csv("world_cup_results_data.csv").then(function (response) {
 		worldcup_data = response;
 		initD3();
 		initChart();
