@@ -77,7 +77,9 @@ initTimelineYears = function () {
 
 	yearsList.forEach((value) => {
 		timelineContainer.innerHTML +=
-			"<div class='timeline-year'>" +
+			"<div class='timeline-year' onclick='updateTimelineArrow(" +
+			value +
+			")'>" +
 			"<svg><circle cx='8' cy='8' r='8'/><svg>" +
 			"<p>" +
 			value +
@@ -150,4 +152,13 @@ initTimelineArrow = function () {
 		document.onmouseup = null;
 		document.onmousemove = null;
 	}
+};
+
+updateTimelineArrow = function (year) {
+	let elmnt = document.getElementById("timelineArrow");
+	let index = [...yearsList].indexOf(String(year));
+	chosenYear = Array.from(yearsList)[index];
+	position = marginMapping[index];
+	elmnt.style.marginLeft = position + "px";
+	console.log(chosenYear);
 };
