@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Worldcup Matches between 1930 - 2014</title>
+		<title>Worldcup Matches 1930 - 2014</title>
 
 		<!-- d3 -->
 		<script src="https://d3js.org/d3.v6.min.js"></script>
@@ -24,7 +24,13 @@
 	</head>
 	<body onload="fetchPassengerData()">
 		<div id="title">
-			<h1 id="header">Worldcup Matches between 1930 - 2014</h1>
+			<h1 id="header">
+				<img id="world-cup-logo" src="world-cup-img.png" />
+				Worldcup Matches 1930 - 2014
+				<!-- Source: https://commons.wikimedia.org/wiki/File:FIFA_World_Cup_Icon_%28Campionato_mondiale_di_calcio%29.svg#/media/File:FIFA_World_Cup_Icon_(Campionato_mondiale_di_calcio).svg -->
+				<img id="world-cup-logo" src="world-cup-img.png" />
+			</h1>
+
 			<h2 id="subheader">Sub title</h2>
 		</div>
 		<div id="navbar">
@@ -50,6 +56,7 @@
 						viewBox="0 0 16 16"
 					>
 						<path
+							fill="#007bff"
 							d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"
 						/>
 					</svg>
