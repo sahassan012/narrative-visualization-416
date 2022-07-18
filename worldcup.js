@@ -1,12 +1,16 @@
 let worldcup_data;
+let filtered_data = [];
+
 let svg;
 let xScaleBand, yScaleBand;
 let x, y;
 
 let year, away, home;
 let yearsList = new Set();
-let chosenYear;
+let chosenYear = 1930;
+let chosenSide = "home";
 let marginMapping;
+let height, width;
 
 //
 //	fetchPassengerData
@@ -16,7 +20,7 @@ fetchPassengerData = function () {
 	d3.csv("world_cup_results_data.csv").then(function (response) {
 		worldcup_data = response;
 		initD3();
-		initChart();
+		updateChart();
 		initDraggableTimeline();
 	});
 };
@@ -26,39 +30,95 @@ fetchPassengerData = function () {
 //
 //
 initD3 = function () {
+	var margin = { top: 30, right: 30, bottom: 70, left: 60 };
+	width = 1800 - margin.left - margin.right;
+	height = 600 - margin.top - margin.bottom;
+
 	svg = d3
 		.select("#chart")
 		.append("svg")
-		.attr("width", 100)
-		.attr("height", 100)
+		.attr("width", width + margin.left + margin.right)
+		.attr("height", height + margin.top + margin.bottom)
 		.append("g")
-		.attr("transform", "translate(60,30)");
+		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-	xScaleBand = d3.scaleBand().range([0, 100]).padding(0.2);
-	x = svg.append("g").attr("transform", "translate(0, 100)");
+	xScaleBand = d3.scaleBand().range([0, width]).padding(0.2);
+	x = svg.append("g").attr("transform", "translate(0," + height + ")");
 
-	yScaleLinear = d3.scaleLinear().range([100, 0]);
-	y = svg.append("g").attr("transform", "translate(100, 0)");
+	yScaleLinear = d3.scaleLinear().range([height, 0]);
+	y = svg.append("g");
 };
 
 //
-//	initChart
+//	updateChart
 //
 //
-initChart = function () {
+updateChart = function () {
+	d3.select("#chart").selectAll("rect").remove();
 	for (let i = 0; i < worldcup_data.length; i++) {
 		var year = worldcup_data[i].Year;
 		if (!yearsList.has(year)) {
 			yearsList.add(year);
 		}
 	}
+
+	filtered_data = worldcup_data.filter((d) => d.Year == String(chosenYear));
+	filtered_data.sort((a, b) => {
+		if (chosenSide === "home") {
+			return a.HomeTeam > b.HomeTeam ? 1 : -1;
+		} else {
+			return a.AwayTeam > b.AwayTeam ? 1 : -1;
+		}
+	});
+
 	marginMapping = Array(yearsList.size)
 		.fill()
 		.map(function (_, idx) {
 			value = -30 + idx * 70;
 			return value;
 		});
-	chosenYear = yearsList[0];
+
+	xScaleBand.domain(
+		filtered_data.map(function (d) {
+			if (chosenSide === "home") {
+				return d.HomeTeam;
+			}
+			return d.AwayTeam;
+		})
+	);
+	x.transition().duration(1000).call(d3.axisBottom(xScaleBand));
+
+	yScaleLinear.domain([
+		0,
+		d3.max(filtered_data, function (d) {
+			if (chosenSide === "home") {
+				return d.HomeGoals;
+			}
+			return d.AwayGoals;
+		}),
+	]);
+	y.transition().duration(1000).call(d3.axisLeft(yScaleLinear));
+
+	let rect = svg.selectAll("rect").data(filtered_data);
+	rect
+		.enter()
+		.append("rect")
+		.merge(rect)
+		.transition()
+		.duration(1000)
+		.attr("x", (d) =>
+			xScaleBand(chosenSide === "home" ? d.HomeTeam : d.AwayTeam)
+		)
+		.attr("y", (d) =>
+			yScaleLinear(chosenSide === "home" ? d.HomeGoals : d.AwayGoals)
+		)
+		.attr("width", xScaleBand.bandwidth())
+		.attr(
+			"height",
+			(d) =>
+				height - yScaleLinear(chosenSide === "home" ? d.HomeGoals : d.AwayGoals)
+		)
+		.attr("fill", "#007bff");
 };
 
 //
@@ -167,4 +227,10 @@ updateTimelineArrow = function (year) {
 	position = marginMapping[index];
 	elmnt.style.marginLeft = position + "px";
 	console.log(chosenYear);
+	updateChart();
+};
+
+updateSide = function (side) {
+	chosenSide = side;
+	updateChart();
 };
