@@ -6,10 +6,7 @@ let x, y;
 let year, away, home;
 let yearsList = new Set();
 let chosenYear;
-let marginMapping = [
-	147, 217, 286, 355, 425, 495, 565, 635, 705, 775, 845, 915, 985, 1055, 1125,
-	1195, 1265, 1335, 1405, 1475,
-];
+let marginMapping;
 
 //
 //	fetchPassengerData
@@ -55,7 +52,12 @@ initChart = function () {
 			yearsList.add(year);
 		}
 	}
-
+	marginMapping = Array(yearsList.size)
+		.fill()
+		.map(function (_, idx) {
+			value = -30 + idx * 70;
+			return value;
+		});
 	chosenYear = yearsList[0];
 };
 
@@ -94,7 +96,7 @@ initTimelineYears = function () {
 //
 initTimelineArrow = function () {
 	let elmnt = document.getElementById("timelineArrow");
-	elmnt.style.marginLeft = "147px";
+	elmnt.style.marginLeft = "-30px";
 	var pos1 = 0,
 		pos2 = 0,
 		pos3 = 0,
@@ -154,6 +156,10 @@ initTimelineArrow = function () {
 	}
 };
 
+//
+//	updateTimelineArrow
+//
+//
 updateTimelineArrow = function (year) {
 	let elmnt = document.getElementById("timelineArrow");
 	let index = [...yearsList].indexOf(String(year));
