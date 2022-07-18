@@ -419,7 +419,7 @@
 1990,10-Jun-90, 21:00 ,Group C,Stadio delle Alpi,Turin ,Italy,Brazil,2,1,Sweden, 
 1990,10-Jun-90, 21:00 ,Group D,Giuseppe Meazza,Milan ,Italy,Germany FR,4,1,Yugoslavia, 
 1990,11-Jun-90, 17:00 ,Group C,Luigi Ferraris,Genoa ,Italy,Costa Rica,1,0,Scotland, 
-1990,11-Jun-90, 21:00 ,Group F,Sant Elia,Cagliari ,Italy,England,1,1,Republic of Ireland, 
+1990,11-Jun-90, 21:00 ,Group F,Sant Elia,Cagliari ,Italy,England,1,1,Ireland, 
 1990,12-Jun-90, 17:00 ,Group E,Marc Antonio Bentegodi,Verona ,Italy,Belgium,2,0,Korea Republic, 
 1990,12-Jun-90, 21:00 ,Group F,Della Favorita,Palermo ,Italy,Netherlands,1,1,Egypt, 
 1990,13-Jun-90, 17:00 ,Group E,Dacia Arena,Udine ,Italy,Uruguay,0,0,Spain, 
@@ -432,7 +432,7 @@
 1990,16-Jun-90, 17:00 ,Group C,Stadio delle Alpi,Turin ,Italy,Brazil,1,0,Costa Rica, 
 1990,16-Jun-90, 21:00 ,Group C,Luigi Ferraris,Genoa ,Italy,Sweden,1,2,Scotland, 
 1990,16-Jun-90, 21:00 ,Group F,Sant Elia,Cagliari ,Italy,England,0,0,Netherlands, 
-1990,17-Jun-90, 17:00 ,Group F,Della Favorita,Palermo ,Italy,Republic of Ireland,0,0,Egypt, 
+1990,17-Jun-90, 17:00 ,Group F,Della Favorita,Palermo ,Italy,Ireland,0,0,Egypt, 
 1990,17-Jun-90, 21:00 ,Group E,Dacia Arena,Udine ,Italy,Korea Republic,1,3,Spain, 
 1990,17-Jun-90, 21:00 ,Group E,Marc Antonio Bentegodi,Verona ,Italy,Belgium,3,1,Uruguay, 
 1990,18-Jun-90, 21:00 ,Group B,San Paolo,Naples ,Italy,Argentina,1,1,Romania, 
@@ -445,18 +445,18 @@
 1990,20-Jun-90, 21:00 ,Group C,Luigi Ferraris,Genoa ,Italy,Sweden,1,2,Costa Rica, 
 1990,21-Jun-90, 17:00 ,Group E,Friuli,Udine ,Italy,Korea Republic,0,1,Uruguay, 
 1990,21-Jun-90, 17:00 ,Group E,Marc Antonio Bentegodi,Verona ,Italy,Belgium,1,2,Spain, 
-1990,21-Jun-90, 21:00 ,Group F,Della Favorita,Palermo ,Italy,Republic of Ireland,1,1,Netherlands, 
+1990,21-Jun-90, 21:00 ,Group F,Della Favorita,Palermo ,Italy,Ireland,1,1,Netherlands, 
 1990,21-Jun-90, 21:00 ,Group F,Sant Elia,Cagliari ,Italy,England,1,0,Egypt, 
 1990,23-Jun-90, 17:00 ,Round of 16,San Paolo,Naples ,Italy,Cameroon,2,1,Colombia,Cameroon win after extra time 
 1990,23-Jun-90, 21:00 ,Round of 16,Stadio San Nicola,Bari ,Italy,Czechoslovakia,4,1,Costa Rica, 
 1990,24-Jun-90, 17:00 ,Round of 16,Stadio delle Alpi,Turin ,Italy,Brazil,0,1,Argentina, 
 1990,24-Jun-90, 21:00 ,Round of 16,Giuseppe Meazza,Milan ,Italy,Germany FR,2,1,Netherlands, 
-1990,25-Jun-90, 17:00 ,Round of 16,Luigi Ferraris,Genoa ,Italy,Republic of Ireland,0,0,Romania,Republic of Ireland win on penalties (5 - 4) 
+1990,25-Jun-90, 17:00 ,Round of 16,Luigi Ferraris,Genoa ,Italy,Ireland,0,0,Romania,Ireland win on penalties (5 - 4) 
 1990,25-Jun-90, 21:00 ,Round of 16,Stadio Olimpico,Rome ,Italy,Italy,2,0,Uruguay, 
 1990,26-Jun-90, 17:00 ,Round of 16,Marc Antonio Bentegodi,Verona ,Italy,Spain,1,2,Yugoslavia,Yugoslavia win after extra time 
 1990,26-Jun-90, 21:00 ,Round of 16,Renato Dall Ara,Bologna ,Italy,England,1,0,Belgium,England win after extra time 
 1990,30-Jun-90, 17:00 ,Quarter-finals,Comunale,Florence ,Italy,Yugoslavia,0,0,Argentina, win on penalties (2 - 3) 
-1990,30-Jun-90, 21:00 ,Quarter-finals,Stadio Olimpico,Rome ,Italy,Italy,1,0,Republic of Ireland, 
+1990,30-Jun-90, 21:00 ,Quarter-finals,Stadio Olimpico,Rome ,Italy,Italy,1,0,Ireland, 
 1990,1-Jul-90, 17:00 ,Quarter-finals,Giuseppe Meazza,Milan ,Italy,Germany FR,1,0,Czechoslovakia, 
 1990,1-Jul-90, 21:00 ,Quarter-finals,San Paolo,Naples ,Italy,England,3,2,Cameroon,England win after extra time 
 1990,3-Jul-90, 20:00 ,Semi-finals,San Paolo,Naples ,Italy,Italy,1,1,Argentina, win on penalties (3 - 4) 
@@ -466,7 +466,7 @@
 1994,17-Jun-94, 19:30 ,Group C,Cotton Bowl,Dallas ,USA,Spain,2,2,Korea Republic, 
 1994,17-Jun-94, 15:00 ,Group C,Soldier Field,Chicago ,USA,Germany,1,0,Bolivia, 
 1994,18-Jun-94, 11:30 ,Group A,Pontiac Silverdome,Detroit ,USA,USA,1,1,Switzerland, 
-1994,18-Jun-94, 16:00 ,Group E,Giants Stadium,New York/New Jersey ,USA,Italy,0,1,Republic of Ireland, 
+1994,18-Jun-94, 16:00 ,Group E,Giants Stadium,New York/New Jersey ,USA,Italy,0,1,Ireland, 
 1994,18-Jun-94, 19:30 ,Group A,Rose Bowl,Los Angeles ,USA,Colombia,1,3,Romania, 
 1994,19-Jun-94, 12:30 ,Group F,Citrus Bowl,Orlando ,USA,Belgium,1,0,Morocco, 
 1994,19-Jun-94, 16:00 ,Group E,RFK Stadium,Washington Dc ,USA,Norway,1,0,Mexico, 
@@ -480,7 +480,7 @@
 1994,22-Jun-94, 19:30 ,Group A,Rose Bowl,Los Angeles ,USA,USA,2,1,Colombia, 
 1994,23-Jun-94, 16:00 ,Group E,Giants Stadium,New York/New Jersey ,USA,Italy,1,0,Norway, 
 1994,23-Jun-94, 19:30 ,Group C,Foxboro Stadium,Boston ,USA,Korea Republic,0,0,Bolivia, 
-1994,24-Jun-94, 12:30 ,Group E,Citrus Bowl,Orlando ,USA,Mexico,2,1,Republic of Ireland, 
+1994,24-Jun-94, 12:30 ,Group E,Citrus Bowl,Orlando ,USA,Mexico,2,1,Ireland, 
 1994,24-Jun-94, 19:30 ,Group B,Pontiac Silverdome,Detroit ,USA,Sweden,3,1,Russia, 
 1994,24-Jun-94, 16:00 ,Group B,Stanford Stadium,San Francisco ,USA,Brazil,3,0,Cameroon, 
 1994,25-Jun-94, 12:30 ,Group F,Citrus Bowl,Orlando ,USA,Belgium,1,0,Netherlands, 
@@ -491,7 +491,7 @@
 1994,26-Jun-94, 16:00 ,Group A,Stanford Stadium,San Francisco ,USA,Switzerland,0,2,Colombia, 
 1994,27-Jun-94, 16:00 ,Group C,Cotton Bowl,Dallas ,USA,Germany,3,2,Korea Republic, 
 1994,27-Jun-94, 16:00 ,Group C,Soldier Field,Chicago ,USA,Bolivia,1,3,Spain, 
-1994,28-Jun-94, 12:30 ,Group E,Giants Stadium,New York/New Jersey ,USA,Republic of Ireland,0,0,Norway, 
+1994,28-Jun-94, 12:30 ,Group E,Giants Stadium,New York/New Jersey ,USA,Ireland,0,0,Norway, 
 1994,28-Jun-94, 16:00 ,Group B,Pontiac Silverdome,Detroit ,USA,Brazil,1,1,Sweden, 
 1994,28-Jun-94, 12:30 ,Group E,RFK Stadium,Washington Dc ,USA,Italy,1,1,Mexico, 
 1994,28-Jun-94, 16:00 ,Group B,Stanford Stadium,San Francisco ,USA,Russia,6,1,Cameroon, 
@@ -503,7 +503,7 @@
 1994,2-Jul-94, 16:30 ,Round of 16,RFK Stadium,Washington Dc ,USA,Spain,3,0,Switzerland, 
 1994,3-Jul-94, 12:00 ,Round of 16,Cotton Bowl,Dallas ,USA,Saudi Arabia,1,3,Sweden, 
 1994,3-Jul-94, 13:30 ,Round of 16,Rose Bowl,Los Angeles ,USA,Romania,3,2,Argentina, 
-1994,4-Jul-94, 12:00 ,Round of 16,Citrus Bowl,Orlando ,USA,Netherlands,2,0,Republic of Ireland, 
+1994,4-Jul-94, 12:00 ,Round of 16,Citrus Bowl,Orlando ,USA,Netherlands,2,0,Ireland, 
 1994,4-Jul-94, 12:30 ,Round of 16,Stanford Stadium,San Francisco ,USA,Brazil,1,0,USA, 
 1994,5-Jul-94, 13:00 ,Round of 16,Foxboro Stadium,Boston ,USA,Nigeria,1,2,Italy,Italy win after extra time 
 1994,5-Jul-94, 16:30 ,Round of 16,Giants Stadium,New York/New Jersey ,USA,Mexico,1,1,Bulgaria,Bulgaria win on penalties (1 - 3) 
@@ -581,7 +581,7 @@
 1998,12-Jul-98, 21:00 ,Final,Stade de France,Saint-Denis ,France,Brazil,0,3,France, 
 2002,31-May-02, 20:30 ,Group A,Seoul World Cup Stadium,Seoul ,Korea/Japan,France,0,1,Senegal, 
 2002,1-Jun-02, 18:00 ,Group A,Munsu Football Stadium,Ulsan ,Korea/Japan,Uruguay,1,2,Denmark, 
-2002,1-Jun-02, 15:30 ,Group E,Niigata Stadium Big Swan,Niigata ,Korea/Japan,Republic of Ireland,1,1,Cameroon, 
+2002,1-Jun-02, 15:30 ,Group E,Niigata Stadium Big Swan,Niigata ,Korea/Japan,Ireland,1,1,Cameroon, 
 2002,1-Jun-02, 20:30 ,Group E,Sapporo Dome,Sapporo ,Korea/Japan,Germany,8,0,Saudi Arabia, 
 2002,2-Jun-02, 14:30 ,Group F,Kashima Stadium,Ibaraki ,Korea/Japan,Argentina,1,0,Nigeria, 
 2002,2-Jun-02, 16:30 ,Group B,Busan Asiad Main Stadium,Busan ,Korea/Japan,Paraguay,2,2,South Africa, 
@@ -595,7 +595,7 @@
 2002,4-Jun-02, 20:30 ,Group D,Busan Asiad Main Stadium,Busan ,Korea/Japan,Korea Republic,2,0,Poland, 
 2002,5-Jun-02, 15:30 ,Group H,Kobe Wing Stadium,Kobe ,Korea/Japan,Russia,2,0,Tunisia, 
 2002,5-Jun-02, 18:00 ,Group D,Suwon World Cup Stadium,Suwon ,Korea/Japan,USA,3,2,Portugal, 
-2002,5-Jun-02, 20:30 ,Group E,Kashima Stadium,Ibaraki ,Korea/Japan,Germany,1,1,Republic of Ireland, 
+2002,5-Jun-02, 20:30 ,Group E,Kashima Stadium,Ibaraki ,Korea/Japan,Germany,1,1,Ireland, 
 2002,6-Jun-02, 15:30 ,Group A,Daegu World Cup Stadium,Daegu ,Korea/Japan,Denmark,1,1,Senegal, 
 2002,6-Jun-02, 18:00 ,Group E,Saitama Stadium 2002,Saitama ,Korea/Japan,Cameroon,1,0,Saudi Arabia, 
 2002,6-Jun-02, 20:30 ,Group A,Busan Asiad Main Stadium,Busan ,Korea/Japan,France,0,0,Uruguay, 
@@ -613,7 +613,7 @@
 2002,10-Jun-02, 18:00 ,Group H,Oita Stadium Big Eye,Oita ,Korea/Japan,Tunisia,1,1,Belgium, 
 2002,11-Jun-02, 15:30 ,Group A,Incheon Football Stadium,Incheon ,Korea/Japan,Denmark,2,0,France, 
 2002,11-Jun-02, 15:30 ,Group A,Suwon World Cup Stadium,Suwon ,Korea/Japan,Senegal,3,3,Uruguay, 
-2002,11-Jun-02, 20:30 ,Group E,International Stadium Yokohama,Yokohama ,Korea/Japan,Saudi Arabia,0,3,Republic of Ireland, 
+2002,11-Jun-02, 20:30 ,Group E,International Stadium Yokohama,Yokohama ,Korea/Japan,Saudi Arabia,0,3,Ireland, 
 2002,11-Jun-02, 20:30 ,Group E,Shizuoka Stadium Ecopa,Shizuoka ,Korea/Japan,Cameroon,0,2,Germany, 
 2002,12-Jun-02, 15:30 ,Group F,Miyagi Stadium,Rifu ,Korea/Japan,Sweden,1,1,Argentina, 
 2002,12-Jun-02, 15:30 ,Group F,Osaka Nagai Stadium,Osaka ,Korea/Japan,Nigeria,0,0,England, 
@@ -629,7 +629,7 @@
 2002,14-Jun-02, 15:30 ,Group H,Shizuoka Stadium Ecopa,Shizuoka ,Korea/Japan,Belgium,3,2,Russia, 
 2002,15-Jun-02, 20:30 ,Round of 16,Niigata Stadium Big Swan,Niigata ,Korea/Japan,Denmark,0,3,England, 
 2002,15-Jun-02, 15:30 ,Round of 16,Jeju World Cup Stadium,Jeju ,Korea/Japan,Germany,1,0,Paraguay, 
-2002,16-Jun-02, 20:30 ,Round of 16,Suwon World Cup Stadium,Suwon ,Korea/Japan,Spain,1,1,Republic of Ireland,Spain win on penalties (3 - 2) 
+2002,16-Jun-02, 20:30 ,Round of 16,Suwon World Cup Stadium,Suwon ,Korea/Japan,Spain,1,1,Ireland,Spain win on penalties (3 - 2) 
 2002,16-Jun-02, 15:30 ,Round of 16,Oita Stadium Big Eye,Oita ,Korea/Japan,Sweden,1,2,Senegal,Win on Golden Goal 
 2002,17-Jun-02, 20:30 ,Round of 16,Kobe Wing Stadium,Kobe ,Korea/Japan,Brazil,2,0,Belgium, 
 2002,17-Jun-02, 15:30 ,Round of 16,Jeonju World Cup Stadium,Jeonju ,Korea/Japan,Mexico,0,2,USA, 

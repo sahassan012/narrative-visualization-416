@@ -25,6 +25,15 @@
 	padding-top: 10px;
 	padding-left: 20px;
 }
+#side-btn-container {
+	float: right;
+	padding-right: 60px;
+}
+
+#homeBtn,
+#awayBtn {
+	margin: 2px;
+}
 
 #chart {
 	margin-top: 35px;

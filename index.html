@@ -35,23 +35,52 @@
 			<h2 id="subheader">Sub title</h2>
 		</div>
 		<div id="navbar">
-			<button class="btn btn-primary" onclick="updateTimelineArrow(1938)">
+			<button
+				class="btn btn-primary slideshow-btn"
+				onclick="updateSlideshow(0)"
+			>
 				1
 			</button>
-			<button class="btn btn-primary" onclick="updateTimelineArrow(1962)">
+			<button
+				class="btn btn-primary slideshow-btn"
+				onclick="updateSlideshow(1)"
+			>
 				2
 			</button>
-			<button class="btn btn-primary" onclick="updateTimelineArrow(1994)">
+			<button
+				class="btn btn-primary slideshow-btn"
+				onclick="updateSlideshow(2)"
+			>
 				3
 			</button>
-			<button class="btn btn-primary" onclick="updateTimelineArrow(2002)">
+			<button
+				class="btn btn-primary slideshow-btn"
+				onclick="updateSlideshow(3)"
+			>
 				4
 			</button>
-			<button class="btn btn-primary" onclick="updateTimelineArrow(2010)">
+			<button
+				class="btn btn-primary slideshow-btn"
+				onclick="updateSlideshow(4)"
+			>
 				5
 			</button>
-			<button class="btn btn-primary" onclick="updateSide('home')">Home</button>
-			<button class="btn btn-primary" onclick="updateSide('away')">Away</button>
+			<div id="side-btn-container">
+				<button
+					id="homeBtn"
+					class="btn btn-primary"
+					onclick="updateSide('home')"
+				>
+					Home
+				</button>
+				<button
+					id="awayBtn"
+					class="btn btn-primary"
+					onclick="updateSide('away')"
+				>
+					Away
+				</button>
+			</div>
 		</div>
 		<div id="wrapper">
 			<div id="infoContainer"></div>

@@ -1,5 +1,6 @@
 let worldcup_data;
 let filtered_data = [];
+let slideShowMapping = [1930, 1962, 1994, 2002, 2010];
 
 let svg;
 let xScaleBand, yScaleBand;
@@ -9,6 +10,7 @@ let year, away, home;
 let yearsList = new Set();
 let chosenYear = 1930;
 let chosenSide = "home";
+let chosenSlide = 0;
 let marginMapping;
 let height, width;
 
@@ -22,6 +24,7 @@ fetchPassengerData = function () {
 		initD3();
 		updateChart();
 		initDraggableTimeline();
+		updateSlideshow(0);
 	});
 };
 
@@ -54,6 +57,7 @@ initD3 = function () {
 //
 //
 updateChart = function () {
+	updateButtons();
 	d3.select("#chart").selectAll("rect").remove();
 	for (let i = 0; i < worldcup_data.length; i++) {
 		var year = worldcup_data[i].Year;
@@ -230,7 +234,45 @@ updateTimelineArrow = function (year) {
 	updateChart();
 };
 
+//
+//	updateSide
+//
+//
 updateSide = function (side) {
 	chosenSide = side;
+	updateChart();
+};
+
+//
+//	updateButtons
+//
+//
+updateButtons = function () {
+	let homeBtn = document.getElementById("homeBtn");
+	let awayBtn = document.getElementById("awayBtn");
+	if (chosenSide == "home") {
+		homeBtn.setAttribute("disabled", "");
+		awayBtn.removeAttribute("disabled");
+	} else {
+		awayBtn.setAttribute("disabled", "");
+		homeBtn.removeAttribute("disabled");
+	}
+};
+
+//
+//	updateSlideshow
+//
+//
+updateSlideshow = function (slideshowIndex) {
+	let year = slideShowMapping[slideshowIndex];
+	chosenSlide = slideshowIndex;
+	chosenYear = year;
+	updateTimelineArrow(year);
+
+	let slideshowButtons = document.getElementsByClassName("slideshow-btn");
+	Array.from(slideshowButtons, (d) => {
+		d.removeAttribute("disabled");
+	});
+	slideshowButtons[slideshowIndex].setAttribute("disabled", "");
 	updateChart();
 };
