@@ -122,7 +122,7 @@ updateChart = function () {
 			(d) =>
 				height - yScaleLinear(chosenSide === "home" ? d.HomeGoals : d.AwayGoals)
 		)
-		.attr("fill", "#007bff");
+		.attr("fill", "#61adff");
 };
 
 //
@@ -239,8 +239,10 @@ updateTimelineArrow = function (year) {
 //
 //
 updateSide = function (side) {
-	chosenSide = side;
-	updateChart();
+	if (chosenSide !== side) {
+		chosenSide = side;
+		updateChart();
+	}
 };
 
 //
@@ -250,12 +252,12 @@ updateSide = function (side) {
 updateButtons = function () {
 	let homeBtn = document.getElementById("homeBtn");
 	let awayBtn = document.getElementById("awayBtn");
-	if (chosenSide == "home") {
-		homeBtn.setAttribute("disabled", "");
-		awayBtn.removeAttribute("disabled");
-	} else {
-		awayBtn.setAttribute("disabled", "");
-		homeBtn.removeAttribute("disabled");
+	if (chosenSide == "home" && !homeBtn.classList.contains("disabled")) {
+		homeBtn.classList.add("disabled");
+		awayBtn.classList.remove("disabled");
+	} else if (chosenSide == "away" && !awayBtn.classList.contains("disabled")) {
+		awayBtn.classList.add("disabled");
+		homeBtn.classList.remove("disabled");
 	}
 };
 
@@ -264,15 +266,18 @@ updateButtons = function () {
 //
 //
 updateSlideshow = function (slideshowIndex) {
+	let slideshowButtons = document.getElementsByClassName("slideshow-btn");
+	if (slideshowButtons[slideshowIndex].classList.contains("disabled")) {
+		return;
+	}
 	let year = slideShowMapping[slideshowIndex];
 	chosenSlide = slideshowIndex;
 	chosenYear = year;
 	updateTimelineArrow(year);
 
-	let slideshowButtons = document.getElementsByClassName("slideshow-btn");
 	Array.from(slideshowButtons, (d) => {
-		d.removeAttribute("disabled");
+		d.classList.remove("disabled");
 	});
-	slideshowButtons[slideshowIndex].setAttribute("disabled", "");
+	slideshowButtons[slideshowIndex].classList.add("disabled");
 	updateChart();
 };
