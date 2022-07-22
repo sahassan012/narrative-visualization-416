@@ -58,6 +58,10 @@ let COVIDdata;
 
 const ColumnCOVIDDeath = "COVID-19 Deaths";
 const ColumnTotalDeath = "Total Deaths";
+
+let chosenDeathType;
+let chosenYear = "2020";
+
 let svg = d3.select("#wrapper");
 var stateColor = d3.scaleLinear().domain([1, 99000]).range(["white", "red"]);
 let tooltip = d3.select("#tooltip");
@@ -86,7 +90,9 @@ let draw = function () {
 		.attr("data-deaths", (stateDataItem) => {
 			let id = stateDataItem["id"];
 			let data = COVIDdata.filter((e) => {
-				return e["State"] === statesMapping[parseInt(id)];
+				return (
+					e["State"] === statesMapping[parseInt(id)] && e["Year"] === chosenYear
+				);
 			});
 			return sumDeaths(data);
 		})
@@ -94,7 +100,9 @@ let draw = function () {
 			tooltip.transition().style("visibility", "visible");
 			let id = stateDataItem.target.__data__["id"];
 			let data = COVIDdata.filter((e) => {
-				return e["State"] === statesMapping[parseInt(id)];
+				return (
+					e["State"] === statesMapping[parseInt(id)] && e["Year"] === chosenYear
+				);
 			});
 			let deaths = sumDeaths(data);
 			tooltip.text(data[0]["State"] + " has " + deaths + " deaths.");
