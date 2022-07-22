@@ -18,11 +18,11 @@ body {
 }
 
 #wrapper {
-	border: 2.5px solid rgba(0, 0, 0, 0.138);
 	border-radius: 35px;
 	padding: 25px;
 	background-color: rgba(46, 154, 179, 0.265);
-	margin-top: 0px;
+	box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+		rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
 
 #tooltip {
@@ -42,10 +42,13 @@ body {
 .slideshow-button {
 	background-color: #939393;
 	color: white;
-	border: 2px solid #e7e7e7;
 	padding: 5px;
 	padding-right: 20px;
 	padding-left: 20px;
+	border-radius: 5px;
+	box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+		rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+		rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 
 .slideshow-button:hover {
@@ -56,12 +59,14 @@ body {
 #description-bottom {
 	width: 95%;
 	height: 100px;
-	border: 2.5px solid rgba(0, 0, 0, 0.138);
 	border-radius: 35px;
 	padding: 25px;
 	background-color: rgba(46, 154, 179, 0.265);
 	margin-top: 10px;
 	color: white;
+	box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px,
+		rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px,
+		rgba(0, 0, 0, 0.09) 0px 32px 16px;
 }
 
 #container-left {
@@ -69,12 +74,13 @@ body {
 	min-height: 600px;
 	margin-right: 79%;
 	margin-bottom: 0.8%;
-	border: 2.5px solid rgba(0, 0, 0, 0.138);
 	border-radius: 35px;
 	padding: 25px;
 	background-color: rgba(46, 154, 179, 0.265);
 	color: white;
 	position: absolute;
+	box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+		rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
 
 #container-right {
@@ -82,10 +88,11 @@ body {
 	min-height: 600px;
 	margin-right: -79%;
 	margin-bottom: 0.8%;
-	border: 2.5px solid rgba(0, 0, 0, 0.138);
 	border-radius: 35px;
 	padding: 25px;
 	background-color: rgba(46, 154, 179, 0.265);
 	color: white;
 	position: absolute;
+	box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+		rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
