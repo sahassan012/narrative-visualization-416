@@ -64,6 +64,7 @@ const ColumnTotalDeath = "Total Deaths";
 
 let chosenDeathType;
 let chosenYear = "2020";
+let chosenSlide = 1;
 
 let svg = d3.select("#wrapper");
 let stateColor;
@@ -108,7 +109,7 @@ let setStateColor = function () {
 
 let tooltip = d3.select("#tooltip");
 
-let draw = function () {
+let renderChart = function () {
 	setFilteredData();
 	setStateColor();
 
@@ -181,7 +182,7 @@ d3.json(stateGeoJSONURL).then(function (data, err) {
 			} else {
 				COVIDdata = data;
 				console.log(COVIDdata);
-				draw();
+				renderChart();
 			}
 		});
 	}
