@@ -1,5 +1,5 @@
-let stateGeoJSONURL = "/US_geo.json";
-let COVIDdataURL = "/Provisional_COVID-19_Deaths_by_Sex_and_Age.csv";
+let stateGeoJSONURL = "./US_geo.json";
+let COVIDdataURL = "./Provisional_COVID-19_Deaths_by_Sex_and_Age.csv";
 let statesMapping = {
 	01: "Alabama",
 	02: "Alaska",
