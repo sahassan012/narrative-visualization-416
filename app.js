@@ -56,6 +56,8 @@ let statesMapping = {
 let statesData;
 let COVIDdata;
 
+const ColumnCOVIDDeath = "COVID-19 Deaths";
+const ColumnTotalDeath = "Total Deaths";
 let svg = d3.select("#wrapper");
 var stateColor = d3.scaleLinear().domain([1, 99000]).range(["white", "red"]);
 let tooltip = d3.select("#tooltip");
@@ -73,7 +75,7 @@ let draw = function () {
 			let data = COVIDdata.find((e) => {
 				return e["State"] === statesMapping[parseInt(id)];
 			});
-			let deaths = data ? parseInt(data["COVID-19 Deaths"]) : 0;
+			let deaths = data ? parseInt(data[ColumnCOVIDDeath]) : 0;
 
 			return stateColor(deaths);
 		})
@@ -83,29 +85,35 @@ let draw = function () {
 		)
 		.attr("data-deaths", (stateDataItem) => {
 			let id = stateDataItem["id"];
-			let data = COVIDdata.find((e) => {
+			let data = COVIDdata.filter((e) => {
 				return e["State"] === statesMapping[parseInt(id)];
 			});
-			let deaths = data ? parseInt(data["COVID-19 Deaths"]) : 0;
-			return deaths;
+			return sumDeaths(data);
 		})
 		.on("mouseover", (stateDataItem) => {
 			tooltip.transition().style("visibility", "visible");
 			let id = stateDataItem.target.__data__["id"];
-			let data = COVIDdata.find((e) => {
+			let data = COVIDdata.filter((e) => {
 				return e["State"] === statesMapping[parseInt(id)];
 			});
-
-			tooltip.text(
-				data["State"] + " has " + data["COVID-19 Deaths"] + " deaths."
-			);
-			tooltip.attr("data-deaths", data["COVID-19 Deaths"]);
+			let deaths = sumDeaths(data);
+			tooltip.text(data[0]["State"] + " has " + deaths + " deaths.");
+			tooltip.attr("data-deaths", deaths);
 		})
 		.on("mouseout", (stateDataItem) => {
 			tooltip.transition().style("visibility", "hidden");
 		});
 };
 
+let sumDeaths = function (data) {
+	let total = 0;
+	for (let i = 0; i < data.length; i++) {
+		if (data[i] && data[i][ColumnCOVIDDeath]) {
+			total += parseInt(data[i][ColumnCOVIDDeath]);
+		}
+	}
+	return total;
+};
 // read geojson for states and covid data from csv
 d3.json(stateGeoJSONURL).then(function (data, err) {
 	if (err) {
