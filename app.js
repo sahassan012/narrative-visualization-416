@@ -56,6 +56,9 @@ let statesMapping = {
 let statesData;
 let COVIDdata;
 
+let filteredCOVIDData;
+let stateDeathsMapping = {};
+
 const ColumnCOVIDDeath = "COVID-19 Deaths";
 const ColumnTotalDeath = "Total Deaths";
 
@@ -63,10 +66,52 @@ let chosenDeathType;
 let chosenYear = "2020";
 
 let svg = d3.select("#wrapper");
-var stateColor = d3.scaleLinear().domain([1, 99000]).range(["white", "red"]);
+let stateColor;
+
+let setStateDeathsMapping = function () {
+	for (let i = 0; i < filteredCOVIDData.length; i++) {
+		let data = filteredCOVIDData[i];
+		if (!stateDeathsMapping.hasOwnProperty(data["State"])) {
+			let value = filteredCOVIDData
+				.filter((d) => d["State"] === data["State"])
+				.reduce((acc, object) => {
+					return (
+						acc +
+						parseInt(
+							object[ColumnCOVIDDeath] !== "" ? object[ColumnCOVIDDeath] : "0"
+						)
+					);
+				}, 0);
+			stateDeathsMapping[data["State"]] = value;
+		}
+	}
+};
+
+let setFilteredData = function () {
+	let data = JSON.parse(JSON.stringify(COVIDdata));
+	data = data.filter(function (d) {
+		return d["Year"] == chosenYear;
+	});
+	filteredCOVIDData = data;
+};
+
+let setStateColor = function () {
+	setStateDeathsMapping();
+	const deathsList = Object.keys(stateDeathsMapping)
+		.filter((state) => state !== "United States")
+		.map((state) => stateDeathsMapping[state]);
+	stateColor = d3
+		.scaleLinear()
+		.domain([Math.min(...deathsList), Math.max(...deathsList)])
+		.range(["white", "red"]);
+};
+
 let tooltip = d3.select("#tooltip");
 
 let draw = function () {
+	setFilteredData();
+	setStateColor();
+
 	svg
 		.selectAll("path")
 		.data(statesData)
@@ -76,11 +121,10 @@ let draw = function () {
 		.attr("class", "state")
 		.attr("fill", (stateDataItem) => {
 			let id = stateDataItem["id"];
-			let data = COVIDdata.find((e) => {
+			let data = filteredCOVIDData.filter((e) => {
 				return e["State"] === statesMapping[parseInt(id)];
 			});
-			let deaths = data ? parseInt(data[ColumnCOVIDDeath]) : 0;
-
+			let deaths = sumDeaths(data);
 			return stateColor(deaths);
 		})
 		.attr(
@@ -89,23 +133,25 @@ let draw = function () {
 		)
 		.attr("data-deaths", (stateDataItem) => {
 			let id = stateDataItem["id"];
-			let data = COVIDdata.filter((e) => {
-				return (
-					e["State"] === statesMapping[parseInt(id)] && e["Year"] === chosenYear
-				);
+			let data = filteredCOVIDData.filter((e) => {
+				return e["State"] === statesMapping[parseInt(id)];
 			});
 			return sumDeaths(data);
 		})
 		.on("mouseover", (stateDataItem) => {
 			tooltip.transition().style("visibility", "visible");
 			let id = stateDataItem.target.__data__["id"];
-			let data = COVIDdata.filter((e) => {
-				return (
-					e["State"] === statesMapping[parseInt(id)] && e["Year"] === chosenYear
-				);
+			let data = filteredCOVIDData.filter((e) => {
+				return e["State"] === statesMapping[parseInt(id)];
 			});
 			let deaths = sumDeaths(data);
-			tooltip.text(data[0]["State"] + " has " + deaths + " deaths.");
+			tooltip.text(
+				data[0]["State"] +
+					" has " +
+					deaths +
+					" deaths in the Year " +
+					chosenYear
+			);
 			tooltip.attr("data-deaths", deaths);
 		})
 		.on("mouseout", (stateDataItem) => {
