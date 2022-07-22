@@ -63,11 +63,87 @@ const ColumnCOVIDDeath = "COVID-19 Deaths";
 const ColumnTotalDeath = "Total Deaths";
 
 let chosenDeathType;
-let chosenYear = "2020";
-let chosenSlide = 1;
+let chosenSlide = 0;
+
+let userSelected = {
+	chosenDeathType: ColumnCOVIDDeath,
+	chosenYear: "2020",
+	chosenGender: "",
+	chosenAgeGroup: "",
+};
+
+let slideInformation = {
+	0: { left: "HAHAHAHAH", right: "UUHUHUHU", bottom: "UUHUHUHU" },
+	1: { left: "ASASASASA", right: "DSDSDSDSD", bottom: "KMKMKMKK" },
+	2: { left: "ZXXZXZXZX", right: "XZXZXZXZ", bottom: "OKOKKOKOK" },
+	3: { left: "GHGHGHGHG", right: "POPOPOPP", bottom: "PLPLLPLP" },
+	4: { left: "RTRTRTRTR", right: "BVBVBVBV", bottom: "GYGYYYGY" },
+};
 
 let svg = d3.select("#wrapper");
+let tooltip = d3.select("#tooltip");
+
 let stateColor;
+
+let updateSlide = function (slideNumber) {
+	chosenSlide = slideNumber;
+	if (chosenSlide === 0) {
+		userSelected.chosenYear = "2020";
+		userSelected.chosenDeathType = ColumnTotalDeath;
+	} else if (chosenSlide === 1) {
+		userSelected.chosenYear = "2020";
+		userSelected.chosenDeathType = ColumnCOVIDDeath;
+	} else if (chosenSlide === 2) {
+		userSelected.chosenYear = "2021";
+		userSelected.chosenDeathType = ColumnTotalDeath;
+	} else if (chosenSlide === 3) {
+		userSelected.chosenYear = "2021";
+		userSelected.chosenDeathType = ColumnCOVIDDeath;
+	} else if (chosenSlide === 4) {
+		userSelected.chosenYear = "2020";
+		userSelected.chosenDeathType = ColumnCOVIDDeath;
+	}
+	renderChart();
+};
+
+let setInfo = function () {
+	// get year and set in UI
+	let yearContainer = document.getElementById("year-container");
+	yearContainer.innerHTML = "";
+	let h1 = document.createElement("h1");
+	h1.innerHTML = userSelected.chosenYear;
+	yearContainer.appendChild(h1);
+
+	// get chosen slide and enable all slide buttons except that one
+	let slideshowButtons = document.getElementsByClassName("slideshow-button");
+	Array.from(slideshowButtons).forEach((element, index) => {
+		index === chosenSlide
+			? (element.disabled = true)
+			: (element.disabled = false);
+	});
+
+	// set information
+	let informationContainerLeft = document.getElementById("info-container-left");
+	let informationContainerRight = document.getElementById(
+		"info-container-right"
+	);
+	let informationContainerBottom = document.getElementById(
+		"info-container-bottom"
+	);
+
+	informationContainerLeft.innerHTML = "<h3>Information:</h3>";
+	informationContainerRight.innerHTML = "<h3>Other Information:</h3>";
+	informationContainerBottom.innerHTML = "<h3>Some other Information:</h3>";
+	let spanLeft = document.createElement("span");
+	let spanRight = document.createElement("span");
+	let spanBottom = document.createElement("span");
+	spanLeft.innerHTML += slideInformation[chosenSlide].left;
+	spanRight.innerHTML += slideInformation[chosenSlide].right;
+	spanBottom.innerHTML += slideInformation[chosenSlide].bottom;
+	informationContainerLeft.appendChild(spanLeft);
+	informationContainerRight.appendChild(spanRight);
+	informationContainerBottom.appendChild(spanBottom);
+};
 
 let setStateDeathsMapping = function () {
 	for (let i = 0; i < filteredCOVIDData.length; i++) {
@@ -79,7 +155,9 @@ let setStateDeathsMapping = function () {
 					return (
 						acc +
 						parseInt(
-							object[ColumnCOVIDDeath] !== "" ? object[ColumnCOVIDDeath] : "0"
+							object[userSelected.chosenDeathType] !== ""
+								? object[userSelected.chosenDeathType]
+								: "0"
 						)
 					);
 				}, 0);
@@ -91,7 +169,7 @@ let setStateDeathsMapping = function () {
 let setFilteredData = function () {
 	let data = JSON.parse(JSON.stringify(COVIDdata));
 	data = data.filter(function (d) {
-		return d["Year"] == chosenYear;
+		return d["Year"] == userSelected.chosenYear;
 	});
 	filteredCOVIDData = data;
 };
@@ -103,15 +181,14 @@ let setStateColor = function () {
 		.map((state) => stateDeathsMapping[state]);
 	stateColor = d3
 		.scaleLinear()
-		.domain([Math.min(...deathsList), Math.max(...deathsList)])
+		.domain([Math.min(...deathsList) + 4000, Math.max(...deathsList)])
 		.range(["white", "red"]);
 };
-
-let tooltip = d3.select("#tooltip");
 
 let renderChart = function () {
 	setFilteredData();
 	setStateColor();
+	setInfo();
 
 	svg
 		.selectAll("path")
@@ -151,7 +228,7 @@ let renderChart = function () {
 					" has " +
 					deaths +
 					" deaths in the Year " +
-					chosenYear
+					userSelected.chosenYear
 			);
 			tooltip.attr("data-deaths", deaths);
 		})
@@ -163,8 +240,8 @@ let renderChart = function () {
 let sumDeaths = function (data) {
 	let total = 0;
 	for (let i = 0; i < data.length; i++) {
-		if (data[i] && data[i][ColumnCOVIDDeath]) {
-			total += parseInt(data[i][ColumnCOVIDDeath]);
+		if (data[i] && data[i][userSelected.chosenDeathType]) {
+			total += parseInt(data[i][userSelected.chosenDeathType]);
 		}
 	}
 	return total;

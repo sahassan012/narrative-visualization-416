@@ -18,17 +18,25 @@
 	<body>
 		<h1 id="title">COVID-19 Death Report</h1>
 		<div id="slideshowBtnContainer">
-			<button class="slideshow-button">1</button>
-			<button class="slideshow-button">2</button>
-			<button class="slideshow-button">3</button>
-			<button class="slideshow-button">4</button>
-			<button class="slideshow-button">5</button>
+			<button class="slideshow-button" onclick="updateSlide(0)">1</button>
+			<button class="slideshow-button" onclick="updateSlide(1)">2</button>
+			<button class="slideshow-button" onclick="updateSlide(2)">3</button>
+			<button class="slideshow-button" onclick="updateSlide(3)">4</button>
+			<button class="slideshow-button" onclick="updateSlide(4)">5</button>
 		</div>
-		<!-- //<div id="tooltip"></div> -->
+
+		<div id="tooltip"></div>
 		<svg id="wrapper"></svg>
-		<div id="description-bottom"></div>
-		<div id="container-left"></div>
-		<div id="container-right"></div>
+		<div id="year-container"></div>
+		<div id="description-bottom">
+			<div id="info-container-bottom"></div>
+		</div>
+		<div id="container-left">
+			<div id="info-container-left"></div>
+		</div>
+		<div id="container-right">
+			<div id="info-container-right"></div>
+		</div>
 	</body>
 
 	<!-- js -->

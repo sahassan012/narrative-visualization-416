@@ -41,7 +41,7 @@ body {
 }
 
 .slideshow-button {
-	background-color: #939393;
+	background-color: #ff00008a;
 	color: white;
 	padding: 5px;
 	padding-right: 20px;
@@ -54,9 +54,35 @@ body {
 		rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 
+.slideshow-button:disabled {
+	background-color: #d6d0d0c4;
+	color: rgb(78, 78, 78);
+}
 .slideshow-button:hover {
 	color: black;
 	background-color: #e7e7e7;
+}
+
+#year-container {
+	width: 10%;
+	height: 50px;
+	border-radius: 30px;
+	padding: 12px;
+	background-color: rgba(46, 154, 179, 0.265);
+	margin-top: 10px;
+	margin-bottom: 42%;
+	margin-right: 47%;
+	color: white;
+	position: absolute;
+	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+#year-container h1 {
+	margin-top: 3%;
+	margin-left: 25%;
+}
+
+#year-lb {
+	float: left;
 }
 
 #description-bottom {
@@ -77,28 +103,34 @@ body {
 	min-width: 15%;
 	min-height: 600px;
 	margin-right: 79%;
-	margin-bottom: 0.8%;
+	margin-bottom: 0.6%;
 	border-radius: 35px;
 	padding: 25px;
 	background-color: rgba(46, 154, 179, 0.265);
 	color: white;
 	position: absolute;
-	box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
-		/*https://getcssscan.com/css-box-shadow-examples*/ rgba(0, 0, 0, 0.3) 0px
-			3px 7px -3px;
+	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 #container-right {
 	min-width: 15%;
 	min-height: 600px;
 	margin-right: -79%;
-	margin-bottom: 0.8%;
+	margin-bottom: 0.6%;
 	border-radius: 35px;
 	padding: 25px;
 	background-color: rgba(46, 154, 179, 0.265);
 	color: white;
 	position: absolute;
-	box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
-		/*https://getcssscan.com/css-box-shadow-examples*/ rgba(0, 0, 0, 0.3) 0px
-			3px 7px -3px;
+	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+#info-container-left {
+	width: 215px;
+}
+#info-container-right {
+	width: 215px;
+}
+#info-container-bottom {
+	width: 100%;
 }
