@@ -3,6 +3,8 @@
 	<head>
 		<title>COVID-19 Report</title>
 
+		<!-- styling -->
+		<link rel="stylesheet" href="index.css" />
 		<!-- d3, d3-annotation, and topojson library libraries -->
 		<script src="https://d3js.org/d3.v6.min.js"></script>
 		<script
@@ -12,18 +14,14 @@
 			referrerpolicy="no-referrer"
 		></script>
 		<script src="https://unpkg.com/topojson-client@3"></script>
-
-		<!-- controller -->
-		<script src="app.js"></script>
-
-		<!-- styling -->
-		<link rel="stylesheet" href="index.css" />
 	</head>
-	<body onload="startApp()">
-		<div id="title">
-			<h1 id="header">COVID-19 Weekly Deaths</h1>
-		</div>
-		<div id="navbar"></div>
-		<div id="wrapper"></div>
+	<body>
+		<h1 id="title">COVID-19 Death Report</h1>
+		<div id="description"></div>
+		<div id="tooltip"></div>
+		<svg id="wrapper"></svg>
 	</body>
+
+	<!-- js -->
+	<script src="app.js"></script>
 </html>
