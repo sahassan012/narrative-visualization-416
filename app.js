@@ -91,18 +91,18 @@ let updateSlide = function (slideNumber) {
 	chosenSlide = slideNumber;
 	if (chosenSlide === 0) {
 		userSelected.chosenYear = "2020";
-		userSelected.chosenDeathType = ColumnTotalDeath;
+		userSelected.chosenDeathType = ColumnCOVIDDeath;
 	} else if (chosenSlide === 1) {
 		userSelected.chosenYear = "2020";
-		userSelected.chosenDeathType = ColumnCOVIDDeath;
+		userSelected.chosenDeathType = ColumnInfluenzaDeath;
 	} else if (chosenSlide === 2) {
 		userSelected.chosenYear = "2021";
-		userSelected.chosenDeathType = ColumnTotalDeath;
+		userSelected.chosenDeathType = ColumnPneumoniaDeath;
 	} else if (chosenSlide === 3) {
 		userSelected.chosenYear = "2021";
-		userSelected.chosenDeathType = ColumnCOVIDDeath;
+		userSelected.chosenDeathType = ColumnTotalDeath;
 	} else if (chosenSlide === 4) {
-		userSelected.chosenYear = "2020";
+		userSelected.chosenYear = "2021";
 		userSelected.chosenDeathType = ColumnCOVIDDeath;
 	}
 	renderPage();
@@ -115,16 +115,16 @@ let updateGraph = function (svg, x, y, height, data, column) {
 		.append("rect")
 		.merge(u)
 		.transition()
-		.duration(0)
+		.duration(1000)
 		.attr("x", function (d) {
 			return x(d[column]);
 		})
 		.attr("y", function (d) {
-			return y(d[chosenDeathType]);
+			return y(d[userSelected.chosenDeathType]);
 		})
 		.attr("width", x.bandwidth())
 		.attr("height", function (d) {
-			return height - y(d[chosenDeathType]);
+			return height - y(d[userSelected.chosenDeathType]);
 		})
 		.attr("fill", "#69b3a2");
 };
@@ -134,10 +134,14 @@ let getFilteredDataByAge = function () {
 	filteredCOVIDData.forEach((d) => {
 		if (temp.hasOwnProperty(d["Age Group"])) {
 			temp[d["Age Group"]] +=
-				d[chosenDeathType] != "" ? parseInt(d[chosenDeathType]) : 0;
+				d[userSelected.chosenDeathType] != ""
+					? parseInt(d[userSelected.chosenDeathType])
+					: 0;
 		} else {
 			temp[d["Age Group"]] =
-				d[chosenDeathType] != "" ? parseInt(d[chosenDeathType]) : 0;
+				d[userSelected.chosenDeathType] != ""
+					? parseInt(d[userSelected.chosenDeathType])
+					: 0;
 		}
 	});
 
@@ -146,7 +150,7 @@ let getFilteredDataByAge = function () {
 		if (field != "All Ages") {
 			let tmp = {};
 			tmp["Age Group"] = field;
-			tmp[chosenDeathType] = temp[field];
+			tmp[userSelected.chosenDeathType] = temp[field];
 			data.push(tmp);
 		}
 	});
@@ -159,23 +163,28 @@ let getFilteredDataBySex = function () {
 	filteredCOVIDData.forEach((d) => {
 		if (d.Sex === "Female") {
 			femaleTotal +=
-				d[chosenDeathType] != "" ? parseInt(d[chosenDeathType]) : 0;
+				d[userSelected.chosenDeathType] != ""
+					? parseInt(d[userSelected.chosenDeathType])
+					: 0;
 		} else if (d.Sex === "Male") {
-			maleTotal += d[chosenDeathType] != "" ? parseInt(d[chosenDeathType]) : 0;
+			maleTotal +=
+				d[userSelected.chosenDeathType] != ""
+					? parseInt(d[userSelected.chosenDeathType])
+					: 0;
 		}
 	});
 
 	let maleData = {};
 	maleData["Sex"] = "Male";
-	maleData[chosenDeathType] = maleTotal;
+	maleData[userSelected.chosenDeathType] = maleTotal;
 
 	let femaleData = {};
 	femaleData["Sex"] = "Female";
-	femaleData[chosenDeathType] = femaleTotal;
+	femaleData[userSelected.chosenDeathType] = femaleTotal;
 
 	// let allSexesData = {};
 	// allSexesData["Sex"] = "All Sexes";
-	// allSexesData[chosenDeathType] = maleTotal + femaleTotal;
+	// allSexesData[userSelected.chosenDeathType] = maleTotal + femaleTotal;
 
 	return [maleData, femaleData];
 };
@@ -184,8 +193,8 @@ let setGraphOne = function () {
 	let data = getFilteredDataBySex();
 	let column = "Sex";
 	let max = Math.max(
-		parseInt(data[0][chosenDeathType]),
-		parseInt(data[1][chosenDeathType])
+		parseInt(data[0][userSelected.chosenDeathType]),
+		parseInt(data[1][userSelected.chosenDeathType])
 	);
 
 	var margin = { top: 20, right: 40, bottom: 90, left: 60 },
@@ -220,7 +229,42 @@ let setGraphOne = function () {
 		.attr("text-anchor", "middle")
 		.style("font-size", "12px")
 		.style("fill", "white")
-		.text(chosenDeathType + " by Gender");
+		.text(userSelected.chosenDeathType + " by Gender");
+
+	// Bars
+	svg
+		.selectAll("mybar")
+		.data(data)
+		.enter()
+		.append("rect")
+		.attr("x", function (d) {
+			return x(d[column]);
+		})
+		.attr("width", x.bandwidth())
+		.attr("fill", "#69b3a2")
+		// no bar at the beginning thus:
+		.attr("height", function (d) {
+			return height - y(0);
+		}) // always equal to 0
+		.attr("y", function (d) {
+			return y(0);
+		});
+
+	// Animation
+	svg
+		.selectAll("rect")
+		.transition()
+		.duration(800)
+		.attr("y", function (d) {
+			return y(d[userSelected.chosenDeathType]);
+		})
+		.attr("height", function (d) {
+			return height - y(d[userSelected.chosenDeathType]);
+		})
+		.delay(function (d, i) {
+			console.log(i);
+			return i * 100;
+		});
 
 	updateGraph(svg, x, y, height, data, column);
 };
@@ -230,7 +274,10 @@ let setGraphTwo = function () {
 	let column = "Age Group";
 	let max = -1;
 	data.forEach((d) => {
-		let deaths = d[chosenDeathType] != "" ? parseInt(d[chosenDeathType]) : 0;
+		let deaths =
+			d[userSelected.chosenDeathType] != ""
+				? parseInt(d[userSelected.chosenDeathType])
+				: 0;
 		if (deaths > max) {
 			max = deaths;
 		}
@@ -268,7 +315,42 @@ let setGraphTwo = function () {
 		.attr("text-anchor", "middle")
 		.style("font-size", "12px")
 		.style("fill", "white")
-		.text(chosenDeathType + " by Age Group");
+		.text(userSelected.chosenDeathType + " by Age Group");
+
+	// Bars
+	svg
+		.selectAll("mybar")
+		.data(data)
+		.enter()
+		.append("rect")
+		.attr("x", function (d) {
+			return x(d[column]);
+		})
+		.attr("width", x.bandwidth())
+		.attr("fill", "#69b3a2")
+		// no bar at the beginning thus:
+		.attr("height", function (d) {
+			return height - y(0);
+		}) // always equal to 0
+		.attr("y", function (d) {
+			return y(0);
+		});
+
+	// Animation
+	svg
+		.selectAll("rect")
+		.transition()
+		.duration(800)
+		.attr("y", function (d) {
+			return y(d[userSelected.chosenDeathType]);
+		})
+		.attr("height", function (d) {
+			return height - y(d[userSelected.chosenDeathType]);
+		})
+		.delay(function (d, i) {
+			console.log(i);
+			return i * 100;
+		});
 
 	updateGraph(svg, x, y, height, data, column);
 };
@@ -360,7 +442,7 @@ let setStateDeathsMapping = function () {
 let setFilteredData = function () {
 	let data = JSON.parse(JSON.stringify(COVIDdata));
 	data = data.filter(function (d) {
-		return d["Year"] == userSelected.chosenYear;
+		return d["Year"] === userSelected.chosenYear;
 	});
 	filteredCOVIDData = data;
 };
@@ -433,7 +515,7 @@ let renderPage = function () {
 let sumDeaths = function (data) {
 	let total = 0;
 	for (let i = 0; i < data.length; i++) {
-		if (data[i] && data[i][userSelected.chosenDeathType]) {
+		if (data[i] && data[i][userSelected.chosenDeathType] != "") {
 			total += parseInt(data[i][userSelected.chosenDeathType]);
 		}
 	}
