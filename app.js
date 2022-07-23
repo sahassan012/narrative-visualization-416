@@ -1,5 +1,5 @@
 let stateGeoJSONURL = "./US_geo.json";
-let COVIDdataURL = "./Provisional_COVID-19_Deaths_by_Sex_and_Age.csv";
+let deathsDataURL = "./Provisional_COVID-19_Deaths_by_Sex_and_Age.csv";
 let statesMapping = {
 	01: "Alabama",
 	02: "Alaska",
@@ -54,9 +54,9 @@ let statesMapping = {
 };
 
 let statesData;
-let COVIDdata;
+let deathsData;
 
-let filteredCOVIDData;
+let filteredData;
 let stateDeathsMapping = {};
 
 const ColumnCOVIDDeath = "COVID-19 Deaths";
@@ -125,13 +125,12 @@ let updateGraph = function (svg, x, y, height, data, column) {
 		.attr("width", x.bandwidth())
 		.attr("height", function (d) {
 			return height - y(d[userSelected.chosenDeathType]);
-		})
-		.attr("fill", "#69b3a2");
+		});
 };
 
 let getFilteredDataByAge = function () {
 	let temp = {};
-	filteredCOVIDData.forEach((d) => {
+	filteredData.forEach((d) => {
 		if (temp.hasOwnProperty(d["Age Group"])) {
 			temp[d["Age Group"]] +=
 				d[userSelected.chosenDeathType] != ""
@@ -160,7 +159,7 @@ let getFilteredDataByAge = function () {
 let getFilteredDataBySex = function () {
 	let maleTotal = 0;
 	let femaleTotal = 0;
-	filteredCOVIDData.forEach((d) => {
+	filteredData.forEach((d) => {
 		if (d.Sex === "Female") {
 			femaleTotal +=
 				d[userSelected.chosenDeathType] != ""
@@ -181,10 +180,6 @@ let getFilteredDataBySex = function () {
 	let femaleData = {};
 	femaleData["Sex"] = "Female";
 	femaleData[userSelected.chosenDeathType] = femaleTotal;
-
-	// let allSexesData = {};
-	// allSexesData["Sex"] = "All Sexes";
-	// allSexesData[userSelected.chosenDeathType] = maleTotal + femaleTotal;
 
 	return [maleData, femaleData];
 };
@@ -222,6 +217,7 @@ let setGraphOne = function () {
 	let y = d3.scaleLinear().domain([0, max]).range([height, 0]); // update here
 	svg.append("g").call(d3.axisLeft(y));
 
+	// text
 	svg
 		.append("text")
 		.attr("x", width / 2)
@@ -241,7 +237,9 @@ let setGraphOne = function () {
 			return x(d[column]);
 		})
 		.attr("width", x.bandwidth())
-		.attr("fill", "#69b3a2")
+		.attr("fill", function (d) {
+			return stateColor(d[userSelected.chosenDeathType]);
+		})
 		// no bar at the beginning thus:
 		.attr("height", function (d) {
 			return height - y(0);
@@ -262,7 +260,6 @@ let setGraphOne = function () {
 			return height - y(d[userSelected.chosenDeathType]);
 		})
 		.delay(function (d, i) {
-			console.log(i);
 			return i * 100;
 		});
 
@@ -327,7 +324,9 @@ let setGraphTwo = function () {
 			return x(d[column]);
 		})
 		.attr("width", x.bandwidth())
-		.attr("fill", "#69b3a2")
+		.attr("fill", function (d) {
+			return stateColor(d[userSelected.chosenDeathType]);
+		})
 		// no bar at the beginning thus:
 		.attr("height", function (d) {
 			return height - y(0);
@@ -348,7 +347,6 @@ let setGraphTwo = function () {
 			return height - y(d[userSelected.chosenDeathType]);
 		})
 		.delay(function (d, i) {
-			console.log(i);
 			return i * 100;
 		});
 
@@ -419,10 +417,10 @@ let setInfo = function () {
 };
 
 let setStateDeathsMapping = function () {
-	for (let i = 0; i < filteredCOVIDData.length; i++) {
-		let data = filteredCOVIDData[i];
+	for (let i = 0; i < filteredData.length; i++) {
+		let data = filteredData[i];
 		if (!stateDeathsMapping.hasOwnProperty(data["State"])) {
-			let value = filteredCOVIDData
+			let value = filteredData
 				.filter((d) => d["State"] === data["State"])
 				.reduce((acc, object) => {
 					return (
@@ -440,11 +438,11 @@ let setStateDeathsMapping = function () {
 };
 
 let setFilteredData = function () {
-	let data = JSON.parse(JSON.stringify(COVIDdata));
+	let data = JSON.parse(JSON.stringify(deathsData));
 	data = data.filter(function (d) {
 		return d["Year"] === userSelected.chosenYear;
 	});
-	filteredCOVIDData = data;
+	filteredData = data;
 };
 
 let setStateColor = function () {
@@ -456,12 +454,14 @@ let setStateColor = function () {
 		.scaleLinear()
 		.domain([Math.min(...deathsList) + 4000, Math.max(...deathsList)])
 		.range(["white", "red"]);
+	debugger;
 };
 
 let renderPage = function () {
 	setFilteredData();
 	setStateColor();
 	setInfo();
+	setSideGraphs();
 
 	svg
 		.selectAll("path")
@@ -472,7 +472,7 @@ let renderPage = function () {
 		.attr("class", "state")
 		.attr("fill", (stateDataItem) => {
 			let id = stateDataItem["id"];
-			let data = filteredCOVIDData.filter((e) => {
+			let data = filteredData.filter((e) => {
 				return e["State"] === statesMapping[parseInt(id)];
 			});
 			let deaths = sumDeaths(data);
@@ -484,7 +484,7 @@ let renderPage = function () {
 		)
 		.attr("data-deaths", (stateDataItem) => {
 			let id = stateDataItem["id"];
-			let data = filteredCOVIDData.filter((e) => {
+			let data = filteredData.filter((e) => {
 				return e["State"] === statesMapping[parseInt(id)];
 			});
 			return sumDeaths(data);
@@ -492,7 +492,7 @@ let renderPage = function () {
 		.on("mouseover", (stateDataItem) => {
 			tooltip.transition().style("visibility", "visible");
 			let id = stateDataItem.target.__data__["id"];
-			let data = filteredCOVIDData.filter((e) => {
+			let data = filteredData.filter((e) => {
 				return e["State"] === statesMapping[parseInt(id)];
 			});
 			let deaths = sumDeaths(data);
@@ -508,8 +508,6 @@ let renderPage = function () {
 		.on("mouseout", (stateDataItem) => {
 			tooltip.transition().style("visibility", "hidden");
 		});
-
-	setSideGraphs();
 };
 
 let sumDeaths = function (data) {
@@ -527,11 +525,11 @@ d3.json(stateGeoJSONURL).then(function (data, err) {
 		console.log(err);
 	} else {
 		statesData = topojson.feature(data, data.objects.states).features;
-		d3.csv(COVIDdataURL).then(function (data, err) {
+		d3.csv(deathsDataURL).then(function (data, err) {
 			if (err) {
 				console.log(err);
 			} else {
-				COVIDdata = data;
+				deathsData = data;
 				renderPage();
 			}
 		});
