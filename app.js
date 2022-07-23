@@ -361,10 +361,19 @@ let setSideGraphs = function () {
 let setInfo = function () {
 	// get year and set in UI
 	let yearContainer = document.getElementById("year-container");
+	let deathTypeContainer = document.getElementById("deathtype-container");
+
 	yearContainer.innerHTML = "";
-	let h1 = document.createElement("h1");
-	h1.innerHTML = userSelected.chosenYear;
-	yearContainer.appendChild(h1);
+	deathTypeContainer.innerHTML = "";
+
+	let h1_year = document.createElement("h1");
+	let h1_death = document.createElement("h1");
+
+	h1_year.innerHTML = userSelected.chosenYear;
+	h1_death.innerHTML = userSelected.chosenDeathType;
+
+	yearContainer.appendChild(h1_year);
+	deathTypeContainer.appendChild(h1_death);
 
 	// get chosen slide and enable all slide buttons except that one
 	let slideshowButtons = document.getElementsByClassName("slideshow-button");
@@ -454,7 +463,6 @@ let setStateColor = function () {
 		.scaleLinear()
 		.domain([Math.min(...deathsList) + 4000, Math.max(...deathsList)])
 		.range(["white", "red"]);
-	debugger;
 };
 
 let renderPage = function () {

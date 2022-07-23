@@ -71,7 +71,7 @@ body {
 	background-color: rgba(46, 154, 179, 0.265);
 	margin-top: 10px;
 	margin-bottom: 42%;
-	margin-right: 47%;
+	margin-right: -47%;
 	color: white;
 	position: absolute;
 	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
@@ -82,6 +82,29 @@ body {
 }
 
 #year-lb {
+	float: left;
+}
+
+#deathtype-container {
+	width: 18%;
+	height: 50px;
+	border-radius: 30px;
+	padding: 12px;
+	background-color: rgba(46, 154, 179, 0.265);
+	margin-top: 10px;
+	margin-bottom: 42%;
+	margin-right: 39%;
+	color: white;
+	position: absolute;
+	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+#deathtype-container h1 {
+	font-size: 25px;
+	margin-top: 3%;
+	text-align: center;
+}
+
+#deathtype-lb {
 	float: left;
 }
 
