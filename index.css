@@ -124,9 +124,11 @@ body {
 	position: absolute;
 	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
-
-#info-container-left {
-	width: 215px;
+#description-bottom:hover,
+#container-left:hover,
+#container-right:hover,
+#wrapper:hover {
+	background-color: rgba(46, 155, 179, 0.733);
 }
 
 #graph-container-left {
@@ -143,6 +145,10 @@ body {
 	height: 225px;
 	border-radius: 10px;
 	margin-top: 20px;
+}
+
+#info-container-left {
+	width: 215px;
 }
 
 #info-container-right {
