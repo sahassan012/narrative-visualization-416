@@ -61,6 +61,8 @@ let stateDeathsMapping = {};
 
 const ColumnCOVIDDeath = "COVID-19 Deaths";
 const ColumnTotalDeath = "Total Deaths";
+const ColumnPneumoniaDeath = "Pneumonia Deaths";
+const ColumnInfluenzaDeath = "Influenza Deaths";
 
 let chosenDeathType;
 let chosenSlide = 0;
@@ -122,7 +124,7 @@ let setInfo = function () {
 			: (element.disabled = false);
 	});
 
-	// set information
+	// set information in surrounding containers
 	let informationContainerLeft = document.getElementById("info-container-left");
 	let informationContainerRight = document.getElementById(
 		"info-container-right"
@@ -143,6 +145,15 @@ let setInfo = function () {
 	informationContainerLeft.appendChild(spanLeft);
 	informationContainerRight.appendChild(spanRight);
 	informationContainerBottom.appendChild(spanBottom);
+
+	let graphLeftContainer = document.createElement("div");
+	let graphRightContainer = document.createElement("div");
+
+	graphLeftContainer.setAttribute("id", "graph-container-left");
+	graphRightContainer.setAttribute("id", "graph-container-right");
+
+	informationContainerLeft.append(graphLeftContainer);
+	informationContainerRight.append(graphRightContainer);
 };
 
 let setStateDeathsMapping = function () {
