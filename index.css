@@ -156,16 +156,16 @@ body {
 
 #graph-container-left {
 	background-color: rgba(46, 155, 179, 0.583);
-	width: 125%;
-	height: 225px;
+	width: 128%;
+	height: 300px;
 	border-radius: 10px;
 	margin-top: 20px;
 }
 
 #graph-container-right {
 	background-color: rgba(46, 155, 179, 0.583);
-	width: 125%;
-	height: 225px;
+	width: 128%;
+	height: 320px;
 	border-radius: 10px;
 	margin-top: 20px;
 }

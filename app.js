@@ -192,9 +192,9 @@ let setGraphOne = function () {
 		parseInt(data[1][userSelected.chosenDeathType])
 	);
 
-	var margin = { top: 20, right: 40, bottom: 90, left: 60 },
-		width = 285 - margin.left - margin.right,
-		height = 285 - margin.top - margin.bottom;
+	var margin = { top: 40, right: 40, bottom: 90, left: 60 },
+		width = 300 - margin.left - margin.right,
+		height = 365 - margin.top - margin.bottom;
 
 	let svg = d3
 		.select("#svg-graph-left")
@@ -221,7 +221,7 @@ let setGraphOne = function () {
 	svg
 		.append("text")
 		.attr("x", width / 2)
-		.attr("y", 0 - margin.top / 4)
+		.attr("y", 0 - margin.top / 3)
 		.attr("text-anchor", "middle")
 		.style("font-size", "12px")
 		.style("fill", "white")
@@ -280,9 +280,9 @@ let setGraphTwo = function () {
 		}
 	});
 
-	var margin = { top: 20, right: 40, bottom: 90, left: 60 },
-		width = 285 - margin.left - margin.right,
-		height = 285 - margin.top - margin.bottom;
+	var margin = { top: 40, right: 40, bottom: 90, left: 60 },
+		width = 300 - margin.left - margin.right,
+		height = 315 - margin.top - margin.bottom;
 
 	let svg = d3
 		.select("#svg-graph-right")
@@ -300,7 +300,12 @@ let setGraphTwo = function () {
 	svg
 		.append("g")
 		.attr("transform", "translate(0," + height + ")")
-		.call(d3.axisBottom(x));
+		.call(d3.axisBottom(x).ticks(10))
+		.selectAll("text")
+		.style("text-anchor", "end")
+		.attr("dx", "-1em")
+		.attr("dy", ".15em")
+		.attr("transform", "rotate(-65)");
 
 	let y = d3.scaleLinear().domain([0, max]).range([height, 0]); // update here
 	svg.append("g").call(d3.axisLeft(y));
@@ -308,7 +313,7 @@ let setGraphTwo = function () {
 	svg
 		.append("text")
 		.attr("x", width / 2)
-		.attr("y", 0 - margin.top / 4)
+		.attr("y", 0 - margin.top / 3)
 		.attr("text-anchor", "middle")
 		.style("font-size", "12px")
 		.style("fill", "white")
