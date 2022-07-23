@@ -64,7 +64,7 @@ const ColumnTotalDeath = "Total Deaths";
 const ColumnPneumoniaDeath = "Pneumonia Deaths";
 const ColumnInfluenzaDeath = "Influenza Deaths";
 
-let chosenDeathType;
+let chosenDeathType = ColumnCOVIDDeath;
 let chosenSlide = 0;
 
 let userSelected = {
@@ -105,7 +105,177 @@ let updateSlide = function (slideNumber) {
 		userSelected.chosenYear = "2020";
 		userSelected.chosenDeathType = ColumnCOVIDDeath;
 	}
-	renderChart();
+	renderPage();
+};
+
+let updateGraph = function (svg, x, y, height, data, column) {
+	let u = svg.selectAll("rect").data(data);
+
+	u.enter()
+		.append("rect")
+		.merge(u)
+		.transition()
+		.duration(0)
+		.attr("x", function (d) {
+			return x(d[column]);
+		})
+		.attr("y", function (d) {
+			return y(d[chosenDeathType]);
+		})
+		.attr("width", x.bandwidth())
+		.attr("height", function (d) {
+			return height - y(d[chosenDeathType]);
+		})
+		.attr("fill", "#69b3a2");
+};
+
+let getFilteredDataByAge = function () {
+	let temp = {};
+	filteredCOVIDData.forEach((d) => {
+		if (temp.hasOwnProperty(d["Age Group"])) {
+			temp[d["Age Group"]] +=
+				d[chosenDeathType] != "" ? parseInt(d[chosenDeathType]) : 0;
+		} else {
+			temp[d["Age Group"]] =
+				d[chosenDeathType] != "" ? parseInt(d[chosenDeathType]) : 0;
+		}
+	});
+
+	let data = [];
+	Object.keys(temp).forEach((field) => {
+		if (field != "All Ages") {
+			let tmp = {};
+			tmp["Age Group"] = field;
+			tmp[chosenDeathType] = temp[field];
+			data.push(tmp);
+		}
+	});
+	return data;
+};
+
+let getFilteredDataBySex = function () {
+	let maleTotal = 0;
+	let femaleTotal = 0;
+	filteredCOVIDData.forEach((d) => {
+		if (d.Sex === "Female") {
+			femaleTotal +=
+				d[chosenDeathType] != "" ? parseInt(d[chosenDeathType]) : 0;
+		} else if (d.Sex === "Male") {
+			maleTotal += d[chosenDeathType] != "" ? parseInt(d[chosenDeathType]) : 0;
+		}
+	});
+
+	let maleData = {};
+	maleData["Sex"] = "Male";
+	maleData[chosenDeathType] = maleTotal;
+
+	let femaleData = {};
+	femaleData["Sex"] = "Female";
+	femaleData[chosenDeathType] = femaleTotal;
+
+	// let allSexesData = {};
+	// allSexesData["Sex"] = "All Sexes";
+	// allSexesData[chosenDeathType] = maleTotal + femaleTotal;
+
+	return [maleData, femaleData];
+};
+
+let setGraphOne = function () {
+	let data = getFilteredDataBySex();
+	let column = "Sex";
+	let max = Math.max(
+		parseInt(data[0][chosenDeathType]),
+		parseInt(data[1][chosenDeathType])
+	);
+
+	var margin = { top: 20, right: 40, bottom: 90, left: 60 },
+		width = 285 - margin.left - margin.right,
+		height = 285 - margin.top - margin.bottom;
+
+	let svg = d3
+		.select("#svg-graph-left")
+		.append("svg")
+		.attr("width", width + margin.left + margin.right)
+		.attr("height", height + margin.top + margin.bottom)
+		.append("g")
+		.attr("transform", "translate( " + margin.left + "," + margin.top + ")");
+
+	let x = d3
+		.scaleBand()
+		.range([0, width])
+		.domain(data.map((d) => d[column])) // update here
+		.padding(0.2);
+	svg
+		.append("g")
+		.attr("transform", "translate(0," + height + ")")
+		.call(d3.axisBottom(x));
+
+	let y = d3.scaleLinear().domain([0, max]).range([height, 0]); // update here
+	svg.append("g").call(d3.axisLeft(y));
+
+	svg
+		.append("text")
+		.attr("x", width / 2)
+		.attr("y", 0 - margin.top / 4)
+		.attr("text-anchor", "middle")
+		.style("font-size", "12px")
+		.style("fill", "white")
+		.text(chosenDeathType + " by Gender");
+
+	updateGraph(svg, x, y, height, data, column);
+};
+
+let setGraphTwo = function () {
+	let data = getFilteredDataByAge();
+	let column = "Age Group";
+	let max = -1;
+	data.forEach((d) => {
+		let deaths = d[chosenDeathType] != "" ? parseInt(d[chosenDeathType]) : 0;
+		if (deaths > max) {
+			max = deaths;
+		}
+	});
+
+	var margin = { top: 20, right: 40, bottom: 90, left: 60 },
+		width = 285 - margin.left - margin.right,
+		height = 285 - margin.top - margin.bottom;
+
+	let svg = d3
+		.select("#svg-graph-right")
+		.append("svg")
+		.attr("width", width + margin.left + margin.right)
+		.attr("height", height + margin.top + margin.bottom)
+		.append("g")
+		.attr("transform", "translate( " + margin.left + "," + margin.top + ")");
+
+	let x = d3
+		.scaleBand()
+		.range([0, width])
+		.domain(data.map((d) => d[column])) // update here
+		.padding(0.2);
+	svg
+		.append("g")
+		.attr("transform", "translate(0," + height + ")")
+		.call(d3.axisBottom(x));
+
+	let y = d3.scaleLinear().domain([0, max]).range([height, 0]); // update here
+	svg.append("g").call(d3.axisLeft(y));
+
+	svg
+		.append("text")
+		.attr("x", width / 2)
+		.attr("y", 0 - margin.top / 4)
+		.attr("text-anchor", "middle")
+		.style("font-size", "12px")
+		.style("fill", "white")
+		.text(chosenDeathType + " by Age Group");
+
+	updateGraph(svg, x, y, height, data, column);
+};
+
+let setSideGraphs = function () {
+	setGraphOne();
+	setGraphTwo();
 };
 
 let setInfo = function () {
@@ -136,12 +306,15 @@ let setInfo = function () {
 	informationContainerLeft.innerHTML = "<h3>Information:</h3>";
 	informationContainerRight.innerHTML = "<h3>Other Information:</h3>";
 	informationContainerBottom.innerHTML = "<h3>Some other Information:</h3>";
+
 	let spanLeft = document.createElement("span");
 	let spanRight = document.createElement("span");
 	let spanBottom = document.createElement("span");
+
 	spanLeft.innerHTML += slideInformation[chosenSlide].left;
 	spanRight.innerHTML += slideInformation[chosenSlide].right;
 	spanBottom.innerHTML += slideInformation[chosenSlide].bottom;
+
 	informationContainerLeft.appendChild(spanLeft);
 	informationContainerRight.appendChild(spanRight);
 	informationContainerBottom.appendChild(spanBottom);
@@ -149,9 +322,16 @@ let setInfo = function () {
 	let graphLeftContainer = document.createElement("div");
 	let graphRightContainer = document.createElement("div");
 
+	let svgGraphLeft = document.createElement("svg");
+	let svgGraphRight = document.createElement("svg");
+
+	svgGraphLeft.setAttribute("id", "svg-graph-left");
+	svgGraphRight.setAttribute("id", "svg-graph-right");
 	graphLeftContainer.setAttribute("id", "graph-container-left");
 	graphRightContainer.setAttribute("id", "graph-container-right");
 
+	graphLeftContainer.appendChild(svgGraphLeft);
+	graphRightContainer.appendChild(svgGraphRight);
 	informationContainerLeft.append(graphLeftContainer);
 	informationContainerRight.append(graphRightContainer);
 };
@@ -196,7 +376,7 @@ let setStateColor = function () {
 		.range(["white", "red"]);
 };
 
-let renderChart = function () {
+let renderPage = function () {
 	setFilteredData();
 	setStateColor();
 	setInfo();
@@ -246,6 +426,8 @@ let renderChart = function () {
 		.on("mouseout", (stateDataItem) => {
 			tooltip.transition().style("visibility", "hidden");
 		});
+
+	setSideGraphs();
 };
 
 let sumDeaths = function (data) {
@@ -263,14 +445,12 @@ d3.json(stateGeoJSONURL).then(function (data, err) {
 		console.log(err);
 	} else {
 		statesData = topojson.feature(data, data.objects.states).features;
-		console.log(statesData);
 		d3.csv(COVIDdataURL).then(function (data, err) {
 			if (err) {
 				console.log(err);
 			} else {
 				COVIDdata = data;
-				console.log(COVIDdata);
-				renderChart();
+				renderPage();
 			}
 		});
 	}
