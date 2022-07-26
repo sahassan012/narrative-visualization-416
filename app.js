@@ -83,7 +83,8 @@ let slideInformation = {
 };
 
 let svg = d3.select("#wrapper");
-let tooltip = d3.select("#tooltip");
+let chartTooltip;
+let mouseover, mouseleave, mousemove;
 
 let stateColor;
 
@@ -470,11 +471,59 @@ let setStateColor = function () {
 		.range(["white", "red"]);
 };
 
+let createTooltips = function () {
+	chartTooltip = d3
+		.select("#slideshowBtnContainer")
+		.append("div")
+		.style("opacity", 0)
+		.attr("class", "chartTooltip")
+		.style("background-color", "white")
+		.style("position", "relative")
+		.style("color", "red")
+		.style("border", "solid")
+		.style("border-width", "2px")
+		.style("border-radius", "5px")
+		.style("width", "150px")
+		.style("text-align", "center")
+		.style("padding", "5px");
+
+	mouseover = function (stateDataItem) {
+		chartTooltip.style("opacity", 1);
+		d3.select(this).style("stroke", "solid").style("opacity", 1);
+	};
+	mousemove = function (stateDataItem) {
+		let formatter = Intl.NumberFormat("en-US");
+		let id = stateDataItem.target.__data__["id"];
+		let data = filteredData.filter((e) => {
+			return e["State"] === statesMapping[parseInt(id)];
+		});
+		let deaths = sumDeaths(data);
+		chartTooltip.attr("data-deaths", deaths);
+
+		chartTooltip
+			.html(
+				"<p>State: " +
+					data[0]["State"] +
+					"</br></p><p>Deaths: " +
+					formatter.format(deaths) +
+					"</p>"
+			)
+			.style("left", d3.pointer(event)[0] - 350 + "px")
+			.style("top", d3.pointer(event)[1] + 150 + "px");
+	};
+	mouseleave = function () {
+		chartTooltip.style("opacity", 0);
+		chartTooltip.transition().style("visibility", "none");
+		d3.select(this).style("stroke", "none").style("opacity", 1);
+	};
+};
+
 let renderPage = function () {
 	setFilteredData();
 	setStateColor();
 	setInfo();
 	setSideGraphs();
+	createTooltips();
 
 	svg
 		.selectAll("path")
@@ -483,6 +532,9 @@ let renderPage = function () {
 		.append("path")
 		.attr("d", d3.geoPath())
 		.attr("class", "state")
+		.attr("id", function (stateDataItem) {
+			return "state-" + stateDataItem["id"];
+		})
 		.attr("fill", (stateDataItem) => {
 			let id = stateDataItem["id"];
 			let data = filteredData.filter((e) => {
@@ -502,25 +554,9 @@ let renderPage = function () {
 			});
 			return sumDeaths(data);
 		})
-		.on("mouseover", (stateDataItem) => {
-			tooltip.transition().style("visibility", "visible");
-			let id = stateDataItem.target.__data__["id"];
-			let data = filteredData.filter((e) => {
-				return e["State"] === statesMapping[parseInt(id)];
-			});
-			let deaths = sumDeaths(data);
-			tooltip.text(
-				data[0]["State"] +
-					" has " +
-					deaths +
-					" deaths in the Year " +
-					userSelected.chosenYear
-			);
-			tooltip.attr("data-deaths", deaths);
-		})
-		.on("mouseout", (stateDataItem) => {
-			tooltip.transition().style("visibility", "hidden");
-		});
+		.on("mouseover", mouseover)
+		.on("mousemove", mousemove)
+		.on("mouseleave", mouseleave);
 };
 
 let sumDeaths = function (data) {

@@ -8,3 +8,5 @@
 ####https://www.notion.so/Visualize-Data-with-a-Choropleth-Map-9d91d46e78d4406abc6a0d36f9e089dc
 
 ### css styling inspriation: https://getcssscan.com/css-box-shadow-examples
+
+### tooltip: https://d3-graph-gallery.com/graph/scatter_tooltip.html
