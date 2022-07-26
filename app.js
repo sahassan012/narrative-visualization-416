@@ -477,17 +477,17 @@ let createTooltips = function () {
 		.append("div")
 		.style("opacity", 0)
 		.attr("class", "chartTooltip")
-		.style("background-color", "white")
+		.style("background-color", "grey")
 		.style("position", "relative")
-		.style("color", "red")
-		.style("border", "solid")
-		.style("border-width", "2px")
+		.style("color", "white")
+		.style("border", "dashed")
+		.style("border-width", "0.1px")
 		.style("border-radius", "5px")
 		.style("width", "150px")
 		.style("text-align", "center")
 		.style("padding", "5px");
 
-	mouseover = function (stateDataItem) {
+	mouseover = function () {
 		chartTooltip.style("opacity", 1);
 		d3.select(this).style("stroke", "solid").style("opacity", 1);
 	};
