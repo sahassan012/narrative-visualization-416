@@ -83,8 +83,11 @@ let slideInformation = {
 };
 
 let svg = d3.select("#wrapper");
-let chartTooltip;
+let chartTooltip, leftGraphTooltip, rightGraphTooltip;
+
 let mouseover, mouseleave, mousemove;
+let leftMouseover, leftMouseleave, leftMousemove;
+let rightMouseover, rightMouseleave, rightMousemove;
 
 let stateColor;
 
@@ -247,7 +250,10 @@ let setGraphOne = function () {
 		}) // always equal to 0
 		.attr("y", function (d) {
 			return y(0);
-		});
+		})
+		.on("mouseover", leftMouseover)
+		.on("mousemove", leftMousemove)
+		.on("mouseleave", leftMouseleave);
 
 	// Animation
 	svg
@@ -339,7 +345,10 @@ let setGraphTwo = function () {
 		}) // always equal to 0
 		.attr("y", function (d) {
 			return y(0);
-		});
+		})
+		.on("mouseover", rightMouseover)
+		.on("mousemove", rightMousemove)
+		.on("mouseleave", rightMouseleave);
 
 	// Animation
 	svg
@@ -471,7 +480,7 @@ let setStateColor = function () {
 		.range(["white", "red"]);
 };
 
-let createTooltips = function () {
+let createChartTooltip = function () {
 	chartTooltip = d3
 		.select("#slideshowBtnContainer")
 		.append("div")
@@ -517,13 +526,113 @@ let createTooltips = function () {
 		d3.select(this).style("stroke", "none").style("opacity", 1);
 	};
 };
+let createLeftGraphtip = function () {
+	leftGraphTooltip = d3
+		.select("#container-left")
+		.append("div")
+		.style("opacity", 0)
+		.attr("class", "leftGraphTooltip")
+		.style("background-color", "white")
+		.style("position", "relative")
+		.style("color", "red")
+		.style("border", "dashed")
+		.style("border-width", "0.1px")
+		.style("border-radius", "5px")
+		.style("width", "150px")
+		.style("z-index", "0")
+		.style("text-align", "center")
+		.style("padding", "5px");
+	leftMouseover = function () {
+		leftGraphTooltip.style("opacity", 1);
+		d3.select(this).style("stroke", "solid").style("opacity", 1);
+	};
+	leftMousemove = function (stateDataItem) {
+		let formatter = Intl.NumberFormat("en-US");
+		let sex = stateDataItem.currentTarget.__data__.Sex;
+		let data = filteredData.filter((e) => {
+			return e["Sex"] === sex;
+		});
+		let deaths = sumDeaths(data);
+
+		leftGraphTooltip.attr("data-deaths", deaths);
+
+		leftGraphTooltip
+			.html(
+				"<p>Sex: " +
+					data[0]["Sex"] +
+					"</br></p><p>Deaths: " +
+					formatter.format(deaths) +
+					"</p>"
+			)
+			.style("left", d3.pointer(event)[0] + 80 + "px")
+			.style("top", d3.pointer(event)[1] - 350 + "px");
+	};
+	leftMouseleave = function () {
+		leftGraphTooltip.style("opacity", 0);
+		leftGraphTooltip.transition().style("visibility", "none");
+		d3.select(this).style("stroke", "none").style("opacity", 1);
+	};
+};
+let createRightGraphtip = function () {
+	rightGraphTooltip = d3
+		.select("#container-right")
+		.append("div")
+		.style("opacity", 0)
+		.attr("class", "rightGraphTooltip")
+		.style("background-color", "white")
+		.style("position", "relative")
+		.style("color", "red")
+		.style("border", "dashed")
+		.style("border-width", "0.1px")
+		.style("border-radius", "5px")
+		.style("width", "220px")
+		.style("z-index", "0")
+		.style("text-align", "center")
+		.style("padding", "5px");
+
+	rightMouseover = function () {
+		rightGraphTooltip.style("opacity", 1);
+		d3.select(this).style("stroke", "solid").style("opacity", 1);
+	};
+	rightMousemove = function (stateDataItem) {
+		let formatter = Intl.NumberFormat("en-US");
+		let age = stateDataItem.currentTarget.__data__["Age Group"];
+		let data = filteredData.filter((e) => {
+			return e["Age Group"] === age;
+		});
+		let deaths = sumDeaths(data);
+		rightGraphTooltip.attr("data-deaths", deaths);
+
+		rightGraphTooltip
+			.html(
+				"<p>Age Group: " +
+					data[0]["Age Group"] +
+					"</br></p><p>Deaths: " +
+					formatter.format(deaths) +
+					"</p>"
+			)
+			.style("left", d3.pointer(event)[0] - 160 + "px")
+			.style("top", d3.pointer(event)[1] - 400 + "px");
+	};
+	rightMouseleave = function () {
+		rightGraphTooltip.style("opacity", 0);
+		rightGraphTooltip.transition().style("visibility", "none");
+		d3.select(this).style("stroke", "none").style("opacity", 1);
+	};
+};
+
+let createTooltips = function () {
+	createChartTooltip();
+	createLeftGraphtip();
+	createRightGraphtip();
+};
 
 let renderPage = function () {
 	setFilteredData();
+	createTooltips();
 	setStateColor();
 	setInfo();
 	setSideGraphs();
-	createTooltips();
 
 	svg
 		.selectAll("path")
