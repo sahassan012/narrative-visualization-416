@@ -622,6 +622,17 @@ let createRightGraphtip = function () {
 };
 
 let createTooltips = function () {
+	document.querySelectorAll(".rightGraphTooltip").forEach((x) => {
+		x.remove();
+	});
+
+	document.querySelectorAll(".leftGraphToolTip").forEach((x) => {
+		x.remove();
+	});
+
+	document.querySelectorAll(".chartTooltip").forEach((x) => {
+		x.remove();
+	});
 	createChartTooltip();
 	createLeftGraphtip();
 	createRightGraphtip();
