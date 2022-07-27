@@ -6,7 +6,7 @@ body {
 }
 
 #wrapper {
-	min-width: 1000px;
+	width: 1000px;
 	min-height: 600px;
 }
 
@@ -83,10 +83,10 @@ body {
 	margin-bottom: 30%;
 	color: #ffffffdb;
 	position: absolute;
+	font-size: 13px;
 }
 #cause-year-container h1 {
-	margin-top: 3%;
-	margin-left: 25%;
+	text-align: center;
 }
 
 #year-lb {
@@ -131,12 +131,12 @@ body {
 }
 
 #container-left {
-	min-width: 15%;
-	min-height: 600px;
+	min-width: 15.5%;
+	height: 600px;
 	margin-right: 79%;
 	margin-bottom: 0.6%;
 	border-radius: 35px;
-	padding: 25px;
+	padding: 30px;
 	background-color: rgba(46, 154, 179, 0.265);
 	color: white;
 	position: absolute;
@@ -144,8 +144,8 @@ body {
 }
 
 #container-right {
-	min-width: 15%;
-	min-height: 600px;
+	min-width: 15.5%;
+	height: 600px;
 	margin-right: -79%;
 	margin-bottom: 0.6%;
 	border-radius: 35px;
@@ -157,25 +157,27 @@ body {
 }
 #description-bottom:hover,
 #container-left:hover,
-#container-right:hover,
-#wrapper:hover {
+#container-right:hover
+/* #wrapper:hover */ {
 	background-color: rgba(46, 155, 179, 0.733);
 }
 
 #graph-container-left {
 	background-color: rgba(46, 155, 179, 0.583);
-	width: 140%;
+	width: 135%;
 	height: 300px;
 	border-radius: 10px;
 	margin-top: 20px;
+	margin-left: -7.5%;
 }
 
 #graph-container-right {
 	background-color: rgba(46, 155, 179, 0.583);
-	width: 140%;
+	width: 135%;
 	height: 320px;
 	border-radius: 10px;
 	margin-top: 20px;
+	margin-left: -7.5%;
 }
 
 #info-container-left {

@@ -86,30 +86,30 @@ let slideInformation = {
 
 // first
 slideInformation[0].left =
-	"In 2020, males had the most deaths due to COVID-19 (1,863,902). The State of Texas held the most deaths reported.";
+	"In 2020, males had 10.59% more deaths than females due to COVID-19 with a count of 1,863,902. The State of Texas held the most deaths reported (305,038)."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
 slideInformation[0].right =
-	"Highest COVID-19 deaths have been within the age of 85 years and over (983,449).";
+	"COVID-19 death rate has been the highest for those within the age of 85 years and over (983,449) which accounts for 29.18% of COVID-19 deaths."; // 983,449 / 3,370,919
 slideInformation[0].bottom = "";
 
 // second
 slideInformation[1].left =
-	"In 2020, males had the most deaths due to Influenza (37,691). The State of Texas held the most deaths reported.";
+	"In 2020, males had 5.93% more deaths than females due to Influenza with a count of 37,691. The State of California held the most deaths reported (7,431)."; // 37,691 / 71,845 (52.47%)  -  34,154 / 71,845 (46.54%)
 slideInformation[1].right =
-	"Highest deaths have been within the age range of 50-64 years (14,923).";
+	"Influenza death rate has been the highest for those within the age range of 50-64 years (14,923) which accounts for 20.78% of Influenza deaths."; // 14,923 / 71,845 = 20.78%
 slideInformation[1].bottom = "";
 
 // third
 slideInformation[2].left =
-	"In 2020, males had the most deaths due to Pneumonia (1,739,493). The State of Texas held the most deaths reported.";
+	"In 2020, males had 12.22% more deaths than females due to Pneumonia with a count of 1,739,493. The State of California held the most deaths reported (330,385)."; // 1,739,493 / 3,099,823  (56.12%)  -   1,360,330 / 3,099,823  (43.90%)
 slideInformation[2].right =
-	"Highest deaths have been within the age of 85 years and over (818,447).";
+	"Pneumonia death rate has been the highest for those within the age of 85 years and over (818,447) which accounts for 26.40% of Pneumonia deaths."; //  818,447 / 3,099,823
 slideInformation[2].bottom = "";
 
 // fourth
 slideInformation[3].left =
-	"In 2020, males had the most deaths due to COVID-19, Influenza, and Penumonia (2,725,792). The State of California held the most deaths reported.";
+	"In 2020, males had 9.69% more deaths than females due to COVID-19, Influenza, and Penumonia (2,725,792). The State of California held the most deaths reported (471,967)."; // 2,725,792 / 4,969,984 (54.845%)  - 2,244,192 / 4,969,984 (45.154%)
 slideInformation[3].right =
-	"Highest deaths have been within the age of 85 years and over (1,419,689).";
+	"Death rate for COVID-19, Influenza, and Penumonia combined has been the highest for those within the age of 85 years and over (1,419,689).";
 slideInformation[3].bottom = "";
 
 // five
@@ -248,7 +248,7 @@ let setGraphOne = function () {
 	);
 
 	var margin = { top: 40, right: 40, bottom: 90, left: 60 },
-		width = 300 - margin.left - margin.right,
+		width = 325 - margin.left - margin.right,
 		height = 365 - margin.top - margin.bottom;
 
 	let svg = d3
@@ -341,7 +341,7 @@ let setGraphTwo = function () {
 	});
 
 	var margin = { top: 40, right: 40, bottom: 90, left: 60 },
-		width = 300 - margin.left - margin.right,
+		width = 320 - margin.left - margin.right,
 		height = 315 - margin.top - margin.bottom;
 
 	let svg = d3
@@ -530,7 +530,7 @@ let setStateColor = function () {
 
 let createChartTooltip = function () {
 	chartTooltip = d3
-		.select("#slideshowBtnContainer")
+		.select("#wrapperContainer")
 		.append("div")
 		.style("opacity", 0)
 		.attr("class", "chartTooltip")
@@ -543,7 +543,7 @@ let createChartTooltip = function () {
 		.style("width", "150px")
 		.style("text-align", "center")
 		.style("padding", "5px")
-		.style("position", "absolute");
+		.style("position", "relative");
 
 	mouseover = function () {
 		chartTooltip.style("opacity", 1);
@@ -566,8 +566,8 @@ let createChartTooltip = function () {
 					formatter.format(deaths) +
 					"</p>"
 			)
-			.style("left", d3.pointer(event)[0] + 300 + "px")
-			.style("top", d3.pointer(event)[1] + 150 + "px");
+			.style("left", d3.pointer(event)[0] + 30 + "px")
+			.style("top", d3.pointer(event)[1] - 610 + "px");
 	};
 	mouseleave = function () {
 		chartTooltip.style("opacity", 0);
@@ -588,7 +588,6 @@ let createLeftGraphtip = function () {
 		.style("border-width", "0.1px")
 		.style("border-radius", "5px")
 		.style("width", "150px")
-		.style("z-index", "0")
 		.style("text-align", "center")
 		.style("padding", "5px");
 	leftMouseover = function () {
@@ -635,7 +634,6 @@ let createRightGraphtip = function () {
 		.style("border-width", "0.1px")
 		.style("border-radius", "5px")
 		.style("width", "220px")
-		.style("z-index", "0")
 		.style("text-align", "center")
 		.style("padding", "5px");
 
