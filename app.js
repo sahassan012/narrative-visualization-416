@@ -63,6 +63,8 @@ const ColumnCOVIDDeath = "COVID-19 Deaths";
 const ColumnTotalDeath = "Total Deaths";
 const ColumnPneumoniaDeath = "Pneumonia Deaths";
 const ColumnInfluenzaDeath = "Influenza Deaths";
+const ColumnPneumoniaInfluenzaCOVIDDeaths =
+	"Pneumonia, Influenza, or COVID-19 Deaths";
 
 let chosenDeathType = ColumnCOVIDDeath;
 let chosenSlide = 0;
@@ -70,17 +72,52 @@ let chosenSlide = 0;
 let userSelected = {
 	chosenDeathType: ColumnCOVIDDeath,
 	chosenYear: "2020",
-	chosenGender: "",
+	chosenSex: "",
 	chosenAgeGroup: "",
 };
 
 let slideInformation = {
-	0: { left: "HAHAHAHAH", right: "UUHUHUHU", bottom: "UUHUHUHU" },
-	1: { left: "ASASASASA", right: "DSDSDSDSD", bottom: "KMKMKMKK" },
-	2: { left: "ZXXZXZXZX", right: "XZXZXZXZ", bottom: "OKOKKOKOK" },
-	3: { left: "GHGHGHGHG", right: "POPOPOPP", bottom: "PLPLLPLP" },
-	4: { left: "RTRTRTRTR", right: "BVBVBVBV", bottom: "GYGYYYGY" },
+	0: { left: "", right: "", bottom: "" },
+	1: { left: "", right: "", bottom: "" },
+	2: { left: "", right: "", bottom: "" },
+	3: { left: "", right: "", bottom: "" },
+	4: { left: "", right: "", bottom: "" },
 };
+
+// first
+slideInformation[0].left =
+	"In 2020, males had the most deaths due to COVID-19 (1,863,902). The State of Texas held the most deaths reported.";
+slideInformation[0].right =
+	"Highest COVID-19 deaths have been within the age of 85 years and over (983,449).";
+slideInformation[0].bottom = "";
+
+// second
+slideInformation[1].left =
+	"In 2020, males had the most deaths due to Influenza (37,691). The State of Texas held the most deaths reported.";
+slideInformation[1].right =
+	"Highest deaths have been within the age range of 50-64 years (14,923).";
+slideInformation[1].bottom = "";
+
+// third
+slideInformation[2].left =
+	"In 2020, males had the most deaths due to Pneumonia (1,739,493). The State of Texas held the most deaths reported.";
+slideInformation[2].right =
+	"Highest deaths have been within the age of 85 years and over (818,447).";
+slideInformation[2].bottom = "";
+
+// fourth
+slideInformation[3].left =
+	"In 2020, males had the most deaths due to COVID-19, Influenza, and Penumonia (2,725,792). The State of California held the most deaths reported.";
+slideInformation[3].right =
+	"Highest deaths have been within the age of 85 years and over (1,419,689).";
+slideInformation[3].bottom = "";
+
+// five
+slideInformation[4].left =
+	"In 2020, males had the most total deaths (16,496,042). The State of California held the most deaths reported (2,904,873).";
+slideInformation[4].right =
+	"Highest deaths have been within the age of 85 years and over (8,146,148).";
+slideInformation[4].bottom = "";
 
 let svg = d3.select("#wrapper");
 let chartTooltip, leftGraphTooltip, rightGraphTooltip;
@@ -114,14 +151,14 @@ let updateSlide = function (slideNumber) {
 		userSelected.chosenYear = "2020";
 		userSelected.chosenDeathType = ColumnInfluenzaDeath;
 	} else if (chosenSlide === 2) {
-		userSelected.chosenYear = "2021";
+		userSelected.chosenYear = "2020";
 		userSelected.chosenDeathType = ColumnPneumoniaDeath;
 	} else if (chosenSlide === 3) {
-		userSelected.chosenYear = "2021";
-		userSelected.chosenDeathType = ColumnTotalDeath;
+		userSelected.chosenYear = "2020";
+		userSelected.chosenDeathType = ColumnPneumoniaInfluenzaCOVIDDeaths;
 	} else if (chosenSlide === 4) {
-		userSelected.chosenYear = "2021";
-		userSelected.chosenDeathType = ColumnCOVIDDeath;
+		userSelected.chosenYear = "2020";
+		userSelected.chosenDeathType = ColumnTotalDeath;
 	}
 	renderPage();
 };
@@ -225,14 +262,14 @@ let setGraphOne = function () {
 	let x = d3
 		.scaleBand()
 		.range([0, width])
-		.domain(data.map((d) => d[column])) // update here
+		.domain(data.map((d) => d[column]))
 		.padding(0.2);
 	svg
 		.append("g")
 		.attr("transform", "translate(0," + height + ")")
 		.call(d3.axisBottom(x));
 
-	let y = d3.scaleLinear().domain([0, max]).range([height, 0]); // update here
+	let y = d3.scaleLinear().domain([0, max]).range([height, 0]);
 	svg.append("g").call(d3.axisLeft(y));
 
 	// text
@@ -243,11 +280,15 @@ let setGraphOne = function () {
 		.attr("text-anchor", "middle")
 		.style("font-size", "12px")
 		.style("fill", "white")
-		.text(userSelected.chosenDeathType + " by Gender");
+		.text(
+			userSelected.chosenDeathType
+				.replace(/Influenza/gi, "Flu")
+				.replace(/COVID-19/gi, "COVID") + " by Sex"
+		);
 
 	// Bars
 	svg
-		.selectAll("mybar")
+		.selectAll("sexGraphBars")
 		.data(data)
 		.enter()
 		.append("rect")
@@ -258,10 +299,9 @@ let setGraphOne = function () {
 		.attr("fill", function (d) {
 			return stateColor(d[userSelected.chosenDeathType]);
 		})
-		// no bar at the beginning thus:
 		.attr("height", function (d) {
 			return height - y(0);
-		}) // always equal to 0
+		})
 		.attr("y", function (d) {
 			return y(0);
 		})
@@ -269,7 +309,6 @@ let setGraphOne = function () {
 		.on("mousemove", leftMousemove)
 		.on("mouseleave", leftMouseleave);
 
-	// Animation
 	svg
 		.selectAll("rect")
 		.transition()
@@ -338,11 +377,14 @@ let setGraphTwo = function () {
 		.attr("text-anchor", "middle")
 		.style("font-size", "12px")
 		.style("fill", "white")
-		.text(userSelected.chosenDeathType + " by Age Group");
+		.text(
+			userSelected.chosenDeathType
+				.replace(/Influenza/gi, "Flu")
+				.replace(/COVID-19/gi, "COVID") + " by Age"
+		);
 
-	// Bars
 	svg
-		.selectAll("mybar")
+		.selectAll("ageGraphBars")
 		.data(data)
 		.enter()
 		.append("rect")
@@ -353,10 +395,9 @@ let setGraphTwo = function () {
 		.attr("fill", function (d) {
 			return stateColor(d[userSelected.chosenDeathType]);
 		})
-		// no bar at the beginning thus:
 		.attr("height", function (d) {
 			return height - y(0);
-		}) // always equal to 0
+		})
 		.attr("y", function (d) {
 			return y(0);
 		})
