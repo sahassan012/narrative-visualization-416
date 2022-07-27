@@ -629,18 +629,23 @@ let createRightGraphtip = function () {
 	};
 };
 
+let removeExistingTooltips = function () {
+	let leftTooltip = document.querySelector(".leftGraphTooltip");
+	let rightTooltip = document.querySelector(".rightGraphTooltip");
+	let chartTooltip = document.querySelector(".chartTooltip");
+	if (leftTooltip) {
+		leftTooltip.remove();
+	}
+	if (rightTooltip) {
+		rightTooltip.remove();
+	}
+	if (chartTooltip) {
+		chartTooltip.remove();
+	}
+};
+
 let createTooltips = function () {
-	document.querySelectorAll(".rightGraphTooltip").forEach((x) => {
-		x.remove();
-	});
-
-	document.querySelectorAll(".leftGraphToolTip").forEach((x) => {
-		x.remove();
-	});
-
-	document.querySelectorAll(".chartTooltip").forEach((x) => {
-		x.remove();
-	});
+	removeExistingTooltips();
 	createChartTooltip();
 	createLeftGraphtip();
 	createRightGraphtip();
