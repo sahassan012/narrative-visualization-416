@@ -91,6 +91,20 @@ let rightMouseover, rightMouseleave, rightMousemove;
 
 let stateColor;
 
+let changeToNextSlide = function () {
+	if (chosenSlide < 4) {
+		chosenSlide += 1;
+		updateSlide(chosenSlide);
+	}
+};
+
+let changeToPrevSlide = function () {
+	if (chosenSlide > 0) {
+		chosenSlide -= 1;
+		updateSlide(chosenSlide);
+	}
+};
+
 let updateSlide = function (slideNumber) {
 	chosenSlide = slideNumber;
 	if (chosenSlide === 0) {
@@ -375,20 +389,13 @@ let setSideGraphs = function () {
 
 let setInfo = function () {
 	// get year and set in UI
-	let yearContainer = document.getElementById("year-container");
-	let deathTypeContainer = document.getElementById("deathtype-container");
-
-	yearContainer.innerHTML = "";
-	deathTypeContainer.innerHTML = "";
-
-	let h1_year = document.createElement("h1");
-	let h1_death = document.createElement("h1");
-
-	h1_year.innerHTML = userSelected.chosenYear;
-	h1_death.innerHTML = userSelected.chosenDeathType;
-
-	yearContainer.appendChild(h1_year);
-	deathTypeContainer.appendChild(h1_death);
+	let causeYearContainer = document.getElementById("cause-year-container");
+	causeYearContainer.innerHTML = "";
+	let h1_cause_year = document.createElement("h1");
+	h1_cause_year.innerHTML =
+		userSelected.chosenDeathType + " " + userSelected.chosenYear;
+	causeYearContainer.appendChild(h1_cause_year);
+	//deathTypeContainer.appendChild(h1_death);
 
 	// get chosen slide and enable all slide buttons except that one
 	let slideshowButtons = document.getElementsByClassName("slideshow-button");
@@ -494,7 +501,8 @@ let createChartTooltip = function () {
 		.style("border-radius", "5px")
 		.style("width", "150px")
 		.style("text-align", "center")
-		.style("padding", "5px");
+		.style("padding", "5px")
+		.style("position", "absolute");
 
 	mouseover = function () {
 		chartTooltip.style("opacity", 1);
@@ -517,7 +525,7 @@ let createChartTooltip = function () {
 					formatter.format(deaths) +
 					"</p>"
 			)
-			.style("left", d3.pointer(event)[0] - 350 + "px")
+			.style("left", d3.pointer(event)[0] + 300 + "px")
 			.style("top", d3.pointer(event)[1] + 150 + "px");
 	};
 	mouseleave = function () {

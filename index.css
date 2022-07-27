@@ -38,20 +38,33 @@ body {
 
 #slideshowBtnContainer {
 	padding: 20px;
+	margin-right: auto;
+	margin-left: 1%;
 }
 
 .slideshow-button {
 	background-color: #ff00008a;
 	color: white;
 	padding: 5px;
-	padding-right: 20px;
-	padding-left: 20px;
+	padding-right: 15px;
+	padding-left: 15px;
 	border-radius: 5px;
 	box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
 		rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
 		/*https://getcssscan.com/css-box-shadow-examples*/ rgba(0, 0, 0, 0.17) 0px
 			12px 13px,
 		rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.btn-left {
+	margin-left: 15px !important;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.btn-right {
+	padding-left: 10px;
+	padding-right: 10px;
 }
 
 .slideshow-button:disabled {
@@ -63,20 +76,15 @@ body {
 	background-color: #e7e7e7;
 }
 
-#year-container {
-	width: 10%;
-	height: 50px;
-	border-radius: 30px;
+#cause-year-container {
+	width: 35%;
+	height: 85px;
 	padding: 12px;
-	background-color: rgba(46, 154, 179, 0.265);
-	margin-top: 10px;
-	margin-bottom: 42%;
-	margin-right: -47%;
-	color: white;
+	margin-bottom: 30%;
+	color: #ffffffdb;
 	position: absolute;
-	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
-#year-container h1 {
+#cause-year-container h1 {
 	margin-top: 3%;
 	margin-left: 25%;
 }
@@ -86,17 +94,17 @@ body {
 }
 
 #deathtype-container {
-	width: 18%;
-	height: 50px;
+	width: 16.5%;
+	height: 45px;
 	border-radius: 30px;
-	padding: 12px;
+	padding: 10px;
 	background-color: rgba(46, 154, 179, 0.265);
-	margin-top: 10px;
-	margin-bottom: 42%;
-	margin-right: 39%;
+	margin-top: 70px;
+	margin-bottom: 41%;
+	margin-right: 79%;
 	color: white;
 	position: absolute;
-	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+	box-shadow: rgb(0 0 0 / 24%) 0px 3px 8px;
 }
 #deathtype-container h1 {
 	font-size: 25px;
