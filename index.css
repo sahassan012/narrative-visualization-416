@@ -1,6 +1,6 @@
 body {
 	min-height: 100%;
-	background-color: rgba(61, 61, 61, 0.797);
+	background-color: #007484;
 	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 	color: rgba(232, 232, 232, 0.924);
 }
@@ -20,10 +20,10 @@ body {
 #wrapper {
 	border-radius: 35px;
 	padding: 25px;
-	background-color: rgba(46, 154, 179, 0.265);
+	/* background-color: rgba(46, 154, 179, 0.265);
 	box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
-		/*https://getcssscan.com/css-box-shadow-examples*/ rgba(0, 0, 0, 0.3) 0px
-			3px 7px -3px;
+		/*https://getcssscan.com/css-box-shadow-examples rgba(0, 0, 0, 0.3) 0px
+			3px 7px -3px; /*/
 }
 
 #tooltip {
@@ -77,13 +77,12 @@ body {
 }
 
 #cause-year-container {
-	width: 35%;
-	height: 85px;
+	width: 55%;
 	padding: 12px;
-	margin-bottom: 30%;
 	color: #ffffffdb;
 	position: absolute;
 	font-size: 13px;
+	top: 9;
 }
 #cause-year-container h1 {
 	text-align: center;
