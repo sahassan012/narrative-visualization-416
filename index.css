@@ -73,16 +73,17 @@ body {
 }
 .slideshow-button:hover {
 	color: black;
-	background-color: #e7e7e7;
+	background-color: #e7e7e7a5;
+	box-shadow: none;
 }
 
 #cause-year-container {
 	width: 55%;
 	padding: 12px;
-	color: #ffffffdb;
+	color: #ffffffb0;
 	position: absolute;
 	font-size: 13px;
-	top: 9;
+	top: 20%;
 }
 #cause-year-container h1 {
 	text-align: center;
