@@ -57,6 +57,7 @@ let statesData;
 let deathsData;
 
 let filteredData;
+let dateAnalyzed;
 let stateDeathsMapping = {};
 
 const ColumnCOVIDDeath = "COVID-19 Deaths";
@@ -89,35 +90,44 @@ slideInformation[0].left =
 	"In 2020, males had 10.59% more deaths than females due to COVID-19 with a count of 1,863,902. The State of Texas held the most deaths reported (305,038)."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
 slideInformation[0].right =
 	"COVID-19 death rate has been the highest for those within the age of 85 years and over (983,449) which accounts for 29.18% of COVID-19 deaths."; // 983,449 / 3,370,919
-slideInformation[0].bottom = "";
+slideInformation[0].bottom =
+	"Some categories of data with a death count within the range of 1-9 has been excluded from the dataset in accordance with National Center for Health Statistics(NCHS) confidentiality standards.";
 
 // second
 slideInformation[1].left =
 	"In 2020, males had 5.93% more deaths than females due to Influenza with a count of 37,691. The State of California held the most deaths reported (7,431)."; // 37,691 / 71,845 (52.47%)  -  34,154 / 71,845 (46.54%)
 slideInformation[1].right =
 	"Influenza death rate has been the highest for those within the age range of 50-64 years (14,923) which accounts for 20.78% of Influenza deaths."; // 14,923 / 71,845 = 20.78%
-slideInformation[1].bottom = "";
+slideInformation[1].bottom =
+	"Some categories of data with a death count within the range of 1-9 has been excluded from the dataset in accordance with National Center for Health Statistics(NCHS) confidentiality standards.";
+("");
 
 // third
 slideInformation[2].left =
 	"In 2020, males had 12.22% more deaths than females due to Pneumonia with a count of 1,739,493. The State of California held the most deaths reported (330,385)."; // 1,739,493 / 3,099,823  (56.12%)  -   1,360,330 / 3,099,823  (43.90%)
 slideInformation[2].right =
 	"Pneumonia death rate has been the highest for those within the age of 85 years and over (818,447) which accounts for 26.40% of Pneumonia deaths."; //  818,447 / 3,099,823
-slideInformation[2].bottom = "";
+slideInformation[2].bottom =
+	"Some categories of data with a death count within the range of 1-9 has been excluded from the dataset in accordance with National Center for Health Statistics(NCHS) confidentiality standards.";
+("");
 
 // fourth
 slideInformation[3].left =
 	"In 2020, males had 9.69% more deaths than females due to COVID-19, Influenza, and Penumonia (2,725,792). The State of California held the most deaths reported (471,967)."; // 2,725,792 / 4,969,984 (54.845%)  - 2,244,192 / 4,969,984 (45.154%)
 slideInformation[3].right =
 	"Death rate for COVID-19, Influenza, and Penumonia combined has been the highest for those within the age of 85 years and over (1,419,689).";
-slideInformation[3].bottom = "";
+slideInformation[3].bottom =
+	"Some categories of data with a death count within the range of 1-9 has been excluded from the dataset in accordance with National Center for Health Statistics(NCHS) confidentiality standards.";
+("");
 
 // five
 slideInformation[4].left =
 	"In 2020, males had the most total deaths (16,496,042). The State of California held the most deaths reported (2,904,873).";
 slideInformation[4].right =
 	"Highest deaths have been within the age of 85 years and over (8,146,148).";
-slideInformation[4].bottom = "";
+slideInformation[4].bottom =
+	"Some categories of data with a death count within the range of 1-9 has been excluded from the dataset in accordance with National Center for Health Statistics(NCHS) confidentiality standards.";
+("");
 
 let svg = d3.select("#wrapper");
 let chartTooltip, leftGraphTooltip, rightGraphTooltip;
@@ -455,17 +465,21 @@ let setInfo = function () {
 		"info-container-bottom"
 	);
 
-	informationContainerLeft.innerHTML = "<h3>Information:</h3>";
-	informationContainerRight.innerHTML = "<h3>Other Information:</h3>";
-	informationContainerBottom.innerHTML = "<h3>Some other Information:</h3>";
+	informationContainerLeft.innerHTML = "<h3>Deaths by Sex:</h3>";
+	informationContainerRight.innerHTML = "<h3>Deaths by Age Group:</h3>";
+	informationContainerBottom.innerHTML = "<h3>About the Dataset:</h3>";
 
 	let spanLeft = document.createElement("span");
 	let spanRight = document.createElement("span");
 	let spanBottom = document.createElement("span");
 
+	dateAnalyzed = filteredData[0]["Data As Of"];
+	let dateAnalyzedMessage =
+		"The data above was last analyzed on " + dateAnalyzed + ". ";
 	spanLeft.innerHTML += slideInformation[chosenSlide].left;
 	spanRight.innerHTML += slideInformation[chosenSlide].right;
-	spanBottom.innerHTML += slideInformation[chosenSlide].bottom;
+	spanBottom.innerHTML +=
+		dateAnalyzedMessage + slideInformation[chosenSlide].bottom;
 
 	informationContainerLeft.appendChild(spanLeft);
 	informationContainerRight.appendChild(spanRight);
