@@ -83,7 +83,7 @@ let userSelected = {
 let maleDeaths;
 let femaleDeaths;
 let stateHighestDeaths = { state: "", deaths: null };
-let ageHighestDeath = { ageGroup: "", deaths: null };
+let ageHighestDeath = { ageGroup: "", deaths: null, totalDeaths: null };
 
 let slideInformation = {
 	0: { left: "", right: "", bottom: "" },
@@ -95,33 +95,33 @@ let slideInformation = {
 
 // first
 slideInformation[0].left =
-	"In 2020, males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3])."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
+	"In [5], males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3])."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
 slideInformation[0].right =
-	"[0] death rate has been the highest for those within the age of [1] which accounts for {%} of [0] ([2])."; // 983,449 / 3,370,919
+	"[0] death rate has been the highest for those within the age of [1] which accounts for [3] of [0] ([2])."; // 983,449 / 3,370,919
 slideInformation[0].bottom =
 	"Some categories of data with a death count within the range of 1-9 has been excluded from the dataset in accordance with National Center for Health Statistics(NCHS) confidentiality standards.";
 
 // second
 slideInformation[1].left =
-	"In 2020, males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3])."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
+	"In [5], males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3])."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
 slideInformation[1].right =
-	"[0] death rate has been the highest for those within the age range of ([1]) which accounts for {%} of [0] ([2])."; // 14,923 / 71,845 = 20.78%
+	"[0] death rate has been the highest for those within the age range of [1] which accounts for [3] of [0] ([2])."; // 14,923 / 71,845 = 20.78%
 slideInformation[1].bottom =
 	"Some categories of data with a death count within the range of 1-9 has been excluded from the dataset in accordance with National Center for Health Statistics(NCHS) confidentiality standards.";
 ("");
 
 // third
 slideInformation[2].left =
-	"In 2020, males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3])."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
+	"In [5], males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3])."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
 slideInformation[2].right =
-	"[0] death rate has been the highest for those within the age of [1] which accounts for {%} of [0] ([2])."; //  818,447 / 3,099,823
+	"[0] death rate has been the highest for those within the age of [1] which accounts for [3] of [0] ([2])."; //  818,447 / 3,099,823
 slideInformation[2].bottom =
 	"Some categories of data with a death count within the range of 1-9 has been excluded from the dataset in accordance with National Center for Health Statistics(NCHS) confidentiality standards.";
 ("");
 
 // fourth
 slideInformation[3].left =
-	"In 2020, males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3])."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
+	"In [5], males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3])."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
 slideInformation[3].right =
 	"Death rate for [0] combined has been the highest for those within the age of [1] ([2]).";
 slideInformation[3].bottom =
@@ -130,9 +130,9 @@ slideInformation[3].bottom =
 
 // five
 slideInformation[4].left =
-	"In 2020, males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3])."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
+	"In [5], males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3])."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
 slideInformation[4].right =
-	"Highest overall deaths have been within the age of 85 years and over ([2]) which is {%} of [0].";
+	"Highest overall deaths have been within the age of 85 years and over ([2]) which is [3] of [0].";
 slideInformation[4].bottom =
 	"Some categories of data with a death count within the range of 1-9 has been excluded from the dataset in accordance with National Center for Health Statistics(NCHS) confidentiality standards.";
 ("");
@@ -158,7 +158,8 @@ let setSlideInformation = function () {
 	let leftString_1 = leftString_0.replace("[1]", formatter.format(maleDeaths));
 	let leftString_2 = leftString_1.replace("[2]", stateHighestDeaths.state);
 	let leftString_3 = leftString_2.replace("[4]", userSelected.chosenDeathType);
-	let finalString = leftString_3.replace(
+	let leftString_4 = leftString_3.replace("[5]", userSelected.chosenYear);
+	let finalString = leftString_4.replace(
 		"[3]",
 		formatter.format(stateHighestDeaths.deaths)
 	);
@@ -175,7 +176,12 @@ let setSlideInformation = function () {
 		"[2]",
 		formatter.format(ageHighestDeath.deaths)
 	);
-	finalString = rightString_3.replace("[0]", userSelected.chosenDeathType);
+	let rightString_4 = rightString_3.replace(
+		"[3]",
+		((ageHighestDeath.deaths / ageHighestDeath.totalDeaths) * 100).toFixed(2) +
+			"%"
+	);
+	finalString = rightString_4.replace("[0]", userSelected.chosenDeathType);
 
 	document.getElementById("info-right").innerHTML = "";
 	document.getElementById("info-right").innerHTML = finalString;
@@ -384,27 +390,30 @@ let setGraphOne = function () {
 
 let setGraphTwo = function () {
 	let data = getFilteredDataByAge();
-	let indexWithHighestDeaths = Object.keys(data).reduce(function (a, b) {
-		return data[a] > data[b] ? a : b;
-	});
 
-	ageHighestDeath.ageGroup = data[indexWithHighestDeaths]["Age Group"];
-	ageHighestDeath.deaths =
-		data[indexWithHighestDeaths][userSelected.chosenDeathType];
-
+	let totalOtherThanHighest = 0;
+	let indexWithHighestDeaths = 0;
 	let column = "Age Group";
 	let max = -1;
-	data.forEach((d) => {
+	data.forEach((d, i) => {
 		let deaths =
 			d[userSelected.chosenDeathType] != ""
 				? parseInt(d[userSelected.chosenDeathType])
 				: 0;
 		if (deaths > max) {
 			max = deaths;
+			indexWithHighestDeaths = i;
+		}
+		if (d["Age Group"] != ageHighestDeath.ageGroup) {
+			totalOtherThanHighest += d[userSelected.chosenDeathType];
 		}
 	});
+	ageHighestDeath.totalDeaths = totalOtherThanHighest;
+	ageHighestDeath.ageGroup = data[indexWithHighestDeaths]["Age Group"];
+	ageHighestDeath.deaths =
+		data[indexWithHighestDeaths][userSelected.chosenDeathType];
 
-	var margin = { top: 40, right: 40, bottom: 90, left: 60 },
+	let margin = { top: 40, right: 40, bottom: 90, left: 60 },
 		width = 320 - margin.left - margin.right,
 		height = 315 - margin.top - margin.bottom;
 
@@ -533,8 +542,6 @@ let setInfo = function () {
 	let dateAnalyzedMessage =
 		"The data above was last analyzed on " + dateAnalyzed + ". ";
 
-	// spanLeft.innerHTML += slideInformation[chosenSlide].left;
-	// spanRight.innerHTML += slideInformation[chosenSlide].right;
 	spanBottom.innerHTML +=
 		dateAnalyzedMessage + slideInformation[chosenSlide].bottom;
 
