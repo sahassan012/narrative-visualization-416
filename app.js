@@ -536,7 +536,7 @@ let setInfo = function () {
 	// spanLeft.innerHTML += slideInformation[chosenSlide].left;
 	// spanRight.innerHTML += slideInformation[chosenSlide].right;
 	// spanBottom.innerHTML +=
-	// 	dateAnalyzedMessage + slideInformation[chosenSlide].bottom;
+	dateAnalyzedMessage + slideInformation[chosenSlide].bottom;
 
 	informationContainerLeft.appendChild(spanLeft);
 	informationContainerRight.appendChild(spanRight);
