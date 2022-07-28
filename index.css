@@ -194,7 +194,7 @@ body {
 #container-left:hover,
 #container-right:hover
 /* #wrapper:hover */ {
-	background-color: rgba(46, 155, 179, 0.733);
+	/* background-color: rgba(46, 155, 179, 0.733); */
 }
 
 #graph-container-left {
