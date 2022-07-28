@@ -72,7 +72,9 @@ let chosenSlide = 0;
 
 let userSelected = {
 	chosenDeathType: ColumnCOVIDDeath,
+	chosenGroup: "By Year",
 	chosenYear: "2020",
+	chosenMonth: "",
 	chosenSex: "",
 	chosenAgeGroup: "",
 };
@@ -224,15 +226,16 @@ let getFilteredDataByAge = function () {
 let getFilteredDataBySex = function () {
 	let maleTotal = 0;
 	let femaleTotal = 0;
+	debugger;
 	filteredData.forEach((d) => {
-		if (d.Sex === "Female") {
+		if (d["Sex"] === "Female") {
 			femaleTotal +=
-				d[userSelected.chosenDeathType] != ""
+				d[userSelected.chosenDeathType] !== ""
 					? parseInt(d[userSelected.chosenDeathType])
 					: 0;
-		} else if (d.Sex === "Male") {
+		} else if (d["Sex"] === "Male") {
 			maleTotal +=
-				d[userSelected.chosenDeathType] != ""
+				d[userSelected.chosenDeathType] !== ""
 					? parseInt(d[userSelected.chosenDeathType])
 					: 0;
 		}
@@ -245,7 +248,6 @@ let getFilteredDataBySex = function () {
 	let femaleData = {};
 	femaleData["Sex"] = "Female";
 	femaleData[userSelected.chosenDeathType] = femaleTotal;
-
 	return [maleData, femaleData];
 };
 
@@ -525,7 +527,22 @@ let setStateDeathsMapping = function () {
 let setFilteredData = function () {
 	let data = JSON.parse(JSON.stringify(deathsData));
 	data = data.filter(function (d) {
-		return d["Year"] === userSelected.chosenYear;
+		if (d["State"] === "United States") {
+			return false;
+		}
+
+		if (userSelected.chosenGroup === "By Year") {
+			return (
+				d["Group"] === userSelected.chosenGroup &&
+				d["Year"] === userSelected.chosenYear
+			);
+		} else if (userSelected.chosenGroup === "By Month") {
+			return (
+				d["Group"] === userSelected.chosenGroup &&
+				d["Month"] === userSelected.chosenMonth
+			);
+		}
+		return false;
 	});
 	filteredData = data;
 };
