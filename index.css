@@ -141,9 +141,9 @@ body {
 	position: absolute;
 }
 #container-left {
-	min-width: 15.5%;
+	min-width: 17%;
 	height: 550px;
-	margin-right: 79%;
+	margin-right: 78%;
 	margin-top: 800px;
 	margin-bottom: 0.6%;
 	border-radius: 35px;
@@ -155,9 +155,9 @@ body {
 }
 
 #container-right {
-	min-width: 15.5%;
+	min-width: 17%;
 	height: 550px;
-	margin-right: -79%;
+	margin-right: -78%;
 	margin-top: 800px;
 	margin-bottom: 0.6%;
 	border-radius: 35px;
@@ -176,8 +176,8 @@ body {
 
 #graph-container-left {
 	background-color: rgba(46, 155, 179, 0.583);
-	width: 135%;
-	height: 300px;
+	width: 157%;
+	height: 325px;
 	border-radius: 10px;
 	margin-top: 20px;
 	margin-left: -7.5%;
@@ -185,8 +185,8 @@ body {
 
 #graph-container-right {
 	background-color: rgba(46, 155, 179, 0.583);
-	width: 135%;
-	height: 320px;
+	width: 157%;
+	height: 325px;
 	border-radius: 10px;
 	margin-top: 20px;
 	margin-left: -7.5%;
