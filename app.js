@@ -59,6 +59,7 @@ let deathsData;
 let filteredData;
 let dateAnalyzed;
 let stateDeathsMapping = {};
+let formatter = Intl.NumberFormat("en-US");
 
 const ColumnCOVIDDeath = "COVID-19 Deaths";
 const ColumnTotalDeath = "Total Deaths";
@@ -79,6 +80,11 @@ let userSelected = {
 	chosenAgeGroup: "",
 };
 
+let maleDeaths;
+let femaleDeaths;
+let stateHighestDeaths = { state: "", deaths: null };
+let ageHighestDeath = { ageGroup: "", deaths: null };
+
 let slideInformation = {
 	0: { left: "", right: "", bottom: "" },
 	1: { left: "", right: "", bottom: "" },
@@ -89,44 +95,44 @@ let slideInformation = {
 
 // first
 slideInformation[0].left =
-	"In 2020, males had 10.59% more deaths than females due to COVID-19 with a count of 1,863,902. The State of Texas held the most deaths reported (305,038)."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
+	"In 2020, males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3])."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
 slideInformation[0].right =
-	"COVID-19 death rate has been the highest for those within the age of 85 years and over (983,449) which accounts for 29.18% of COVID-19 deaths."; // 983,449 / 3,370,919
+	"[0] death rate has been the highest for those within the age of [1] which accounts for {%} of [0] ([2])."; // 983,449 / 3,370,919
 slideInformation[0].bottom =
 	"Some categories of data with a death count within the range of 1-9 has been excluded from the dataset in accordance with National Center for Health Statistics(NCHS) confidentiality standards.";
 
 // second
 slideInformation[1].left =
-	"In 2020, males had 5.93% more deaths than females due to Influenza with a count of 37,691. The State of California held the most deaths reported (7,431)."; // 37,691 / 71,845 (52.47%)  -  34,154 / 71,845 (46.54%)
+	"In 2020, males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3])."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
 slideInformation[1].right =
-	"Influenza death rate has been the highest for those within the age range of 50-64 years (14,923) which accounts for 20.78% of Influenza deaths."; // 14,923 / 71,845 = 20.78%
+	"[0] death rate has been the highest for those within the age range of ([1]) which accounts for {%} of [0] ([2])."; // 14,923 / 71,845 = 20.78%
 slideInformation[1].bottom =
 	"Some categories of data with a death count within the range of 1-9 has been excluded from the dataset in accordance with National Center for Health Statistics(NCHS) confidentiality standards.";
 ("");
 
 // third
 slideInformation[2].left =
-	"In 2020, males had 12.22% more deaths than females due to Pneumonia with a count of 1,739,493. The State of California held the most deaths reported (330,385)."; // 1,739,493 / 3,099,823  (56.12%)  -   1,360,330 / 3,099,823  (43.90%)
+	"In 2020, males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3])."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
 slideInformation[2].right =
-	"Pneumonia death rate has been the highest for those within the age of 85 years and over (818,447) which accounts for 26.40% of Pneumonia deaths."; //  818,447 / 3,099,823
+	"[0] death rate has been the highest for those within the age of [1] which accounts for {%} of [0] ([2])."; //  818,447 / 3,099,823
 slideInformation[2].bottom =
 	"Some categories of data with a death count within the range of 1-9 has been excluded from the dataset in accordance with National Center for Health Statistics(NCHS) confidentiality standards.";
 ("");
 
 // fourth
 slideInformation[3].left =
-	"In 2020, males had 9.69% more deaths than females due to COVID-19, Influenza, and Penumonia (2,725,792). The State of California held the most deaths reported (471,967)."; // 2,725,792 / 4,969,984 (54.845%)  - 2,244,192 / 4,969,984 (45.154%)
+	"In 2020, males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3])."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
 slideInformation[3].right =
-	"Death rate for COVID-19, Influenza, and Penumonia combined has been the highest for those within the age of 85 years and over (1,419,689).";
+	"Death rate for [0] combined has been the highest for those within the age of [1] ([2]).";
 slideInformation[3].bottom =
 	"Some categories of data with a death count within the range of 1-9 has been excluded from the dataset in accordance with National Center for Health Statistics(NCHS) confidentiality standards.";
 ("");
 
 // five
 slideInformation[4].left =
-	"In 2020, males had the most total deaths (16,496,042). The State of California held the most deaths reported (2,904,873).";
+	"In 2020, males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3])."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
 slideInformation[4].right =
-	"Highest deaths have been within the age of 85 years and over (8,146,148).";
+	"Highest overall deaths have been within the age of 85 years and over ([2]) which is {%} of [0].";
 slideInformation[4].bottom =
 	"Some categories of data with a death count within the range of 1-9 has been excluded from the dataset in accordance with National Center for Health Statistics(NCHS) confidentiality standards.";
 ("");
@@ -139,6 +145,41 @@ let leftMouseover, leftMouseleave, leftMousemove;
 let rightMouseover, rightMouseleave, rightMousemove;
 
 let stateColor;
+
+let setSlideInformation = function () {
+	let leftString_0 = slideInformation[chosenSlide].left.replace(
+		"[0]",
+		(
+			(maleDeaths / (maleDeaths + femaleDeaths) -
+				femaleDeaths / (maleDeaths + femaleDeaths)) *
+			100
+		).toFixed(2) + "%"
+	);
+	let leftString_1 = leftString_0.replace("[1]", formatter.format(maleDeaths));
+	let leftString_2 = leftString_1.replace("[2]", stateHighestDeaths.state);
+	let leftString_3 = leftString_2.replace("[4]", userSelected.chosenDeathType);
+	let finalString = leftString_3.replace(
+		"[3]",
+		formatter.format(stateHighestDeaths.deaths)
+	);
+	document.getElementById("info-left").innerHTML = "";
+	document.getElementById("info-left").innerHTML = finalString;
+
+	let rightString_0 = slideInformation[chosenSlide].right.replace();
+	let rightString_1 = rightString_0.replace(
+		"[0]",
+		userSelected.chosenDeathType
+	);
+	let rightString_2 = rightString_1.replace("[1]", ageHighestDeath.ageGroup);
+	let rightString_3 = rightString_2.replace(
+		"[2]",
+		formatter.format(ageHighestDeath.deaths)
+	);
+	finalString = rightString_3.replace("[0]", userSelected.chosenDeathType);
+
+	document.getElementById("info-right").innerHTML = "";
+	document.getElementById("info-right").innerHTML = finalString;
+};
 
 let changeToNextSlide = function () {
 	if (chosenSlide < 4) {
@@ -226,7 +267,6 @@ let getFilteredDataByAge = function () {
 let getFilteredDataBySex = function () {
 	let maleTotal = 0;
 	let femaleTotal = 0;
-	debugger;
 	filteredData.forEach((d) => {
 		if (d["Sex"] === "Female") {
 			femaleTotal +=
@@ -254,6 +294,10 @@ let getFilteredDataBySex = function () {
 let setGraphOne = function () {
 	let data = getFilteredDataBySex();
 	let column = "Sex";
+
+	maleDeaths = data[0][userSelected.chosenDeathType];
+	femaleDeaths = data[1][userSelected.chosenDeathType];
+
 	let max = Math.max(
 		parseInt(data[0][userSelected.chosenDeathType]),
 		parseInt(data[1][userSelected.chosenDeathType])
@@ -340,6 +384,14 @@ let setGraphOne = function () {
 
 let setGraphTwo = function () {
 	let data = getFilteredDataByAge();
+	let indexWithHighestDeaths = Object.keys(data).reduce(function (a, b) {
+		return data[a] > data[b] ? a : b;
+	});
+
+	ageHighestDeath.ageGroup = data[indexWithHighestDeaths]["Age Group"];
+	ageHighestDeath.deaths =
+		data[indexWithHighestDeaths][userSelected.chosenDeathType];
+
 	let column = "Age Group";
 	let max = -1;
 	data.forEach((d) => {
@@ -474,13 +526,17 @@ let setInfo = function () {
 	let spanRight = document.createElement("span");
 	let spanBottom = document.createElement("span");
 
+	spanLeft.id = "info-left";
+	spanRight.id = "info-right";
+
 	dateAnalyzed = filteredData[0]["Data As Of"];
 	let dateAnalyzedMessage =
 		"The data above was last analyzed on " + dateAnalyzed + ". ";
-	spanLeft.innerHTML += slideInformation[chosenSlide].left;
-	spanRight.innerHTML += slideInformation[chosenSlide].right;
-	spanBottom.innerHTML +=
-		dateAnalyzedMessage + slideInformation[chosenSlide].bottom;
+
+	// spanLeft.innerHTML += slideInformation[chosenSlide].left;
+	// spanRight.innerHTML += slideInformation[chosenSlide].right;
+	// spanBottom.innerHTML +=
+	// 	dateAnalyzedMessage + slideInformation[chosenSlide].bottom;
 
 	informationContainerLeft.appendChild(spanLeft);
 	informationContainerRight.appendChild(spanRight);
@@ -504,6 +560,7 @@ let setInfo = function () {
 };
 
 let setStateDeathsMapping = function () {
+	stateDeathsMapping = {};
 	for (let i = 0; i < filteredData.length; i++) {
 		let data = filteredData[i];
 		if (!stateDeathsMapping.hasOwnProperty(data["State"])) {
@@ -549,6 +606,13 @@ let setFilteredData = function () {
 
 let setStateColor = function () {
 	setStateDeathsMapping();
+	let state = Object.keys(stateDeathsMapping).reduce(function (a, b) {
+		return stateDeathsMapping[a] > stateDeathsMapping[b] ? a : b;
+	});
+
+	stateHighestDeaths.state = state;
+	stateHighestDeaths.deaths = stateDeathsMapping[state];
+
 	const deathsList = Object.keys(stateDeathsMapping)
 		.filter((state) => state !== "United States")
 		.map((state) => stateDeathsMapping[state]);
@@ -580,7 +644,6 @@ let createChartTooltip = function () {
 		chartTooltip.style("stroke", "solid").style("opacity", 1);
 	};
 	mousemove = function (stateDataItem) {
-		let formatter = Intl.NumberFormat("en-US");
 		let id = stateDataItem.target.__data__["id"];
 		let data = filteredData.filter((e) => {
 			return e["State"] === statesMapping[parseInt(id)];
@@ -625,7 +688,6 @@ let createLeftGraphtip = function () {
 		d3.select(this).style("stroke", "solid").style("opacity", 1);
 	};
 	leftMousemove = function (stateDataItem) {
-		let formatter = Intl.NumberFormat("en-US");
 		let sex = stateDataItem.currentTarget.__data__.Sex;
 		let data = filteredData.filter((e) => {
 			return e["Sex"] === sex;
@@ -672,7 +734,6 @@ let createRightGraphtip = function () {
 		d3.select(this).style("stroke", "solid").style("opacity", 1);
 	};
 	rightMousemove = function (stateDataItem) {
-		let formatter = Intl.NumberFormat("en-US");
 		let age = stateDataItem.currentTarget.__data__["Age Group"];
 		let data = filteredData.filter((e) => {
 			return e["Age Group"] === age;
@@ -726,6 +787,7 @@ let renderPage = function () {
 	setStateColor();
 	setInfo();
 	setSideGraphs();
+	setSlideInformation();
 
 	svg
 		.selectAll("path")
