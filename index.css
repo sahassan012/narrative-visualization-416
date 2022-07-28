@@ -32,8 +32,19 @@ path[data-state~="Hawaii"] {
 	filter: drop-shadow(0 20px 3px rgba(0, 0, 0, 0.7));
 }
 
-path[data-state~="California"]:hover {
-	filter: drop-shadow(0px 40px 2px rgb(0 0 0 / 0.7));
+path[data-state~="California"]:hover,
+path[data-state~="Arizona"]:hover,
+path[data-state~="Mexico"]:hover,
+path[data-state~="Texas"]:hover,
+path[data-state~="Louisiana"]:hover,
+path[data-state~="California"]:hover,
+path[data-state~="Hawaii"]:hover,
+path[data-state~="Alaska"]:hover {
+	filter: drop-shadow(0px 35px 5px rgb(0 0 0 / 0.7));
+}
+
+path[data-state~="Florida"]:hover {
+	filter: drop-shadow(0px 20px 5px rgb(0 0 0 / 0.7));
 }
 
 body {
@@ -192,9 +203,8 @@ body {
 }
 #description-bottom:hover,
 #container-left:hover,
-#container-right:hover
-/* #wrapper:hover */ {
-	/* background-color: rgba(46, 155, 179, 0.733); */
+#container-right:hover {
+	box-shadow: rgba(0, 0, 0, 0.8) 0px 8px 20px;
 }
 
 #graph-container-left {
