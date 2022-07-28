@@ -97,7 +97,7 @@ let slideInformation = {
 slideInformation[0].left =
 	"In [5], males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3])."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
 slideInformation[0].right =
-	"[0] death rate has been the highest for those within the age of [1] which accounts for [3] of [0] ([2])."; // 983,449 / 3,370,919
+	"[0] have been the highest for those within the age of [1] which accounts for [3] of overall [0] ([2])."; // 983,449 / 3,370,919
 slideInformation[0].bottom =
 	"Some categories of data with a death count within the range of 1-9 has been excluded from the dataset in accordance with National Center for Health Statistics(NCHS) confidentiality standards.";
 
@@ -105,7 +105,7 @@ slideInformation[0].bottom =
 slideInformation[1].left =
 	"In [5], males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3])."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
 slideInformation[1].right =
-	"[0] death rate has been the highest for those within the age range of [1] which accounts for [3] of [0] ([2])."; // 14,923 / 71,845 = 20.78%
+	"[0] have been the highest for those within the age range of [1] which accounts for [3] of overall [0] ([2])."; // 14,923 / 71,845 = 20.78%
 slideInformation[1].bottom =
 	"Some categories of data with a death count within the range of 1-9 has been excluded from the dataset in accordance with National Center for Health Statistics(NCHS) confidentiality standards.";
 ("");
@@ -114,7 +114,7 @@ slideInformation[1].bottom =
 slideInformation[2].left =
 	"In [5], males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3])."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
 slideInformation[2].right =
-	"[0] death rate has been the highest for those within the age of [1] which accounts for [3] of [0] ([2])."; //  818,447 / 3,099,823
+	"[0] have been the highest for those within the age of [1] which accounts for [3] of overall [0] ([2])."; //  818,447 / 3,099,823
 slideInformation[2].bottom =
 	"Some categories of data with a death count within the range of 1-9 has been excluded from the dataset in accordance with National Center for Health Statistics(NCHS) confidentiality standards.";
 ("");
@@ -123,7 +123,7 @@ slideInformation[2].bottom =
 slideInformation[3].left =
 	"In [5], males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3])."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
 slideInformation[3].right =
-	"Death rate for [0] combined has been the highest for those within the age of [1] ([2]).";
+	"The rate of [0] combined has been the highest for those within the age of [1] ([2]).";
 slideInformation[3].bottom =
 	"Some categories of data with a death count within the range of 1-9 has been excluded from the dataset in accordance with National Center for Health Statistics(NCHS) confidentiality standards.";
 ("");
