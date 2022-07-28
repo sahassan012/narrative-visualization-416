@@ -310,7 +310,7 @@ let setGraphOne = function () {
 	);
 
 	var margin = { top: 40, right: 40, bottom: 90, left: 60 },
-		width = 360 - margin.left - margin.right,
+		width = 380 - margin.left - margin.right,
 		height = 365 - margin.top - margin.bottom;
 
 	let svg = d3
@@ -414,7 +414,7 @@ let setGraphTwo = function () {
 		data[indexWithHighestDeaths][userSelected.chosenDeathType];
 
 	let margin = { top: 40, right: 40, bottom: 90, left: 60 },
-		width = 360 - margin.left - margin.right,
+		width = 375 - margin.left - margin.right,
 		height = 315 - margin.top - margin.bottom;
 
 	let svg = d3
