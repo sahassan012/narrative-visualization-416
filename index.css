@@ -82,7 +82,7 @@ body {
 	color: #ffffffb0;
 	position: absolute;
 	font-size: 13px;
-	top: 12%;
+	top: 11%;
 }
 #cause-year-container h1 {
 	text-align: center;
@@ -118,21 +118,33 @@ body {
 #description-bottom {
 	width: 95%;
 	height: 100px;
+	margin-top: 1600px;
+	position: absolute;
 	border-radius: 35px;
 	padding: 25px;
 	background-color: rgba(46, 154, 179, 0.265);
-	margin-top: 10px;
 	color: white;
 	box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px,
 		/*https://getcssscan.com/css-box-shadow-examples*/ rgba(0, 0, 0, 0.09) 0px
 			8px 4px,
 		rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
 }
-
+#outer-wrapper {
+	min-width: 1000px;
+	margin-top: 750px;
+	height: 600px;
+	margin-right: auto;
+	margin-left: auto;
+	margin-bottom: 0.6%;
+	border-radius: 35px;
+	color: white;
+	position: absolute;
+}
 #container-left {
 	min-width: 15.5%;
-	height: 600px;
+	height: 550px;
 	margin-right: 79%;
+	margin-top: 800px;
 	margin-bottom: 0.6%;
 	border-radius: 35px;
 	padding: 30px;
@@ -144,8 +156,9 @@ body {
 
 #container-right {
 	min-width: 15.5%;
-	height: 600px;
+	height: 550px;
 	margin-right: -79%;
+	margin-top: 800px;
 	margin-bottom: 0.6%;
 	border-radius: 35px;
 	padding: 25px;

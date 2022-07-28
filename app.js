@@ -446,7 +446,6 @@ let setInfo = function () {
 	h1_cause_year.innerHTML =
 		userSelected.chosenDeathType + " " + userSelected.chosenYear;
 	causeYearContainer.appendChild(h1_cause_year);
-	//deathTypeContainer.appendChild(h1_death);
 
 	// get chosen slide and enable all slide buttons except that one
 	let slideshowButtons = document.getElementsByClassName("slideshow-button");
@@ -544,7 +543,7 @@ let setStateColor = function () {
 
 let createChartTooltip = function () {
 	chartTooltip = d3
-		.select("#wrapperContainer")
+		.select("#outer-wrapper")
 		.append("div")
 		.style("opacity", 0)
 		.attr("class", "chartTooltip")
@@ -561,7 +560,7 @@ let createChartTooltip = function () {
 
 	mouseover = function () {
 		chartTooltip.style("opacity", 1);
-		d3.select(this).style("stroke", "solid").style("opacity", 1);
+		chartTooltip.style("stroke", "solid").style("opacity", 1);
 	};
 	mousemove = function (stateDataItem) {
 		let formatter = Intl.NumberFormat("en-US");
@@ -586,7 +585,7 @@ let createChartTooltip = function () {
 	mouseleave = function () {
 		chartTooltip.style("opacity", 0);
 		chartTooltip.transition().style("visibility", "none");
-		d3.select(this).style("stroke", "none").style("opacity", 1);
+		chartTooltip.style("stroke", "none").style("opacity", 0);
 	};
 };
 let createLeftGraphtip = function () {
