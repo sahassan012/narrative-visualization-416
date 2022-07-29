@@ -87,6 +87,7 @@ let userSelected = {
 let maleDeaths;
 let femaleDeaths;
 let stateHighestDeaths = { state: "", deaths: null };
+let stateHighestRatio = { state: "", ratio: null };
 let ageHighestDeath = { ageGroup: "", deaths: null, totalDeaths: null };
 
 let slideInformation = {
@@ -99,7 +100,7 @@ let slideInformation = {
 
 // first
 slideInformation[0].left =
-	"In [5], males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3]). The death-to-population ratio for [2] was [6]."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
+	"In [5], males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3]). The highest death-to-population ratio was for [6] with a rate of [7]."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
 slideInformation[0].right =
 	"[0] have been the highest for those within the age of [1] which accounts for [3] of overall [0] ([2])."; // 983,449 / 3,370,919
 slideInformation[0].bottom =
@@ -107,7 +108,7 @@ slideInformation[0].bottom =
 
 // second
 slideInformation[1].left =
-	"In [5], males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3]). The death-to-population ratio for [2] was [6]."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
+	"In [5], males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3]). The highest death-to-population ratio was for [6] with a rate of [7]."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
 slideInformation[1].right =
 	"[0] have been the highest for those within the age range of [1] which accounts for [3] of overall [0] ([2])."; // 14,923 / 71,845 = 20.78%
 slideInformation[1].bottom =
@@ -116,7 +117,7 @@ slideInformation[1].bottom =
 
 // third
 slideInformation[2].left =
-	"In [5], males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3]). The death-to-population ratio for [2] was [6]."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
+	"In [5], males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3]). The highest death-to-population ratio was for [6] with a rate of [7]."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
 slideInformation[2].right =
 	"[0] have been the highest for those within the age of [1] which accounts for [3] of overall [0] ([2])."; //  818,447 / 3,099,823
 slideInformation[2].bottom =
@@ -125,7 +126,7 @@ slideInformation[2].bottom =
 
 // fourth
 slideInformation[3].left =
-	"In [5], males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3]). The death-to-population ratio for [2] was [6]."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
+	"In [5], males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3]). The highest death-to-population ratio was for [6] with a rate of [7]."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
 slideInformation[3].right =
 	"The rate of [0] combined has been the highest for those within the age of [1] ([2]).";
 slideInformation[3].bottom =
@@ -134,7 +135,7 @@ slideInformation[3].bottom =
 
 // five
 slideInformation[4].left =
-	"In [5], males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3]). The death-to-population ratio for [2] was [6]."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
+	"In [5], males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3]). The highest death-to-population ratio was for [6] with a rate of [7]."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
 slideInformation[4].right =
 	"Highest overall deaths have been within the age of 85 years and over ([2]) which is [3] of [0].";
 slideInformation[4].bottom =
@@ -150,6 +151,97 @@ let rightMouseover, rightMouseleave, rightMousemove;
 
 let stateColor;
 
+let annotationRatio;
+let annotationDeaths;
+
+let setAnnotations = function () {
+	let body = document.body.getBoundingClientRect();
+	let highestDeathStateElem = document.querySelector(
+		'[data-state="' + stateHighestDeaths.state + '"]'
+	);
+	let highestRatioStateElem = document.querySelector(
+		'[data-state="' + stateHighestRatio.state + '"]'
+	);
+	if (!highestRatioStateElem || !highestDeathStateElem) {
+		return;
+	}
+
+	let state_death_info = highestDeathStateElem.getBoundingClientRect();
+	let state_ratio_info = highestRatioStateElem.getBoundingClientRect();
+
+	let xpos_ratio = Math.round(state_ratio_info.x - 405); //850
+	let ypos_ratio = Math.round(state_ratio_info.y - 160); //220
+
+	annotationRatio = [
+		{
+			note: {
+				title: "Highest Death-to-population Ratio",
+				label:
+					stateHighestRatio.state +
+					" - " +
+					(stateHighestRatio.ratio * 100).toFixed(2) +
+					"%",
+				align: "middle",
+				wrap: 300,
+				padding: 10,
+			},
+			color: ["red"],
+			x: null,
+			y: null,
+			dy: -150,
+			dx: -150,
+		},
+	];
+
+	annotationRatio[0].x = xpos_ratio;
+	annotationRatio[0].y = ypos_ratio;
+
+	let xpos_deaths = Math.round(state_death_info.x - 250); //-150
+	let ypos_deaths = Math.round(state_death_info.y - 100); //-150
+	annotationDeaths = [
+		{
+			note: {
+				title: "Highest Death Rate",
+				label:
+					stateHighestDeaths.state +
+					" - " +
+					formatter.format(stateHighestDeaths.deaths),
+				align: "middle",
+				wrap: 300,
+				padding: 10,
+			},
+			color: ["red"],
+			x: 450,
+			y: 450,
+			dy: -150,
+			dx: -150,
+		},
+	];
+
+	annotationDeaths[0].x = xpos_deaths;
+	annotationDeaths[0].y = ypos_deaths;
+};
+
+let updateAnnotations = function () {
+	let makeAnnotationsRatio;
+	if (annotationRatio && annotationRatio.length > 0) {
+		makeAnnotationsRatio = d3.annotation().annotations(annotationRatio);
+		d3.select("#wrapper")
+			.append("g")
+			.attr("class", "state-annotation")
+			.call(makeAnnotationsRatio);
+	}
+
+	let makeAnnotationsDeaths;
+	if (annotationDeaths && annotationDeaths.length > 0) {
+		makeAnnotationsDeaths = d3.annotation().annotations(annotationDeaths);
+		d3.select("#wrapper")
+			.append("g")
+			.attr("class", "state-annotation")
+			.call(makeAnnotationsDeaths);
+	}
+};
+
 let setSlideInformation = function () {
 	let leftString_0 = slideInformation[chosenSlide].left.replace(
 		"[0]",
@@ -164,14 +256,10 @@ let setSlideInformation = function () {
 	let leftString_3 = leftString_2.replace("[4]", userSelected.chosenDeathType);
 	let leftString_4 = leftString_3.replace("[5]", userSelected.chosenYear);
 	let leftString_5 = leftString_4.replace(
-		"[6]",
-		(
-			(stateDeathsPopulationMapping[stateHighestDeaths.state]["deathrate"] /
-				stateDeathsPopulationMapping[stateHighestDeaths.state]["population"]) *
-			100
-		).toFixed(2) + "%"
+		"[7]",
+		(stateHighestRatio.ratio * 100).toFixed(2) + "%"
 	);
-	let leftString_6 = leftString_5.replace("[2]", stateHighestDeaths.state);
+	let leftString_6 = leftString_5.replace("[6]", stateHighestRatio.state);
 	let finalString = leftString_6.replace(
 		"[3]",
 		formatter.format(stateHighestDeaths.deaths)
@@ -216,6 +304,10 @@ let changeToPrevSlide = function () {
 
 let updateSlide = function (slideNumber) {
 	chosenSlide = slideNumber;
+	let existingAnnotations = document.querySelectorAll(".state-annotation");
+	if (existingAnnotations.length > 0) {
+		existingAnnotations.forEach((a) => a.remove());
+	}
 	if (chosenSlide === 0) {
 		userSelected.chosenYear = "2020";
 		userSelected.chosenDeathType = ColumnCOVIDDeath;
@@ -233,6 +325,8 @@ let updateSlide = function (slideNumber) {
 		userSelected.chosenDeathType = ColumnTotalDeath;
 	}
 	renderPage();
+	setAnnotations();
+	updateAnnotations();
 };
 
 let updateGraph = function (svg, x, y, height, data, column) {
@@ -583,9 +677,6 @@ let setstateDeathsPopulationMapping = function () {
 	stateDeathsPopulationMapping = {};
 	for (let i = 0; i < filteredDeathData.length; i++) {
 		let data = filteredDeathData[i];
-		if (data["State"] === "New York City") {
-			continue;
-		}
 		let stateDoesNotExist = !stateDeathsPopulationMapping.hasOwnProperty(
 			data["State"]
 		);
@@ -604,7 +695,6 @@ let setstateDeathsPopulationMapping = function () {
 			if (!stateDeathsPopulationMapping.hasOwnProperty("deathrate")) {
 				stateDeathsPopulationMapping[data["State"]] = { deathrate: value };
 			} else {
-				let rate = stateDeathsPopulationMapping[data["State"]].deathrate;
 				stateDeathsPopulationMapping[data["State"]].deathrate += value;
 			}
 		}
@@ -614,8 +704,10 @@ let setstateDeathsPopulationMapping = function () {
 			let key = stateDeathsPopulationMapping[d["NAME"]];
 			if (userSelected.chosenYear === "2020") {
 				key["population"] = parseInt(d["POPESTIMATE2020"]);
+				key["rate"] = key["deathrate"] / parseInt(d["POPESTIMATE2020"]);
 			} else if (userSelected.chosenYear === "2021") {
 				key["population"] = parseInt(d["POPESTIMATE2021"]);
+				key["rate"] = key["deathrate"] / parseInt(d["POPESTIMATE2021"]);
 			}
 		}
 	});
@@ -624,7 +716,11 @@ let setstateDeathsPopulationMapping = function () {
 let setFilteredDeathData = function () {
 	let data = JSON.parse(JSON.stringify(deathsData));
 	data = data.filter(function (d) {
-		if (d["State"] === "United States") {
+		if (
+			d["State"] === "United States" ||
+			d["State"] === "New York City" ||
+			d["State"] === "District Of Columbia"
+		) {
 			return false;
 		}
 
@@ -645,22 +741,37 @@ let setFilteredDeathData = function () {
 };
 
 let setStateColor = function () {
-	let state = Object.keys(stateDeathsPopulationMapping).reduce(function (a, b) {
-		return stateDeathsPopulationMapping[a].deathrate >
-			stateDeathsPopulationMapping[b].deathrate
-			? a
-			: b;
-	});
+	let stateWithHighestDeaths = Object.keys(stateDeathsPopulationMapping).reduce(
+		function (a, b) {
+			return stateDeathsPopulationMapping[a].deathrate >
+				stateDeathsPopulationMapping[b].deathrate
+				? a
+				: b;
+		}
+	);
 
-	stateHighestDeaths.state = state;
-	stateHighestDeaths.deaths = stateDeathsPopulationMapping[state].deathrate;
+	stateHighestDeaths.state = stateWithHighestDeaths;
+	stateHighestDeaths.deaths =
+		stateDeathsPopulationMapping[stateWithHighestDeaths].deathrate;
+
+	let stateWithHighestRate = Object.keys(stateDeathsPopulationMapping).reduce(
+		function (a, b) {
+			return stateDeathsPopulationMapping[a].rate >
+				stateDeathsPopulationMapping[b].rate
+				? a
+				: b;
+		}
+	);
+	stateHighestRatio.state = stateWithHighestRate;
+	stateHighestRatio.ratio =
+		stateDeathsPopulationMapping[stateWithHighestRate].rate;
 
 	const deathsList = Object.keys(stateDeathsPopulationMapping)
 		.filter((state) => state !== "United States")
 		.map((state) => stateDeathsPopulationMapping[state].deathrate);
 	stateColor = d3
 		.scaleLinear()
-		.domain([Math.min(...deathsList) + 4000, Math.max(...deathsList)])
+		.domain([Math.min(...deathsList), Math.max(...deathsList)])
 		.range(["white", "red"]);
 };
 
@@ -831,7 +942,6 @@ let createTooltips = function () {
 let renderPage = function () {
 	setFilteredDeathData();
 	setstateDeathsPopulationMapping();
-	// setFilteredPopulationData();
 	createTooltips();
 	setStateColor();
 	setInfo();
@@ -897,7 +1007,7 @@ d3.json(stateGeoJSONURL).then(function (data, err) {
 						console.log(err);
 					} else {
 						populationData = data;
-						renderPage();
+						updateSlide(0);
 					}
 				});
 			}
