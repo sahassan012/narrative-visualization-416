@@ -430,7 +430,10 @@ let updateAnnotations = function () {
 	if (annotations[chosenSlide] && annotations[chosenSlide].length > 0) {
 		makeAnnotationsRatio = d3
 			.annotation()
+			.editMode(true)
+			.type(d3.annotationCalloutElbow)
 			.annotations(annotations[chosenSlide][0]);
+
 		d3.select("#wrapper")
 			.append("g")
 			.attr("class", "state-annotation")
@@ -441,6 +444,8 @@ let updateAnnotations = function () {
 	if (annotations[chosenSlide] && annotations[chosenSlide].length > 0) {
 		makeAnnotationsDeaths = d3
 			.annotation()
+			.editMode(true)
+			.type(d3.annotationCalloutElbow)
 			.annotations(annotations[chosenSlide][1]);
 		d3.select("#wrapper")
 			.append("g")
