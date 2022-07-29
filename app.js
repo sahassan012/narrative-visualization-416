@@ -534,8 +534,17 @@ let updateTime = function () {
 	let elem = document.getElementById("timeSliderRange");
 	let val = parseInt(elem.value);
 
-	timelineValues.year = "2020";
-	timelineValues.month = "1";
+	// timelineValues.year = "2020";
+	// timelineValues.month = "1";
+
+	let endDate = timelineValues.latestDate;
+	const dates = [];
+	while (date <= endDate) {
+		dates.push(new Date(date));
+		date.setDate(date.getDate() + 1);
+	}
+
+	debugger; // find highest and lowest and determien year/month based on that
 
 	userSelected.chosenMonth = timelineValues.month;
 	userSelected.chosenYear = timelineValues.year;
