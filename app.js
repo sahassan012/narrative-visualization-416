@@ -169,8 +169,8 @@ let setAnnotations = function () {
 	let state_death_info = highestDeathStateElem.getBoundingClientRect();
 	let state_ratio_info = highestRatioStateElem.getBoundingClientRect();
 
-	let xpos_ratio = Math.round(state_ratio_info.x - 405); //850
-	let ypos_ratio = Math.round(state_ratio_info.y - 160); //220
+	let xpos_ratio = Math.round(state_ratio_info.x - 395); //850
+	let ypos_ratio = Math.round(state_ratio_info.y - 150); //220
 
 	annotationRatio = [
 		{
@@ -188,7 +188,7 @@ let setAnnotations = function () {
 			color: ["red"],
 			x: null,
 			y: null,
-			dy: -150,
+			dy: -155,
 			dx: -150,
 		},
 	];
@@ -196,8 +196,8 @@ let setAnnotations = function () {
 	annotationRatio[0].x = xpos_ratio;
 	annotationRatio[0].y = ypos_ratio;
 
-	let xpos_deaths = Math.round(state_death_info.x - 250); //-150
-	let ypos_deaths = Math.round(state_death_info.y - 100); //-150
+	let xpos_deaths = Math.round(state_death_info.x - 325); //-150
+	let ypos_deaths = Math.round(state_death_info.y - 60); //-150
 	annotationDeaths = [
 		{
 			note: {
@@ -213,8 +213,8 @@ let setAnnotations = function () {
 			color: ["red"],
 			x: 450,
 			y: 450,
-			dy: -150,
-			dx: -150,
+			dy: 100,
+			dx: 180,
 		},
 	];
 
