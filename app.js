@@ -1,5 +1,7 @@
 let stateGeoJSONURL = "./US_geo.json";
 let deathsDataURL = "./Provisional_COVID-19_Deaths_by_Sex_and_Age.csv";
+let populationDataURL = "./NST-EST2021-popchg2020_2021.csv";
+
 let statesMapping = {
 	01: "Alabama",
 	02: "Alaska",
@@ -55,10 +57,12 @@ let statesMapping = {
 
 let statesData;
 let deathsData;
+let populationData;
 
-let filteredData;
+let filteredDeathData;
+let filteredPopulationData;
 let dateAnalyzed;
-let stateDeathsMapping = {};
+let stateDeathsPopulationMapping = {};
 let formatter = Intl.NumberFormat("en-US");
 
 const ColumnCOVIDDeath = "COVID-19 Deaths";
@@ -95,7 +99,7 @@ let slideInformation = {
 
 // first
 slideInformation[0].left =
-	"In [5], males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3])."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
+	"In [5], males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3]). The death-to-population ratio for [2] was [6]."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
 slideInformation[0].right =
 	"[0] have been the highest for those within the age of [1] which accounts for [3] of overall [0] ([2])."; // 983,449 / 3,370,919
 slideInformation[0].bottom =
@@ -103,7 +107,7 @@ slideInformation[0].bottom =
 
 // second
 slideInformation[1].left =
-	"In [5], males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3])."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
+	"In [5], males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3]). The death-to-population ratio for [2] was [6]."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
 slideInformation[1].right =
 	"[0] have been the highest for those within the age range of [1] which accounts for [3] of overall [0] ([2])."; // 14,923 / 71,845 = 20.78%
 slideInformation[1].bottom =
@@ -112,7 +116,7 @@ slideInformation[1].bottom =
 
 // third
 slideInformation[2].left =
-	"In [5], males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3])."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
+	"In [5], males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3]). The death-to-population ratio for [2] was [6]."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
 slideInformation[2].right =
 	"[0] have been the highest for those within the age of [1] which accounts for [3] of overall [0] ([2])."; //  818,447 / 3,099,823
 slideInformation[2].bottom =
@@ -121,7 +125,7 @@ slideInformation[2].bottom =
 
 // fourth
 slideInformation[3].left =
-	"In [5], males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3])."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
+	"In [5], males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3]). The death-to-population ratio for [2] was [6]."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
 slideInformation[3].right =
 	"The rate of [0] combined has been the highest for those within the age of [1] ([2]).";
 slideInformation[3].bottom =
@@ -130,7 +134,7 @@ slideInformation[3].bottom =
 
 // five
 slideInformation[4].left =
-	"In [5], males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3])."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
+	"In [5], males had [0] more deaths than females due to [4] with a count of [1]. The State of [2] held the most deaths reported ([3]). The death-to-population ratio for [2] was [6]."; //  1,863,902/3,370,919 (55.29%)  -  1,507,017/3,370,919 (44.70%)
 slideInformation[4].right =
 	"Highest overall deaths have been within the age of 85 years and over ([2]) which is [3] of [0].";
 slideInformation[4].bottom =
@@ -159,7 +163,16 @@ let setSlideInformation = function () {
 	let leftString_2 = leftString_1.replace("[2]", stateHighestDeaths.state);
 	let leftString_3 = leftString_2.replace("[4]", userSelected.chosenDeathType);
 	let leftString_4 = leftString_3.replace("[5]", userSelected.chosenYear);
-	let finalString = leftString_4.replace(
+	let leftString_5 = leftString_4.replace(
+		"[6]",
+		(
+			(stateDeathsPopulationMapping[stateHighestDeaths.state]["deathrate"] /
+				stateDeathsPopulationMapping[stateHighestDeaths.state]["population"]) *
+			100
+		).toFixed(2) + "%"
+	);
+	let leftString_6 = leftString_5.replace("[2]", stateHighestDeaths.state);
+	let finalString = leftString_6.replace(
 		"[3]",
 		formatter.format(stateHighestDeaths.deaths)
 	);
@@ -242,9 +255,9 @@ let updateGraph = function (svg, x, y, height, data, column) {
 		});
 };
 
-let getFilteredDataByAge = function () {
+let getfilteredDeathDataByAge = function () {
 	let temp = {};
-	filteredData.forEach((d) => {
+	filteredDeathData.forEach((d) => {
 		if (temp.hasOwnProperty(d["Age Group"])) {
 			temp[d["Age Group"]] +=
 				d[userSelected.chosenDeathType] != ""
@@ -270,10 +283,10 @@ let getFilteredDataByAge = function () {
 	return data;
 };
 
-let getFilteredDataBySex = function () {
+let getfilteredDeathDataBySex = function () {
 	let maleTotal = 0;
 	let femaleTotal = 0;
-	filteredData.forEach((d) => {
+	filteredDeathData.forEach((d) => {
 		if (d["Sex"] === "Female") {
 			femaleTotal +=
 				d[userSelected.chosenDeathType] !== ""
@@ -298,7 +311,7 @@ let getFilteredDataBySex = function () {
 };
 
 let setGraphOne = function () {
-	let data = getFilteredDataBySex();
+	let data = getfilteredDeathDataBySex();
 	let column = "Sex";
 
 	maleDeaths = data[0][userSelected.chosenDeathType];
@@ -389,7 +402,7 @@ let setGraphOne = function () {
 };
 
 let setGraphTwo = function () {
-	let data = getFilteredDataByAge();
+	let data = getfilteredDeathDataByAge();
 
 	let totalOtherThanHighest = 0;
 	let indexWithHighestDeaths = 0;
@@ -538,7 +551,7 @@ let setInfo = function () {
 	spanLeft.id = "info-left";
 	spanRight.id = "info-right";
 
-	dateAnalyzed = filteredData[0]["Data As Of"];
+	dateAnalyzed = filteredDeathData[0]["Data As Of"];
 	let dateAnalyzedMessage =
 		"The data above was last analyzed on " + dateAnalyzed + ". ";
 
@@ -566,29 +579,49 @@ let setInfo = function () {
 	informationContainerRight.append(graphRightContainer);
 };
 
-let setStateDeathsMapping = function () {
-	stateDeathsMapping = {};
-	for (let i = 0; i < filteredData.length; i++) {
-		let data = filteredData[i];
-		if (!stateDeathsMapping.hasOwnProperty(data["State"])) {
-			let value = filteredData
-				.filter((d) => d["State"] === data["State"])
-				.reduce((acc, object) => {
-					return (
-						acc +
-						parseInt(
-							object[userSelected.chosenDeathType] !== ""
-								? object[userSelected.chosenDeathType]
-								: "0"
-						)
-					);
-				}, 0);
-			stateDeathsMapping[data["State"]] = value;
+let setstateDeathsPopulationMapping = function () {
+	stateDeathsPopulationMapping = {};
+	for (let i = 0; i < filteredDeathData.length; i++) {
+		let data = filteredDeathData[i];
+		if (data["State"] === "New York City") {
+			continue;
+		}
+		let stateDoesNotExist = !stateDeathsPopulationMapping.hasOwnProperty(
+			data["State"]
+		);
+
+		if (stateDoesNotExist) {
+			let value = filteredDeathData.filter((d) => d["State"] === data["State"]);
+			value = value.reduce((rate, object) => {
+				let existingRate = parseInt(
+					object[userSelected.chosenDeathType] !== ""
+						? object[userSelected.chosenDeathType]
+						: "0"
+				);
+				return rate + existingRate;
+			}, 0);
+
+			if (!stateDeathsPopulationMapping.hasOwnProperty("deathrate")) {
+				stateDeathsPopulationMapping[data["State"]] = { deathrate: value };
+			} else {
+				let rate = stateDeathsPopulationMapping[data["State"]].deathrate;
+				stateDeathsPopulationMapping[data["State"]].deathrate += value;
+			}
 		}
 	}
+	populationData.forEach((d) => {
+		if (stateDeathsPopulationMapping.hasOwnProperty(d["NAME"])) {
+			let key = stateDeathsPopulationMapping[d["NAME"]];
+			if (userSelected.chosenYear === "2020") {
+				key["population"] = parseInt(d["POPESTIMATE2020"]);
+			} else if (userSelected.chosenYear === "2021") {
+				key["population"] = parseInt(d["POPESTIMATE2021"]);
+			}
+		}
+	});
 };
 
-let setFilteredData = function () {
+let setFilteredDeathData = function () {
 	let data = JSON.parse(JSON.stringify(deathsData));
 	data = data.filter(function (d) {
 		if (d["State"] === "United States") {
@@ -608,21 +641,23 @@ let setFilteredData = function () {
 		}
 		return false;
 	});
-	filteredData = data;
+	filteredDeathData = data;
 };
 
 let setStateColor = function () {
-	setStateDeathsMapping();
-	let state = Object.keys(stateDeathsMapping).reduce(function (a, b) {
-		return stateDeathsMapping[a] > stateDeathsMapping[b] ? a : b;
+	let state = Object.keys(stateDeathsPopulationMapping).reduce(function (a, b) {
+		return stateDeathsPopulationMapping[a].deathrate >
+			stateDeathsPopulationMapping[b].deathrate
+			? a
+			: b;
 	});
 
 	stateHighestDeaths.state = state;
-	stateHighestDeaths.deaths = stateDeathsMapping[state];
+	stateHighestDeaths.deaths = stateDeathsPopulationMapping[state].deathrate;
 
-	const deathsList = Object.keys(stateDeathsMapping)
+	const deathsList = Object.keys(stateDeathsPopulationMapping)
 		.filter((state) => state !== "United States")
-		.map((state) => stateDeathsMapping[state]);
+		.map((state) => stateDeathsPopulationMapping[state].deathrate);
 	stateColor = d3
 		.scaleLinear()
 		.domain([Math.min(...deathsList) + 4000, Math.max(...deathsList)])
@@ -641,7 +676,7 @@ let createChartTooltip = function () {
 		.style("border", "dashed")
 		.style("border-width", "0.1px")
 		.style("border-radius", "5px")
-		.style("width", "150px")
+		.style("width", "200px")
 		.style("text-align", "center")
 		.style("padding", "5px")
 		.style("position", "relative");
@@ -652,18 +687,23 @@ let createChartTooltip = function () {
 	};
 	mousemove = function (stateDataItem) {
 		let id = stateDataItem.target.__data__["id"];
-		let data = filteredData.filter((e) => {
+		let data = filteredDeathData.filter((e) => {
 			return e["State"] === statesMapping[parseInt(id)];
 		});
+		let state = data[0]["State"];
 		let deaths = sumDeaths(data);
+		let population = stateDeathsPopulationMapping[state].population;
 		chartTooltip.attr("data-deaths", deaths);
 
 		chartTooltip
 			.html(
 				"<p>State: " +
-					data[0]["State"] +
-					"</br></p><p>Deaths: " +
+					state +
+					"</br></p><p>" +
+					"Deaths: " +
 					formatter.format(deaths) +
+					"</p><p>Population: " +
+					formatter.format(population) +
 					"</p>"
 			)
 			.style("left", d3.pointer(event)[0] + 30 + "px")
@@ -696,7 +736,7 @@ let createLeftGraphtip = function () {
 	};
 	leftMousemove = function (stateDataItem) {
 		let sex = stateDataItem.currentTarget.__data__.Sex;
-		let data = filteredData.filter((e) => {
+		let data = filteredDeathData.filter((e) => {
 			return e["Sex"] === sex;
 		});
 		let deaths = sumDeaths(data);
@@ -742,7 +782,7 @@ let createRightGraphtip = function () {
 	};
 	rightMousemove = function (stateDataItem) {
 		let age = stateDataItem.currentTarget.__data__["Age Group"];
-		let data = filteredData.filter((e) => {
+		let data = filteredDeathData.filter((e) => {
 			return e["Age Group"] === age;
 		});
 		let deaths = sumDeaths(data);
@@ -789,7 +829,9 @@ let createTooltips = function () {
 };
 
 let renderPage = function () {
-	setFilteredData();
+	setFilteredDeathData();
+	setstateDeathsPopulationMapping();
+	// setFilteredPopulationData();
 	createTooltips();
 	setStateColor();
 	setInfo();
@@ -808,7 +850,7 @@ let renderPage = function () {
 		})
 		.attr("fill", (stateDataItem) => {
 			let id = stateDataItem["id"];
-			let data = filteredData.filter((e) => {
+			let data = filteredDeathData.filter((e) => {
 				return e["State"] === statesMapping[parseInt(id)];
 			});
 			let deaths = sumDeaths(data);
@@ -820,7 +862,7 @@ let renderPage = function () {
 		)
 		.attr("data-deaths", (stateDataItem) => {
 			let id = stateDataItem["id"];
-			let data = filteredData.filter((e) => {
+			let data = filteredDeathData.filter((e) => {
 				return e["State"] === statesMapping[parseInt(id)];
 			});
 			return sumDeaths(data);
@@ -850,7 +892,14 @@ d3.json(stateGeoJSONURL).then(function (data, err) {
 				console.log(err);
 			} else {
 				deathsData = data;
-				renderPage();
+				d3.csv(populationDataURL).then(function (data, err) {
+					if (err) {
+						console.log(err);
+					} else {
+						populationData = data;
+						renderPage();
+					}
+				});
 			}
 		});
 	}

@@ -10,3 +10,5 @@
 ### css styling inspriation: https://getcssscan.com/css-box-shadow-examples
 
 ### tooltip: https://d3-graph-gallery.com/graph/scatter_tooltip.html
+
+### https://www.census.gov/data/tables/time-series/demo/popest/2020s-state-total.html#par_textimage
