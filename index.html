@@ -23,17 +23,19 @@
 			<button class="slideshow-button" onclick="updateSlide(2)">3</button>
 			<button class="slideshow-button" onclick="updateSlide(3)">4</button>
 			<button class="slideshow-button" onclick="updateSlide(4)">5</button>
-			<button class="slideshow-button btn-left" onclick="changeToPrevSlide()">
+			<!-- <button class="slideshow-button btn-left" onclick="changeToPrevSlide()">
 				&#8592;
-			</button>
+			</button> -->
 			<button class="slideshow-button btn-right" onclick="changeToNextSlide()">
 				&#8594;
 			</button>
 		</div>
 
 		<div id="cause-year-container"></div>
-
+		<button id='switchToExplorationModeBtn' class="slideshow-button" onclick="switchToExplorationMode()">Start Exploration Mode</button>
 		<div id="timeSliderRangeContainer" class="timeSliderContainer">
+			<label id="startTimelineLabel" style="float:left; margin-top:-25px;">2019</label>
+			<label id="endTimelineLabel" style="float:right; margin-top:-25px;">2022</label>
 			<input
 				type="range"
 				min="1"
@@ -41,7 +43,9 @@
 				value="0"
 				class="timeSlider"
 				id="timeSliderRange"
-			/>
+				oninput="updateTime()"
+				onchange="updateTime()"
+			></input>
 		</div>
 
 		<div id="outer-wrapper">

@@ -61,6 +61,10 @@ let populationData;
 
 let filteredDeathData;
 let filteredPopulationData;
+
+let filteredDeathData_timeline;
+let filteredPopulationData_timeline;
+
 let dateAnalyzed;
 let stateDeathsPopulationMapping = {};
 
@@ -85,6 +89,13 @@ let userSelected = {
 	chosenMonth: "",
 	chosenSex: "",
 	chosenAgeGroup: "",
+};
+
+let timelineValues = {
+	year: "",
+	month: "",
+	earliestDate: null,
+	latestDate: null,
 };
 
 let maleDeaths;
@@ -519,11 +530,25 @@ let changeToPrevSlide = function () {
 	}
 };
 
+let updateTime = function () {
+	let elem = document.getElementById("timeSliderRange");
+	let val = parseInt(elem.value);
+
+	timelineValues.year = "2020";
+	timelineValues.month = "1";
+
+	userSelected.chosenMonth = timelineValues.month;
+	userSelected.chosenYear = timelineValues.year;
+	renderPage();
+};
+
 let showTimeSlider = function () {
+	document.getElementById("switchToExplorationModeBtn").style.display = "none";
 	document.getElementById("timeSliderRangeContainer").style.display = "";
 };
 
 let hideTimeSlider = function () {
+	document.getElementById("switchToExplorationModeBtn").style.display = "none";
 	document.getElementById("timeSliderRangeContainer").style.display = "none";
 	("hidden;");
 };
@@ -537,9 +562,6 @@ let updateSlide = function (slideNumber) {
 	if (chosenSlide === 0) {
 		userSelected.chosenYear = "2020";
 		userSelected.chosenDeathType = ColumnCOVIDDeath;
-		if (!timeSliderIsVisible) {
-			hideTimeSlider();
-		}
 	} else if (chosenSlide === 1) {
 		userSelected.chosenYear = "2020";
 		userSelected.chosenDeathType = ColumnInfluenzaDeath;
@@ -552,15 +574,25 @@ let updateSlide = function (slideNumber) {
 	} else if (chosenSlide === 4) {
 		userSelected.chosenYear = "2020";
 		userSelected.chosenDeathType = ColumnTotalDeath;
-		timeSliderIsVisible = true;
+		if (!timeSliderIsVisible) {
+			document.getElementById("switchToExplorationModeBtn").style.display = "";
+		}
 	}
 
+	renderPage();
 	if (timeSliderIsVisible) {
 		showTimeSlider();
 	}
-	renderPage();
-	setAnnotations();
-	updateAnnotations();
+	if (!timeSliderIsVisible) {
+		setAnnotations();
+		updateAnnotations();
+	}
+};
+
+let switchToExplorationMode = function () {
+	showTimeSlider();
+	timeSliderIsVisible = true;
+	document.querySelectorAll(".state-annotation").forEach((a) => a.remove());
 };
 
 let updateGraph = function (svg, x, y, height, data, column) {
@@ -958,24 +990,62 @@ let setFilteredDeathData = function () {
 			return false;
 		}
 
-		if (userSelected.chosenGroup === "By Year") {
-			return (
-				d["Group"] === userSelected.chosenGroup &&
-				d["Year"] === userSelected.chosenYear
-			);
-		} else if (userSelected.chosenGroup === "By Month") {
-			return (
-				d["Group"] === userSelected.chosenGroup &&
-				d["Month"] === userSelected.chosenMonth
-			);
+		if (timeSliderIsVisible && timelineValues.year && timelineValues.month) {
+			return d["Group"] === "By Month";
+		} else {
+			if (userSelected.chosenGroup === "By Year") {
+				return (
+					d["Group"] === userSelected.chosenGroup &&
+					d["Year"] === userSelected.chosenYear
+				);
+			} else if (userSelected.chosenGroup === "By Month") {
+				return (
+					d["Group"] === userSelected.chosenGroup &&
+					d["Month"] === userSelected.chosenMonth
+				);
+			}
 		}
 		return false;
 	});
 	filteredDeathData = data;
+
+	if (timeSliderIsVisible && timelineValues.year && timelineValues.month) {
+		// get earliest and latest year/month
+		let rowWithLatestDate = filteredDeathData.reduce(function (a, b) {
+			let a_date = new Date(a.Year + "/" + a.Month);
+			let b_date = new Date(b.Year + "/" + b.Month);
+			return a_date > b_date ? a : b;
+		});
+		timelineValues.latestDate = new Date(
+			rowWithLatestDate.Year + "/" + rowWithLatestDate.Month
+		);
+
+		let rowWithEarliestDate = filteredDeathData.reduce(function (a, b) {
+			let a_date = new Date(a.Year + "/" + a.Month);
+			let b_date = new Date(b.Year + "/" + b.Month);
+			return a_date < b_date ? a : b;
+		});
+		timelineValues.earliestDate = new Date(
+			rowWithEarliestDate.Year + "/" + rowWithEarliestDate.Month
+		);
+
+		filteredDeathData = filteredDeathData.filter(function (d) {
+			return (
+				d["Year"] === timelineValues.year && d["Month"] === timelineValues.month
+			);
+		});
+	}
 };
 
 let setStateColor = function () {
-	let stateWithHighestDeaths = Object.keys(stateDeathsPopulationMapping).reduce(
+	let stateWithHighestDeaths;
+	if (
+		!Object.keys(stateDeathsPopulationMapping) ||
+		Object.keys(stateDeathsPopulationMapping).length === 0
+	) {
+		return;
+	}
+	stateWithHighestDeaths = Object.keys(stateDeathsPopulationMapping).reduce(
 		function (a, b) {
 			return stateDeathsPopulationMapping[a].deathrate >
 				stateDeathsPopulationMapping[b].deathrate
@@ -1242,6 +1312,7 @@ d3.json(stateGeoJSONURL).then(function (data, err) {
 					} else {
 						populationData = data;
 						updateSlide(0);
+						hideTimeSlider();
 					}
 				});
 			}
