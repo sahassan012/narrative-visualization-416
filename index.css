@@ -113,10 +113,10 @@ body {
 #cause-year-container {
 	width: 55%;
 	padding: 12px;
-	color: #ffffffb0;
+	color: rgba(245, 245, 245, 0.806);
 	position: absolute;
 	font-size: 13px;
-	top: 11%;
+	top: 6%;
 }
 #cause-year-container h1 {
 	text-align: center;

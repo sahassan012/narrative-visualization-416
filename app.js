@@ -63,7 +63,9 @@ let filteredDeathData;
 let filteredPopulationData;
 let dateAnalyzed;
 let stateDeathsPopulationMapping = {};
+
 let formatter = Intl.NumberFormat("en-US");
+let annotationColor = "#f10004ed";
 
 const ColumnCOVIDDeath = "COVID-19 Deaths";
 const ColumnTotalDeath = "Total Deaths";
@@ -151,81 +153,284 @@ let rightMouseover, rightMouseleave, rightMousemove;
 
 let stateColor;
 
-let annotationRatio;
-let annotationDeaths;
+let annotations;
 
 let setAnnotations = function () {
-	let body = document.body.getBoundingClientRect();
-	let highestDeathStateElem = document.querySelector(
-		'[data-state="' + stateHighestDeaths.state + '"]'
-	);
-	let highestRatioStateElem = document.querySelector(
-		'[data-state="' + stateHighestRatio.state + '"]'
-	);
-	if (!highestRatioStateElem || !highestDeathStateElem) {
-		return;
-	}
-
-	let state_death_info = highestDeathStateElem.getBoundingClientRect();
-	let state_ratio_info = highestRatioStateElem.getBoundingClientRect();
-
-	let xpos_ratio = Math.round(state_ratio_info.x - 395); //850
-	let ypos_ratio = Math.round(state_ratio_info.y - 150); //220
-
-	annotationRatio = [
-		{
-			note: {
-				title: "Highest Death-to-population Ratio",
-				label:
-					stateHighestRatio.state +
-					" - " +
-					(stateHighestRatio.ratio * 100).toFixed(2) +
-					"%",
-				align: "middle",
-				wrap: 300,
-				padding: 10,
-			},
-			color: ["red"],
-			x: null,
-			y: null,
-			dy: -155,
-			dx: -150,
-		},
-	];
-
-	annotationRatio[0].x = xpos_ratio;
-	annotationRatio[0].y = ypos_ratio;
-
-	let xpos_deaths = Math.round(state_death_info.x - 325); //-150
-	let ypos_deaths = Math.round(state_death_info.y - 60); //-150
-	annotationDeaths = [
-		{
-			note: {
-				title: "Highest Death Rate",
-				label:
-					stateHighestDeaths.state +
-					" - " +
-					formatter.format(stateHighestDeaths.deaths),
-				align: "middle",
-				wrap: 300,
-				padding: 10,
-			},
-			color: ["red"],
-			x: 450,
-			y: 450,
-			dy: 100,
-			dx: 180,
-		},
-	];
-
-	annotationDeaths[0].x = xpos_deaths;
-	annotationDeaths[0].y = ypos_deaths;
+	annotations = {
+		0: [
+			[
+				{
+					note: {
+						title: "Highest Death-to-population Ratio",
+						label:
+							stateHighestRatio.state +
+							" - " +
+							(stateHighestRatio.ratio * 100).toFixed(2) +
+							"%",
+						align: "middle",
+						wrap: 300,
+						padding: 10,
+					},
+					connector: {
+						end: "dot", // none, or arrow or dot
+						type: "lne", // Line or curve
+						points: 1, // Number of break in the curve
+						lineType: "horizontal",
+					},
+					color: [annotationColor],
+					x: 852,
+					y: 225,
+					dy: -155,
+					dx: -150,
+				},
+			],
+			[
+				{
+					note: {
+						title: "Highest Death Rate",
+						label:
+							stateHighestDeaths.state +
+							" - " +
+							formatter.format(stateHighestDeaths.deaths),
+						align: "middle",
+						wrap: 300,
+						padding: 10,
+					},
+					connector: {
+						end: "dot", // none, or arrow or dot
+						type: "lne", // Line or curve
+						points: 1, // Number of break in the curve
+						lineType: "horizontal",
+					},
+					color: [annotationColor],
+					x: 440,
+					y: 465,
+					dy: 100,
+					dx: 180,
+				},
+			],
+		],
+		1: [
+			[
+				{
+					note: {
+						title: "Highest Death-to-population Ratio",
+						label:
+							stateHighestRatio.state +
+							" - " +
+							(stateHighestRatio.ratio * 100).toFixed(2) +
+							"%",
+						align: "middle",
+						wrap: 300,
+						padding: 10,
+					},
+					connector: {
+						end: "dot", // none, or arrow or dot
+						type: "lne", // Line or curve
+						points: 1, // Number of break in the curve
+						lineType: "horizontal",
+					},
+					color: [annotationColor],
+					x: 450,
+					y: 300,
+					dy: -245,
+					dx: 100,
+				},
+			],
+			[
+				{
+					note: {
+						title: "Highest Death Rate",
+						label:
+							stateHighestDeaths.state +
+							" - " +
+							formatter.format(stateHighestDeaths.deaths),
+						align: "middle",
+						wrap: 300,
+						padding: 10,
+					},
+					connector: {
+						end: "dot", // none, or arrow or dot
+						type: "lne", // Line or curve
+						points: 1, // Number of break in the curve
+						lineType: "horizontal",
+					},
+					color: [annotationColor],
+					x: 440,
+					y: 465,
+					dy: 100,
+					dx: 180,
+				},
+			],
+		],
+		2: [
+			[
+				{
+					note: {
+						title: "Highest Death-to-population Ratio",
+						label:
+							stateHighestRatio.state +
+							" - " +
+							(stateHighestRatio.ratio * 100).toFixed(2) +
+							"%",
+						align: "middle",
+						wrap: 300,
+						padding: 10,
+					},
+					connector: {
+						end: "dot", // none, or arrow or dot
+						type: "lne", // Line or curve
+						points: 1, // Number of break in the curve
+						lineType: "horizontal",
+					},
+					color: [annotationColor],
+					x: 605,
+					y: 435,
+					dy: -365,
+					dx: 100,
+				},
+			],
+			[
+				{
+					note: {
+						title: "Highest Death Rate",
+						label:
+							stateHighestDeaths.state +
+							" - " +
+							formatter.format(stateHighestDeaths.deaths),
+						align: "middle",
+						wrap: 300,
+						padding: 10,
+					},
+					connector: {
+						end: "dot", // none, or arrow or dot
+						type: "lne", // Line or curve
+						points: 1, // Number of break in the curve
+						lineType: "horizontal",
+					},
+					color: [annotationColor],
+					x: 80,
+					y: 270,
+					dy: -217,
+					dx: 310,
+				},
+			],
+		],
+		3: [
+			[
+				{
+					note: {
+						title: "Highest Death-to-population Ratio",
+						label:
+							stateHighestRatio.state +
+							" - " +
+							(stateHighestRatio.ratio * 100).toFixed(2) +
+							"%",
+						align: "middle",
+						wrap: 300,
+						padding: 10,
+					},
+					connector: {
+						end: "dot", // none, or arrow or dot
+						type: "lne", // Line or curve
+						points: 1, // Number of break in the curve
+						lineType: "horizontal",
+					},
+					color: [annotationColor],
+					x: 605,
+					y: 435,
+					dy: -365,
+					dx: 100,
+				},
+			],
+			[
+				{
+					note: {
+						title: "Highest Death Rate",
+						label:
+							stateHighestDeaths.state +
+							" - " +
+							formatter.format(stateHighestDeaths.deaths),
+						align: "middle",
+						wrap: 300,
+						padding: 10,
+					},
+					connector: {
+						end: "dot", // none, or arrow or dot
+						type: "lne", // Line or curve
+						points: 1, // Number of break in the curve
+						lineType: "horizontal",
+					},
+					color: [annotationColor],
+					x: 80,
+					y: 270,
+					dy: -217,
+					dx: 310,
+				},
+			],
+		],
+		4: [
+			[
+				{
+					note: {
+						title: "Highest Death-to-population Ratio",
+						label:
+							stateHighestRatio.state +
+							" - " +
+							(stateHighestRatio.ratio * 100).toFixed(2) +
+							"%",
+						align: "middle",
+						wrap: 300,
+						padding: 10,
+					},
+					connector: {
+						end: "dot", // none, or arrow or dot
+						type: "lne", // Line or curve
+						points: 1, // Number of break in the curve
+						lineType: "horizontal",
+					},
+					color: [annotationColor],
+					x: 750,
+					y: 290,
+					dy: -220,
+					dx: -15,
+				},
+			],
+			[
+				{
+					note: {
+						title: "Highest Death Rate",
+						label:
+							stateHighestDeaths.state +
+							" - " +
+							formatter.format(stateHighestDeaths.deaths),
+						align: "middle",
+						wrap: 300,
+						padding: 10,
+					},
+					connector: {
+						end: "dot", // none, or arrow or dot
+						type: "lne", // Line or curve
+						points: 1, // Number of break in the curve
+						lineType: "horizontal",
+					},
+					color: [annotationColor],
+					x: 80,
+					y: 270,
+					dy: -217,
+					dx: 310,
+				},
+			],
+		],
+	};
 };
 
 let updateAnnotations = function () {
 	let makeAnnotationsRatio;
-	if (annotationRatio && annotationRatio.length > 0) {
-		makeAnnotationsRatio = d3.annotation().annotations(annotationRatio);
+	if (annotations[chosenSlide] && annotations[chosenSlide].length > 0) {
+		makeAnnotationsRatio = d3
+			.annotation()
+			.annotations(annotations[chosenSlide][0]);
 		d3.select("#wrapper")
 			.append("g")
 			.attr("class", "state-annotation")
@@ -233,13 +438,19 @@ let updateAnnotations = function () {
 	}
 
 	let makeAnnotationsDeaths;
-	if (annotationDeaths && annotationDeaths.length > 0) {
-		makeAnnotationsDeaths = d3.annotation().annotations(annotationDeaths);
+	if (annotations[chosenSlide] && annotations[chosenSlide].length > 0) {
+		makeAnnotationsDeaths = d3
+			.annotation()
+			.annotations(annotations[chosenSlide][1]);
 		d3.select("#wrapper")
 			.append("g")
 			.attr("class", "state-annotation")
 			.call(makeAnnotationsDeaths);
 	}
+	d3.select("#wrapper")
+		.selectAll(".connector")
+		.attr("stroke", "red")
+		.style("stroke-dasharray", "10, 3");
 };
 
 let setSlideInformation = function () {
@@ -719,7 +930,7 @@ let setFilteredDeathData = function () {
 		if (
 			d["State"] === "United States" ||
 			d["State"] === "New York City" ||
-			d["State"] === "District Of Columbia"
+			d["State"] === "District of Columbia"
 		) {
 			return false;
 		}
