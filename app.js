@@ -66,6 +66,7 @@ let stateDeathsPopulationMapping = {};
 
 let formatter = Intl.NumberFormat("en-US");
 let annotationColor = "#f10004ed";
+let timeSliderIsVisible = false;
 
 const ColumnCOVIDDeath = "COVID-19 Deaths";
 const ColumnTotalDeath = "Total Deaths";
@@ -518,6 +519,15 @@ let changeToPrevSlide = function () {
 	}
 };
 
+let showTimeSlider = function () {
+	document.getElementById("timeSliderRangeContainer").style.display = "";
+};
+
+let hideTimeSlider = function () {
+	document.getElementById("timeSliderRangeContainer").style.display = "none";
+	("hidden;");
+};
+
 let updateSlide = function (slideNumber) {
 	chosenSlide = slideNumber;
 	let existingAnnotations = document.querySelectorAll(".state-annotation");
@@ -527,6 +537,9 @@ let updateSlide = function (slideNumber) {
 	if (chosenSlide === 0) {
 		userSelected.chosenYear = "2020";
 		userSelected.chosenDeathType = ColumnCOVIDDeath;
+		if (!timeSliderIsVisible) {
+			hideTimeSlider();
+		}
 	} else if (chosenSlide === 1) {
 		userSelected.chosenYear = "2020";
 		userSelected.chosenDeathType = ColumnInfluenzaDeath;
@@ -539,6 +552,11 @@ let updateSlide = function (slideNumber) {
 	} else if (chosenSlide === 4) {
 		userSelected.chosenYear = "2020";
 		userSelected.chosenDeathType = ColumnTotalDeath;
+		timeSliderIsVisible = true;
+	}
+
+	if (timeSliderIsVisible) {
+		showTimeSlider();
 	}
 	renderPage();
 	setAnnotations();

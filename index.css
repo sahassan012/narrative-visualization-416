@@ -156,6 +156,8 @@ body {
 	position: absolute;
 	border-radius: 35px;
 	padding: 25px;
+	padding-top: 5px;
+	margin-bottom: 25px;
 	background-color: rgba(46, 154, 179, 0.265);
 	color: white;
 	box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px,
@@ -238,4 +240,40 @@ body {
 
 .chart-tooltip {
 	display: none;
+}
+/* Source https://www.w3schools.com/howto/howto_js_rangeslider.asp */
+.timeSliderContainer {
+	width: 50%;
+}
+
+.timeSlider {
+	-webkit-appearance: none;
+	width: 100%;
+	height: 10px;
+	background: #d3d3d3;
+	outline: none;
+	opacity: 0.9;
+	-webkit-transition: 0.2s;
+	transition: opacity 0.2s;
+	margin-bottom: 50px;
+}
+
+.timeSlider:hover {
+	opacity: 1;
+}
+
+.timeSlider::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 25px;
+	height: 25px;
+	background: #d70019f6;
+	cursor: pointer;
+}
+
+.timeSlider::-moz-range-thumb {
+	width: 25px;
+	height: 25px;
+	background: #04aa6d;
+	cursor: pointer;
 }
