@@ -71,6 +71,7 @@ let stateDeathsPopulationMapping = {};
 let formatter = Intl.NumberFormat("en-US");
 let annotationColor = "#f10004ed";
 let timeSliderIsVisible = false;
+let timelineErroredOut = false;
 
 const ColumnCOVIDDeath = "COVID-19 Deaths";
 const ColumnTotalDeath = "Total Deaths";
@@ -96,6 +97,7 @@ let timelineValues = {
 	month: "",
 	earliestDate: null,
 	latestDate: null,
+	allDates: [],
 };
 
 let maleDeaths;
@@ -530,21 +532,17 @@ let changeToPrevSlide = function () {
 	}
 };
 
-let updateTime = function () {
+let updateTime = function (i = -1) {
 	let elem = document.getElementById("timeSliderRange");
-	let val = parseInt(elem.value);
-
-	// timelineValues.year = "2020";
-	// timelineValues.month = "1";
-
-	let endDate = timelineValues.latestDate;
-	const dates = [];
-	while (date <= endDate) {
-		dates.push(new Date(date));
-		date.setDate(date.getDate() + 1);
+	let index;
+	if (i === -1) {
+		index = parseInt(elem.value);
+	} else {
+		index = i;
 	}
-
-	debugger; // find highest and lowest and determien year/month based on that
+	timelineValues.year = timelineValues.allDates[index].getFullYear().toString();
+	timelineValues.month = timelineValues.allDates[index].getMonth().toString();
+	debugger;
 
 	userSelected.chosenMonth = timelineValues.month;
 	userSelected.chosenYear = timelineValues.year;
@@ -560,6 +558,21 @@ let hideTimeSlider = function () {
 	document.getElementById("switchToExplorationModeBtn").style.display = "none";
 	document.getElementById("timeSliderRangeContainer").style.display = "none";
 	("hidden;");
+};
+
+let initializeTimelineDates = function () {
+	timelineValues.earliestDate = new Date("2020/1");
+	timelineValues.latestDate = new Date("2022/1");
+
+	let endDate = timelineValues.latestDate;
+	let date = timelineValues.earliestDate;
+	timelineValues.allDates = [];
+	while (date <= endDate) {
+		timelineValues.allDates.push(new Date(date));
+		date.setDate(date.getDate() + 8);
+	}
+	timelineValues.year = "2020";
+	timelineValues.month = "1";
 };
 
 let updateSlide = function (slideNumber) {
@@ -585,6 +598,7 @@ let updateSlide = function (slideNumber) {
 		userSelected.chosenDeathType = ColumnTotalDeath;
 		if (!timeSliderIsVisible) {
 			document.getElementById("switchToExplorationModeBtn").style.display = "";
+			initializeTimelineDates();
 		}
 	}
 
@@ -988,6 +1002,13 @@ let setstateDeathsPopulationMapping = function () {
 	});
 };
 
+let showTimelineErrorAndResetFilters = function () {
+	alert(
+		"Oops. Seems like we do not have data for the date chosen in the timeline. Please choose another date."
+	);
+	timelineErroredOut = true;
+};
+
 let setFilteredDeathData = function () {
 	let data = JSON.parse(JSON.stringify(deathsData));
 	data = data.filter(function (d) {
@@ -999,7 +1020,7 @@ let setFilteredDeathData = function () {
 			return false;
 		}
 
-		if (timeSliderIsVisible && timelineValues.year && timelineValues.month) {
+		if (timeSliderIsVisible) {
 			return d["Group"] === "By Month";
 		} else {
 			if (userSelected.chosenGroup === "By Year") {
@@ -1018,31 +1039,15 @@ let setFilteredDeathData = function () {
 	});
 	filteredDeathData = data;
 
-	if (timeSliderIsVisible && timelineValues.year && timelineValues.month) {
-		// get earliest and latest year/month
-		let rowWithLatestDate = filteredDeathData.reduce(function (a, b) {
-			let a_date = new Date(a.Year + "/" + a.Month);
-			let b_date = new Date(b.Year + "/" + b.Month);
-			return a_date > b_date ? a : b;
-		});
-		timelineValues.latestDate = new Date(
-			rowWithLatestDate.Year + "/" + rowWithLatestDate.Month
-		);
-
-		let rowWithEarliestDate = filteredDeathData.reduce(function (a, b) {
-			let a_date = new Date(a.Year + "/" + a.Month);
-			let b_date = new Date(b.Year + "/" + b.Month);
-			return a_date < b_date ? a : b;
-		});
-		timelineValues.earliestDate = new Date(
-			rowWithEarliestDate.Year + "/" + rowWithEarliestDate.Month
-		);
-
+	if (timeSliderIsVisible) {
 		filteredDeathData = filteredDeathData.filter(function (d) {
 			return (
 				d["Year"] === timelineValues.year && d["Month"] === timelineValues.month
 			);
 		});
+		if (filteredDeathData.length === 0) {
+			showTimelineErrorAndResetFilters();
+		}
 	}
 };
 
@@ -1254,6 +1259,10 @@ let createTooltips = function () {
 
 let renderPage = function () {
 	setFilteredDeathData();
+
+	if (timeSliderIsVisible && timelineErroredOut) {
+		return;
+	}
 	setstateDeathsPopulationMapping();
 	createTooltips();
 	setStateColor();
