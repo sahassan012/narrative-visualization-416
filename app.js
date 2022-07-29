@@ -542,7 +542,6 @@ let updateTime = function (i = -1) {
 	}
 	timelineValues.year = timelineValues.allDates[index].getFullYear().toString();
 	timelineValues.month = timelineValues.allDates[index].getMonth().toString();
-	debugger;
 
 	userSelected.chosenMonth = timelineValues.month;
 	userSelected.chosenYear = timelineValues.year;
