@@ -67,7 +67,7 @@ body {
 }
 
 .state:hover {
-	fill: rgb(32, 189, 87);
+	fill: rgb(32, 189, 87) !important;
 }
 
 #slideshowBtnContainer {
