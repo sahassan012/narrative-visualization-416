@@ -246,7 +246,7 @@ body {
 .timeSliderContainer {
 	width: 50%;
 	margin-top: -30px;
-	margin-bottom: 100px;
+	margin-bottom: 30px;
 }
 
 .timeSlider {
@@ -320,12 +320,22 @@ body {
 }
 
 #timelineTipContainer {
-	margin-left: 100%;
-	margin-top: -252px;
-	transform: rotate(90deg);
+	margin-left: 100.38%;
+	transform: scale(0.2);
+	margin-top: -13%;
 }
 
-#timelineTipContainer svg {
+#timeArrow {
 	transform: scale(0.3);
 	fill: #d3d3d3;
+	margin-top: -65px;
+	margin-bottom: 30px;
+}
+
+.arrow-right {
+	width: 0;
+	height: 0;
+	border-top: 60px solid transparent;
+	border-bottom: 60px solid transparent;
+	border-left: 60px solid #c9c9c9fa;
 }
