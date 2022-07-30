@@ -1134,11 +1134,18 @@ let setStateColor = function () {
 
 	const deathsList = Object.keys(stateDeathsPopulationMapping)
 		.filter((state) => state !== "United States")
-		.map((state) => stateDeathsPopulationMapping[state].deathrate);
-	stateColor = d3
-		.scaleLinear()
-		.domain([Math.min(...deathsList), Math.max(...deathsList)])
-		.range(["white", "red"]);
+		.map((state) => {
+			return stateDeathsPopulationMapping[state].deathrate;
+		});
+
+	let min = Math.min(...deathsList);
+	let max = Math.max(...deathsList);
+
+	if (min === 0 && max === 0) {
+		stateColor = d3.scaleLinear().domain([0, 0]).range(["white", "white"]);
+	} else {
+		stateColor = d3.scaleLinear().domain([min, max]).range(["white", "red"]);
+	}
 };
 
 let createChartTooltip = function () {
@@ -1308,9 +1315,9 @@ let createTooltips = function () {
 let renderPage = function () {
 	setFilteredDeathData();
 
-	if (timeSliderIsVisible && timelineErroredOut) {
-		return;
-	}
+	// if (timeSliderIsVisible && timelineErroredOut) {
+	// 	return;
+	// }
 	setstateDeathsPopulationMapping();
 	createTooltips();
 	setStateColor();
@@ -1318,6 +1325,7 @@ let renderPage = function () {
 	setSideGraphs();
 	setSlideInformation();
 
+	svg.selectAll("*").remove();
 	svg
 		.selectAll("path")
 		.data(statesData)
@@ -1333,6 +1341,7 @@ let renderPage = function () {
 			let data = filteredDeathData.filter((e) => {
 				return e["State"] === statesMapping[parseInt(id)];
 			});
+
 			let deaths = sumDeaths(data);
 			return stateColor(deaths);
 		})
