@@ -339,3 +339,6 @@ body {
 	border-bottom: 60px solid transparent;
 	border-left: 60px solid #c9c9c9fa;
 }
+.state-annotation .handle {
+	fill: rgb(4, 0, 255);
+}

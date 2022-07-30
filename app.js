@@ -69,7 +69,7 @@ let dateAnalyzed;
 let stateDeathsPopulationMapping = {};
 
 let formatter = Intl.NumberFormat("en-US");
-let annotationColor = "#f10004ed";
+let annotationColor = "#FFEDED";
 let timeSliderIsVisible = false;
 let timelineErroredOut = false;
 
@@ -319,7 +319,7 @@ let setAnnotations = function () {
 						lineType: "horizontal",
 					},
 					color: [annotationColor],
-					x: 80,
+					x: 68,
 					y: 270,
 					dy: -217,
 					dx: 310,
@@ -372,7 +372,7 @@ let setAnnotations = function () {
 						lineType: "horizontal",
 					},
 					color: [annotationColor],
-					x: 80,
+					x: 68,
 					y: 270,
 					dy: -217,
 					dx: 310,
@@ -425,7 +425,7 @@ let setAnnotations = function () {
 						lineType: "horizontal",
 					},
 					color: [annotationColor],
-					x: 80,
+					x: 68,
 					y: 270,
 					dy: -217,
 					dx: 310,
@@ -440,7 +440,6 @@ let updateAnnotations = function () {
 	if (annotations[chosenSlide] && annotations[chosenSlide].length > 0) {
 		makeAnnotationsRatio = d3
 			.annotation()
-			.editMode(true)
 			.type(d3.annotationCalloutElbow)
 			.annotations(annotations[chosenSlide][0]);
 
@@ -454,7 +453,6 @@ let updateAnnotations = function () {
 	if (annotations[chosenSlide] && annotations[chosenSlide].length > 0) {
 		makeAnnotationsDeaths = d3
 			.annotation()
-			.editMode(true)
 			.type(d3.annotationCalloutElbow)
 			.annotations(annotations[chosenSlide][1]);
 		d3.select("#wrapper")
@@ -464,8 +462,11 @@ let updateAnnotations = function () {
 	}
 	d3.select("#wrapper")
 		.selectAll(".connector")
-		.attr("stroke", "red")
-		.style("stroke-dasharray", "10, 3");
+		.style("stroke", "white")
+		.transition()
+		.duration(3000)
+		.style("stroke", "#C41E3A")
+		.style("stroke-dasharray", "12, 3");
 };
 
 let setSlideInformation = function () {
@@ -1332,7 +1333,6 @@ let renderPage = function () {
 		.enter()
 		.append("path")
 		.attr("d", d3.geoPath())
-		.attr("class", "state")
 		.attr("id", function (stateDataItem) {
 			return "state-" + stateDataItem["id"];
 		})
@@ -1354,6 +1354,7 @@ let renderPage = function () {
 	svg
 		.selectAll("path")
 		.style("fill", "white")
+		.attr("class", "state")
 		.transition()
 		.duration(800)
 		.style("fill", (stateDataItem) => {
