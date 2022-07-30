@@ -716,8 +716,8 @@ let setGraphOne = function () {
 		parseInt(data[1][userSelected.chosenDeathType])
 	);
 
-	var margin = { top: 40, right: 40, bottom: 90, left: 60 },
-		width = 380 - margin.left - margin.right,
+	var margin = { top: 38, right: -20, bottom: 90, left: 90 },
+		width = 350 - margin.left - margin.right,
 		height = 365 - margin.top - margin.bottom;
 
 	let svg = d3
@@ -733,6 +733,7 @@ let setGraphOne = function () {
 		.range([0, width])
 		.domain(data.map((d) => d[column]))
 		.padding(0.2);
+
 	svg
 		.append("g")
 		.attr("transform", "translate(0," + height + ")")
@@ -754,6 +755,25 @@ let setGraphOne = function () {
 				.replace(/Influenza/gi, "Flu")
 				.replace(/COVID-19/gi, "COVID") + " by Sex"
 		);
+	svg
+		.append("text")
+		.attr("x", width - 140)
+		.attr("y", margin.top + 235)
+		.attr("text-anchor", "middle")
+		.style("font-size", "12px")
+		.style("fill", "white")
+		.text("Sex");
+
+	svg
+		.append("text")
+		.attr("x", -120)
+		.attr("y", -75)
+		.attr("text-anchor", "middle")
+		.style("font-size", "12px")
+		.attr("dy", ".75em")
+		.style("fill", "white")
+		.attr("transform", "rotate(-90)")
+		.text("Death Rate");
 
 	// Bars
 	svg
@@ -820,8 +840,8 @@ let setGraphTwo = function () {
 	ageHighestDeath.deaths =
 		data[indexWithHighestDeaths][userSelected.chosenDeathType];
 
-	let margin = { top: 40, right: 40, bottom: 90, left: 60 },
-		width = 375 - margin.left - margin.right,
+	var margin = { top: 40, right: 25, bottom: 90, left: 80 },
+		width = 370 - margin.left - margin.right,
 		height = 315 - margin.top - margin.bottom;
 
 	let svg = d3
@@ -862,6 +882,26 @@ let setGraphTwo = function () {
 				.replace(/Influenza/gi, "Flu")
 				.replace(/COVID-19/gi, "COVID") + " by Age"
 		);
+
+	svg
+		.append("text")
+		.attr("x", width - 140)
+		.attr("y", margin.top + 230)
+		.attr("text-anchor", "middle")
+		.style("font-size", "12px")
+		.style("fill", "white")
+		.text("Age Group");
+
+	svg
+		.append("text")
+		.attr("x", -100)
+		.attr("y", -65)
+		.attr("text-anchor", "middle")
+		.style("font-size", "12px")
+		.attr("dy", ".75em")
+		.style("fill", "white")
+		.attr("transform", "rotate(-90)")
+		.text("Death Rate");
 
 	svg
 		.selectAll("ageGraphBars")
