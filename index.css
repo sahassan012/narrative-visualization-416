@@ -167,7 +167,7 @@ body {
 		rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
 }
 #outer-wrapper {
-	min-width: 1000px;
+	min-width: 800px;
 	margin-top: 750px;
 	height: 600px;
 	margin-right: auto;
