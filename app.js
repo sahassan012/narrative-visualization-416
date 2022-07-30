@@ -716,8 +716,8 @@ let setGraphOne = function () {
 		parseInt(data[1][userSelected.chosenDeathType])
 	);
 
-	var margin = { top: 38, right: -20, bottom: 90, left: 90 },
-		width = 350 - margin.left - margin.right,
+	var margin = { top: 38, right: -20, bottom: 90, left: 75 },
+		width = 360 - margin.left - margin.right,
 		height = 365 - margin.top - margin.bottom;
 
 	let svg = d3
@@ -757,7 +757,7 @@ let setGraphOne = function () {
 		);
 	svg
 		.append("text")
-		.attr("x", width - 140)
+		.attr("x", width - 155)
 		.attr("y", margin.top + 235)
 		.attr("text-anchor", "middle")
 		.style("font-size", "12px")
@@ -767,7 +767,7 @@ let setGraphOne = function () {
 	svg
 		.append("text")
 		.attr("x", -120)
-		.attr("y", -75)
+		.attr("y", -65)
 		.attr("text-anchor", "middle")
 		.style("font-size", "12px")
 		.attr("dy", ".75em")
