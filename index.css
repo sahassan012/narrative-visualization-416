@@ -117,7 +117,7 @@ body {
 	color: rgba(245, 245, 245, 0.806);
 	position: absolute;
 	font-size: 13px;
-	top: 6%;
+	top: 4%;
 }
 #cause-year-container h1 {
 	text-align: center;
@@ -245,11 +245,13 @@ body {
 /* Source https://www.w3schools.com/howto/howto_js_rangeslider.asp */
 .timeSliderContainer {
 	width: 50%;
+	margin-top: -30px;
+	margin-bottom: 100px;
 }
 
 .timeSlider {
 	-webkit-appearance: none;
-	width: 100%;
+	width: 100.5%;
 	height: 10px;
 	background: #d3d3d3;
 	border-radius: 5px;
@@ -262,6 +264,7 @@ body {
 
 .timeSlider:hover {
 	opacity: 1;
+	cursor: pointer;
 }
 
 .timeSlider::-webkit-slider-thumb {
@@ -281,5 +284,48 @@ body {
 }
 
 #switchToExplorationModeBtn {
-	margin-top: -25px;
+	margin-top: -40px;
+	margin-bottom: 20px;
+}
+.month-label-container {
+	height: 10px;
+	display: flex;
+	margin-top: -10px;
+	margin-bottom: 10px;
+}
+
+.month-label-container p {
+	padding-right: 15.3px;
+}
+
+#startTimeLabel {
+	margin-left: -3px;
+}
+
+#midTimelineLabel {
+	display: flex;
+	margin-left: auto;
+	margin-right: auto;
+	width: 0%;
+	margin-top: -30px;
+	padding-left: 8px;
+	padding-bottom: 10px;
+}
+
+#endTimelineLabel {
+	float: right;
+	margin-top: -30px;
+	padding-bottom: 35px;
+	margin-right: -8px;
+}
+
+#timelineTipContainer {
+	margin-left: 100%;
+	margin-top: -252px;
+	transform: rotate(90deg);
+}
+
+#timelineTipContainer svg {
+	transform: scale(0.3);
+	fill: #d3d3d3;
 }

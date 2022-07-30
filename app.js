@@ -541,7 +541,9 @@ let updateTime = function (i = -1) {
 		index = i;
 	}
 	timelineValues.year = timelineValues.allDates[index].getFullYear().toString();
-	timelineValues.month = timelineValues.allDates[index].getMonth().toString();
+	timelineValues.month = (
+		timelineValues.allDates[index].getMonth() + 1
+	).toString();
 
 	userSelected.chosenMonth = timelineValues.month;
 	userSelected.chosenYear = timelineValues.year;
@@ -581,19 +583,29 @@ let updateSlide = function (slideNumber) {
 		existingAnnotations.forEach((a) => a.remove());
 	}
 	if (chosenSlide === 0) {
-		userSelected.chosenYear = "2020";
+		if (!timeSliderIsVisible) {
+			userSelected.chosenYear = "2020";
+		}
 		userSelected.chosenDeathType = ColumnCOVIDDeath;
 	} else if (chosenSlide === 1) {
-		userSelected.chosenYear = "2020";
+		if (!timeSliderIsVisible) {
+			userSelected.chosenYear = "2020";
+		}
 		userSelected.chosenDeathType = ColumnInfluenzaDeath;
 	} else if (chosenSlide === 2) {
-		userSelected.chosenYear = "2020";
+		if (!timeSliderIsVisible) {
+			userSelected.chosenYear = "2020";
+		}
 		userSelected.chosenDeathType = ColumnPneumoniaDeath;
 	} else if (chosenSlide === 3) {
-		userSelected.chosenYear = "2020";
+		if (!timeSliderIsVisible) {
+			userSelected.chosenYear = "2020";
+		}
 		userSelected.chosenDeathType = ColumnPneumoniaInfluenzaCOVIDDeaths;
 	} else if (chosenSlide === 4) {
-		userSelected.chosenYear = "2020";
+		if (!timeSliderIsVisible) {
+			userSelected.chosenYear = "2020";
+		}
 		userSelected.chosenDeathType = ColumnTotalDeath;
 		if (!timeSliderIsVisible) {
 			document.getElementById("switchToExplorationModeBtn").style.display = "";
@@ -1006,6 +1018,7 @@ let showTimelineErrorAndResetFilters = function () {
 		"Oops. Seems like we do not have data for the date chosen in the timeline. Please choose another date."
 	);
 	timelineErroredOut = true;
+	updateTime(10);
 };
 
 let setFilteredDeathData = function () {
