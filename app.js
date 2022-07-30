@@ -1336,15 +1336,6 @@ let renderPage = function () {
 		.attr("id", function (stateDataItem) {
 			return "state-" + stateDataItem["id"];
 		})
-		.attr("fill", (stateDataItem) => {
-			let id = stateDataItem["id"];
-			let data = filteredDeathData.filter((e) => {
-				return e["State"] === statesMapping[parseInt(id)];
-			});
-
-			let deaths = sumDeaths(data);
-			return stateColor(deaths);
-		})
 		.attr(
 			"data-state",
 			(stateDataItem) => statesMapping[parseInt(stateDataItem.id)]
@@ -1359,6 +1350,21 @@ let renderPage = function () {
 		.on("mouseover", mouseover)
 		.on("mousemove", mousemove)
 		.on("mouseleave", mouseleave);
+
+	svg
+		.selectAll("path")
+		.style("fill", "white")
+		.transition()
+		.duration(800)
+		.style("fill", (stateDataItem) => {
+			let id = stateDataItem["id"];
+			let data = filteredDeathData.filter((e) => {
+				return e["State"] === statesMapping[parseInt(id)];
+			});
+
+			let deaths = sumDeaths(data);
+			return stateColor(deaths);
+		});
 };
 
 let sumDeaths = function (data) {
