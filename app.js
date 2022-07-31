@@ -962,6 +962,12 @@ let setInfo = function () {
 			: (element.disabled = false);
 	});
 
+	if (chosenSlide === 4) {
+		document.getElementsByClassName("btn-right")[0].disabled = true;
+	} else {
+		document.getElementsByClassName("btn-right")[0].disabled = false;
+	}
+
 	// set information in surrounding containers
 	let informationContainerLeft = document.getElementById("info-container-left");
 	let informationContainerRight = document.getElementById(
@@ -1395,9 +1401,23 @@ d3.json(stateGeoJSONURL).then(function (data, err) {
 						populationData = data;
 						updateSlide(0);
 						hideTimeSlider();
+						initModal();
 					}
 				});
 			}
 		});
 	}
 });
+
+let initModal = function () {
+	let modal = document.getElementById("introModal");
+	let continueButton = document.getElementsByClassName("close-modal-button")[0];
+	window.onclick = function (event) {
+		if (event.target == modal) {
+			modal.style.display = "none";
+		}
+	};
+	continueButton.onclick = function () {
+		modal.style.display = "none";
+	};
+};

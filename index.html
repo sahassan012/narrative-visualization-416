@@ -16,16 +16,22 @@
 		<script src="https://unpkg.com/topojson-client@3"></script>
 	</head>
 	<body>
-		<h1 id="title">Provisional COVID-19 Deaths by Sex and Age</h1>
+		<h1 id="title">Provisional Deaths by Sex and Age</h1>
+		<div id="introModal" class="modal">
+			<div class="info-modal">
+				<p class="title bold-red">Welcome to the COVID-19 Deaths Dashboard!</p>
+				<p style="padding-bottom:10px;">Hover over any state to see details regarding deaths and population! <br>The state with the highest death ratio will be the brightest red. </p>
+				<p><b class="bold-red">Tips:</b> Above the left container, you will find buttons to help you navigate through different slides. Each of these slides will present and filter data for a specific underlying cause of death. Once you reach slide 5 you will be able to switch to <b>Explore Mode</b> by clicking <b>Explore Timeline</b>.</p>
+				<p><b class="bold-red">Explore Mode:</b> In explore mode you will find a timeline slider that will allow you to filter by any month between the years of 2020-2021. You can also use this filter in combination with the underlying diseases by going back to different slides.</p>
+				<button class="close-modal-button">Continue</button>
+			</div>
+		</div>
 		<div id="slideshowBtnContainer">
 			<button class="slideshow-button" onclick="updateSlide(0)">1</button>
 			<button class="slideshow-button" onclick="updateSlide(1)">2</button>
 			<button class="slideshow-button" onclick="updateSlide(2)">3</button>
 			<button class="slideshow-button" onclick="updateSlide(3)">4</button>
 			<button class="slideshow-button" onclick="updateSlide(4)">5</button>
-			<!-- <button class="slideshow-button btn-left" onclick="changeToPrevSlide()">
-				&#8592;
-			</button> -->
 			<button class="slideshow-button btn-right" onclick="changeToNextSlide()">
 				&#8594;
 			</button>
@@ -35,7 +41,6 @@
 		<button id='switchToExplorationModeBtn' class="slideshow-button" onclick="switchToExplorationMode()">Explore Timeline</button>
 		<div id="timeSliderRangeContainer" class="timeSliderContainer">
 			<label id="startTimelineLabel">2020</label>
-			<!-- <label id="midTimelineLabel" style="margin-left: 39.35%;padding-bottom: 4px; display: inline-block;">2021</label> -->
 			<div class="month-label-container">
 				<p>Jan</p>
 				<p>Feb</p>
